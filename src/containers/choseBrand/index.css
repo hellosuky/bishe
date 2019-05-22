@@ -1,0 +1,65 @@
+#choseBrand-container .top{
+  position: fixed;
+  top: 0;
+  min-height: 55px;
+  left: 0;
+  width: 100%;
+  z-index:100;
+  border-bottom: 2px solid #eee;
+  box-shadow: 0 0.2px 0 0;
+  background-color: #fff;
+}
+
+#choseBrand-container .top-logo{
+  width: 50px;
+  vertical-align: middle;
+  margin-left: 0.2rem;
+}
+
+#choseBrand-container .top-title{
+  line-height: 50px;
+  font-size: 20px;
+  font-weight: 600;
+  vertical-align: middle;
+  padding-left: 0.2rem;
+}
+
+#choseBrand-container .top-search{
+  line-height: 55px;
+  margin-right: 0.2rem;
+  float: right;
+}
+#choseBrand-container .container{
+  padding-top: 60px;
+  margin:20px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+@media screen and (min-width:768px){
+  #choseBrand-container .top-logo{
+    position: absolute;
+    left: 50px;
+    margin-left: 0;
+  }
+
+  #choseBrand-container .top-title{
+    position: absolute;
+    left: 110px;
+    padding-left: 0.1rem;
+  }
+
+  #choseBrand-container .top-search{
+    line-height: 55px;
+    position: absolute;
+    right: 50px;
+  }
+  #choseBrand-container .container{
+    margin:0 auto;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    padding-top: 0.8rem;
+  }
+}

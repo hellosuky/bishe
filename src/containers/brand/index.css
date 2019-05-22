@@ -1,0 +1,95 @@
+#brand-container .top{
+  position: fixed;
+  top: 0;
+  height: 55px;
+  left: 0;
+  width: 100%;
+  border-bottom: 2px solid #eee;
+  box-shadow: 0 0.2px 0 0;
+}
+
+#brand-container .top-logo{
+  width: 50px;
+  position: absolute;
+  left: 50px;
+}
+
+#brand-container .top-title{
+  position: absolute;
+  left: 110px;
+  line-height: 50px;
+  font-size: 20px;
+  font-weight: 600;
+}
+
+#brand-container .top-search{
+  position: absolute;
+  right: 50px;
+  line-height: 55px;
+}
+
+#detail-container .top{
+  position: fixed;
+  top: 0;
+  height: 55px;
+  left: 0;
+  width: 100%;
+  border-bottom: 2px solid #eee;
+  box-shadow: 0 0.2px 0 0;
+}
+
+#detail-container .top-logo{
+  width: 50px;
+  position: absolute;
+  left: 50px;
+}
+
+#detail-container .top-title{
+  position: absolute;
+  left: 110px;
+  line-height: 50px;
+  font-size: 20px;
+  font-weight: 600;
+}
+
+#detail-container .top-search{
+  position: absolute;
+  right: 50px;
+  line-height: 55px;
+}
+
+.principle-container .inner-container{
+  padding-top: 75px;
+  margin: 0 auto;
+  max-width: 1080px;
+  position: relative;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+}
+
+.ant-card{
+  margin: 10px;
+}
+.ant-card-cover{
+  border-bottom: 1px solid #eee;
+}
+
+.ant-card-meta-title{
+  font-size: 20px;
+}
+
+/* detail */
+.container{
+  margin: 0 auto;
+  max-width: 1080px;
+  padding-top: 25px;
+}
+.word{
+  float: left;
+  padding-left: 25px;
+  padding-top: 20px;
+}
+.ant-list{
+  margin-top: 20px;
+}

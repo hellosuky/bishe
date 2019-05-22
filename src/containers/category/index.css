@@ -1,0 +1,50 @@
+#principle-container .top{
+  position: fixed;
+  top: 0;
+  height: 55px;
+  left: 0;
+  width: 100%;
+  border-bottom: 2px solid #eee;
+  box-shadow: 0 0.2px 0 0;
+}
+
+#principle-container .top-logo{
+  width: 50px;
+  position: absolute;
+  left: 50px;
+}
+
+#principle-container .top-title{
+  position: absolute;
+  left: 110px;
+  line-height: 50px;
+  font-size: 20px;
+  font-weight: 600;
+}
+
+#principle-container .top-search{
+  position: absolute;
+  right: 50px;
+  line-height: 55px;
+}
+
+#principle-container .inner-container{
+  padding-top: 75px;
+  margin: 0 auto;
+  max-width: 1080px;
+  position: relative;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+}
+
+.ant-card{
+  margin: 10px;
+}
+.ant-card-cover{
+  border-bottom: 1px solid #eee;
+}
+
+.ant-card-meta-title{
+  font-size: 20px;
+}

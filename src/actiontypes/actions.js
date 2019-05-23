@@ -1,8 +1,7 @@
 export const Actions ={
-  //msg transform
-  MSG_RETURN:'MSG_RETURN',
-  MSG_CLEAR:'MSG_CLEAR',
   //loading state
   FETCH_START:'FETCH_START',
-  FETCH_END:'FETCH_END'
+  FETCH_END:'FETCH_END',
+  GET_PRODUCT:"GET_PRODUCT",
+  GET_PRODUCT_SUCCESS:"GET_PRODUCT_SUCCESS"
 }

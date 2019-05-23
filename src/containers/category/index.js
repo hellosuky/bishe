@@ -41,7 +41,7 @@ class Category extends Component{
     return (
       <div id="principle-container">
         <div className="top">
-              <img className="top-logo" src={require('./images/logo.png')} />
+              <img alt="img" className="top-logo" src={require('./images/logo.png')} />
               <span className="top-title">知美</span>
               <Search
               className="top-search"
@@ -53,10 +53,10 @@ class Category extends Component{
         <Breadcrumb style={{'paddingTop':'75px','paddingLeft':"20px"}}>
           <Breadcrumb.Item>首页</Breadcrumb.Item>
           <Breadcrumb.Item>
-            <a href="">种类微观</a>
+            <a href="/">种类微观</a>
           </Breadcrumb.Item>
           <Breadcrumb.Item>
-            <a href="">保湿剂</a>
+            <a href="/">保湿剂</a>
           </Breadcrumb.Item>
         </Breadcrumb>
         <div className="inner-container">

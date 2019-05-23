@@ -1,9 +1,10 @@
 import {fork,all} from 'redux-saga/effects'
-// import {action} from './action.saga'
-
+import {actionSaga} from './product.saga'
+import {ingredientSaga} from './ingredients.saga'
 
 export default function* rootSaga(){
   yield all([
-    // fork(action)
+    fork(actionSaga),
+    fork(ingredientSaga)
   ])
 }

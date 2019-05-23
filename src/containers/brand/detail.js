@@ -1,9 +1,8 @@
 import React,{Component} from 'react'
-import { Input,Card,Breadcrumb,Pagination,Modal,List,Typography,Button } from 'antd'
+import { Input,Breadcrumb,Pagination,Modal,List,Typography,Button } from 'antd'
 import './index.css'
 
 const Search = Input.Search
-const { Meta } = Card
 
 class Detail extends Component{
   constructor(){
@@ -36,7 +35,7 @@ class Detail extends Component{
     return (
       <div id="detail-container">
         <div className="top">
-              <img className="top-logo" src={require('./images/logo.png')} />
+              <img className="top-logo" alt="pic" src={require('./images/logo.png')} />
               <span className="top-title">知美</span>
               <Search
               className="top-search"
@@ -48,14 +47,14 @@ class Detail extends Component{
         <Breadcrumb style={{'paddingTop':'75px','paddingLeft':"20px"}}>
           <Breadcrumb.Item>首页</Breadcrumb.Item>
           <Breadcrumb.Item>
-            <a href="">品牌成分</a>
+            <a href="/">品牌成分</a>
           </Breadcrumb.Item>
           <Breadcrumb.Item>
-            <a href="">雅诗兰黛</a>
+            <a href="/">雅诗兰黛</a>
           </Breadcrumb.Item>
         </Breadcrumb>
         <div className="container" style={{"color":"#000"}}>
-          <img style={{'width':"200px","height":"200px","float":"left"}} src={require('./images/pic1.png')}/>
+          <img alt="pic"style={{'width':"200px","height":"200px","float":"left"}} src={require('./images/pic1.png')}/>
           <div class="word">
             <p>雅诗兰黛白金级尊宠精华霜</p>
             <p>ESTĒE LAUDER Re-Nutriv Re-Creation Face Creme</p>

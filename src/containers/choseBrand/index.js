@@ -1,12 +1,17 @@
 import React,{Component} from 'react'
 import { Input,Card} from 'antd'
+import {connect} from 'react-redux'
 import Brand from './brand.json'
+import {getProducts} from '../../reducers/product.redux'
 import './index.css'
 
 const Search = Input.Search
 const { Meta } = Card
 
-
+@connect(
+  null,
+  {getProducts}
+)
 class ChoseTheory extends Component{
   constructor(){
     super()
@@ -14,13 +19,13 @@ class ChoseTheory extends Component{
   }
   handleClick(title){
     //获取后端产品信息
+    this.props.getProducts(title)
   }
   render(){
-    const a = 'guerlain.jpg'
     return (
       <div id="choseBrand-container">
         <div className="top">
-              <img className="top-logo" src={require('./images/logo.png')} />
+              <img alt="img" className="top-logo" src={require('./images/logo.png')} />
               <span className="top-title">知美</span>
                   <Search
                   className="top-search"
@@ -32,6 +37,7 @@ class ChoseTheory extends Component{
         <div className="container">
           {Brand.map(v=>{
             return <Card
+                    key={v.title}
                     hoverable
                     style={{ width: 240 }}
                     cover={<img alt="pic1" src={require('./images/' + v.img)} />}

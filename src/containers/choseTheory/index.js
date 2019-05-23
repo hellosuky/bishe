@@ -13,7 +13,7 @@ class ChoseTheory extends Component{
     return (
       <div id="choseTheory-container">
         <div className="top">
-              <img className="top-logo" src={require('./images/logo.png')} />
+              <img className="top-logo" alt="pic" src={require('./images/logo.png')} />
               <span className="top-title">知美</span>
                   <Search
                   className="top-search"

@@ -1,0 +1,5 @@
+export const Actions ={
+  //loading state
+  ADD_INGREDIENTS:'ADD_INGREDIENTS',
+  ADD_INGREDIENTS_SUCCESS:'ADD_INGREDIENTS_SUCCESS'
+}

@@ -1,5 +1,5 @@
 import React,{Component} from 'react'
-import { Input,Card,Breadcrumb,Pagination,Modal } from 'antd'
+import { Input,Card,Breadcrumb,Pagination } from 'antd'
 import './index.css'
 
 const Search = Input.Search
@@ -10,7 +10,7 @@ class Brand extends Component{
     return (
       <div id="brand-container">
         <div className="top">
-              <img className="top-logo" src={require('./images/logo.png')} />
+              <img alt="img" className="top-logo" src={require('./images/logo.png')} />
               <span className="top-title">知美</span>
               <Search
               className="top-search"
@@ -21,10 +21,10 @@ class Brand extends Component{
         </div>
         <Breadcrumb style={{'paddingTop':'75px','paddingLeft':"20px"}}>
           <Breadcrumb.Item>
-            <a href="">品牌成分</a>
+            <a href="/">品牌成分</a>
           </Breadcrumb.Item>
           <Breadcrumb.Item>
-            <a href="">雅诗兰黛</a>
+            <a href="/">雅诗兰黛</a>
           </Breadcrumb.Item>
         </Breadcrumb>
         <div className="inner-container">

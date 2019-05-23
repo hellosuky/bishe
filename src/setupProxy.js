@@ -14,8 +14,20 @@ module.exports = function(app){
   //   })
   // )
   app.use(
-    proxy('/data',{
+    proxy('/products',{
       target:"http://localhost:9090/",
+      changeOrigin:true
+    })
+  ),
+  app.use(
+    proxy('/addingredients',{
+      target:"http://localhost:9090/",
+      changeOrigin:true
+    })
+  ),
+  app.use(
+    proxy('/api/*',{
+      target:"https://sm.ms/",
       changeOrigin:true
     })
   )

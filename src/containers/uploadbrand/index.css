@@ -1,0 +1,7 @@
+#uploadbrand-container{
+  max-width: 1080px;
+  margin: 0 auto;
+}
+#uploadbrand-container .title{
+  font-size: 0.5rem;
+}

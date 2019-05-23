@@ -1,0 +1,10 @@
+#upload-container{
+  max-width: 1080px;
+  margin: 0.3rem auto;
+}
+#upload-container .title{
+  font-size: 0.4rem;
+}
+#upload-container .submit{
+  float: right;
+}

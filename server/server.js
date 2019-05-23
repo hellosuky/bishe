@@ -5,18 +5,18 @@ const bodyParser = require('body-parser')
 const compression = require('compression')
 const Product = require('./schemas/product.schemas')
 const Ingredient = require('./schemas/ingredient.schemas')
+const Category = require('./schemas/category.schemas')
 
 app.use(bodyParser.json({limit:'50mb'}))
 app.use(bodyParser.urlencoded({limit:'50mb',extended:true,parameterLimit:50000}))
 app.use(compression())
 
-app.post('/addingredients',function(req,res){
+app.post('/back/addingredients',function(req,res){
   let {name,enname,category,url,infor,iupac,pic} = req.body
   Ingredient.find({'name':name},function(err,doc){
     if(doc.length === 0){
       let ingre = new Ingredient({name,enname,category,url,infor,iupac,pic})
       ingre.save().then(function(ingre){
-        console.log(ingre)
         res.json({'code':0,'msg':"新增成功"})
       })
     }else{
@@ -25,9 +25,26 @@ app.post('/addingredients',function(req,res){
   })
 })
 
-app.post('/products',function(req,res){
-  let {brand} = req.body
+app.post('/back/addcategory',function(req,res){
+  let {name} = req.body
+  console.log(name)
+  Category.find({'name':name},function(err,doc){
+    if(doc.length === 0){
+      let newcategory = new Category({name})
+      newcategory.save().then(function(ingre){
+        res.json({'code':0,'msg':"新增成功"})
+      })
+    }else{
+      res.json({'code':1,'msg':"存在该分类"})
+    }
+  })
+})
 
+app.get('/back/getcategory',function(req,res){
+  Category.find({},function(err,doc){
+    console.log(doc)
+    res.json({code:0,data:doc})
+  })
 })
 
 

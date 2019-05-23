@@ -5,7 +5,7 @@ import './index.css'
 class IsLoading extends Component{
   render(){
     return(
-      <div class="icon">
+      <div className="icon">
          <Spin size="large" />
       </div>
     )

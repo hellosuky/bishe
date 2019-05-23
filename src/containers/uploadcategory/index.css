@@ -5,3 +5,10 @@
 #uploadcatergory-container .title{
   font-size: 0.5rem;
 }
+#uploadcatergory-container .add{
+  font-size: 0.2rem;
+}
+#uploadcatergory-container .addcategory{
+  max-width: 800px;
+  margin-right: 20px;
+}

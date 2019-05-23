@@ -23,7 +23,7 @@ class UploadIngre extends Component{
        iupac:"",
        pic:""
     }
-    this.handleChange.bind(this)
+    this.handleChange = this.handleChange.bind(this)
   }
   handleCustomRequest(options:any){
    const data= new FormData()

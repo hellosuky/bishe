@@ -1,16 +1,21 @@
 import React,{Component} from 'react'
 import {Layout,Menu,Breadcrumb,Icon} from 'antd'
 import {Switch,Route} from 'react-router-dom'
+import {connect} from 'react-redux'
 import UploadIngre from '../uploadIngre/index'
 import UploadCategory from '../uploadcategory/index'
 import UploadBrand from '../uploadbrand/index'
 import UploadProducts from '../uploadproducts/index'
 import AddAdmin from '../addadmin/index'
+import IsLoading from '../../components/isloading/index'
 import './index.css'
 
 const {SubMenu} = Menu
 const {Header,Content,Sider} = Layout
 
+@connect(
+  state => state.globalMsg
+)
 class AdminPage extends Component{
   render(){
     return(
@@ -43,6 +48,7 @@ class AdminPage extends Component{
              minHeight: 280,
            }}
          >
+          {this.props.isLoading && <IsLoading />}
            <Switch>
               <Route path="/adminpage/uploadproducts" component={UploadProducts}/>
               <Route path="/adminpage/uploadbrand" component={UploadBrand}/>

@@ -20,14 +20,14 @@ module.exports = function(app){
     })
   ),
   app.use(
-    proxy('/addingredients',{
-      target:"http://localhost:9090/",
+    proxy('/api/upload',{
+      target:"https://sm.ms/",
       changeOrigin:true
     })
   ),
   app.use(
-    proxy('/api/*',{
-      target:"https://sm.ms/",
+    proxy('/back/*',{
+      target:"http://localhost:9090/",
       changeOrigin:true
     })
   )

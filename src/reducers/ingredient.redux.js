@@ -1,19 +1,24 @@
 import {Actions} from '../actiontypes/ingredient.actions.js'
 
 const initalState = {
-  msg:''
+  msg:'',
+  category:[]
 }
 
 export function ingredients(state = initalState,action){
   switch(action.type){
     case Actions.ADD_INGREDIENTS_SUCCESS:
       return {...state,msg:action.payload}
+    case Actions.ADD_CATEGORY_SUCCESS:
+      return {...state,category:action.payload}
+    case Actions.GET_CATEGORY_SUCCESS:
+      return {...state,category:action.payload}
     default:
       return state
   }
 }
 
-//get products
+//ADD ingredient
 export function addIngredient(name,category,url,infor,enname,iupac,pic){
   return ({
     type:Actions.ADD_INGREDIENTS,
@@ -24,5 +29,19 @@ export function addIngredient(name,category,url,infor,enname,iupac,pic){
     enname,
     iupac,
     pic
+  })
+}
+
+//get all category
+export function getCategory(){
+  return ({
+    type:Actions.GET_CATEGORY
+  })
+}
+
+export function addCategory(category){
+  return ({
+    type:Actions.ADD_CATEGORY,
+    category
   })
 }

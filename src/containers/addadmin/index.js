@@ -7,20 +7,20 @@ const columns = [
     title: '名字',
     dataIndex: 'name',
     key: 'name',
-    render: text => <a href="javascript:;">{text}</a>,
+    render: text => <a href="/">{text}</a>,
   },
   {
     title: '密码',
     dataIndex: 'pwd',
     key: 'pwd',
-    render: text => <a href="javascript:;">{text}</a>,
+    render: text => <a href="/">{text}</a>,
   },
   {
     title: '操作',
     key: 'action',
     render: (text, record) => (
       <span>
-        <a href="javascript:;">删除该管理员</a>
+        <a href="/">删除该管理员</a>
       </span>
     ),
   }

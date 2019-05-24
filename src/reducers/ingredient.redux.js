@@ -10,8 +10,10 @@ export function ingredients(state = initalState,action){
     case Actions.ADD_INGREDIENTS_SUCCESS:
       return {...state,msg:action.payload}
     case Actions.ADD_CATEGORY_SUCCESS:
-      return {...state,category:action.payload}
+      return {...state,category:[...state.category,action.payload]}
     case Actions.GET_CATEGORY_SUCCESS:
+      return {...state,category:action.payload}
+    case Actions.DELETE_CATEGORY_SUCCESS:
       return {...state,category:action.payload}
     default:
       return state
@@ -39,9 +41,18 @@ export function getCategory(){
   })
 }
 
+//add category
 export function addCategory(category){
   return ({
     type:Actions.ADD_CATEGORY,
     category
+  })
+}
+
+//delete Category
+export function deleteCategory(id){
+  return ({
+    type:Actions.DELETE_CATEGORY,
+    id
   })
 }

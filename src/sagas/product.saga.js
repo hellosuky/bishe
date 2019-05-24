@@ -57,7 +57,7 @@ function* getBrand(){
 
 function* getBrandFlow(){
   while (true) {
-    let req = yield take(Actions.GET_BRAND)
+    yield take(Actions.GET_BRAND)
     let res = yield call(getBrand)
     if(res.data && res.data.code === 0){
       yield put({type:Actions.GET_BRAND_SUCCESS,payload:res.data.data})

@@ -1,5 +1,5 @@
 import React,{Component} from 'react'
-import {Layout,Menu,Breadcrumb,Icon} from 'antd'
+import {Layout,Menu,} from 'antd'
 import {Switch,Route} from 'react-router-dom'
 import {connect} from 'react-redux'
 import UploadIngre from '../uploadIngre/index'
@@ -11,7 +11,6 @@ import IsLoading from '../../components/isloading/index'
 import UpdateIngre from '../updateingre/index'
 import './index.css'
 
-const {SubMenu} = Menu
 const {Header,Content,Sider} = Layout
 
 @connect(

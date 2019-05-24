@@ -74,7 +74,7 @@ class UpdateIngre extends Component{
             okText="是"
             cancelText="否"
             >
-            <a href="#">删除该成分</a>
+            <a href="/">删除该成分</a>
           </Popconfirm>
         ),
       },
@@ -82,7 +82,7 @@ class UpdateIngre extends Component{
         title: '操作',
         key: 'action',
         render: (text, record) => (
-            <a href="#">修改该成分</a>
+            <a href="/">修改该成分</a>
         ),
       }
     ]

@@ -5,7 +5,8 @@ const ProductSchema =  new Schema({
   name:{type:String,required:true},
   brand:{type:String,required:true},
   base:{type:Array,required:true},
-  Ingredient:[{type:mongoose.Schema.ObjectId,ref:'Ingredient'}]
+  Ingredient:[{type:mongoose.Schema.ObjectId,ref:'Ingredient'}],
+  show:{type:Boolean,default:false}
 })
 
 module.exports = mongoose.model('Product',ProductSchema)

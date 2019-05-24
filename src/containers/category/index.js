@@ -126,6 +126,7 @@ class Category extends Component{
            onCancel={this.handleCancel.bind(this)}
          >
            <iframe style={{'width': '500px', 'height': '300px'}}
+           title="ddd"
            frameborder="0" src="https://embed.molview.org/v1/?mode=balls&cid=753&bg=white"></iframe>
            <p>丙三醇</p>
            <p>IUPAC命名 propane-1,2,3-triol</p>

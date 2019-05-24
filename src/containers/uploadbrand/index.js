@@ -69,7 +69,7 @@ class UploadBrand extends Component{
             okText="是"
             cancelText="否"
             >
-            <a href="#">删除该成分</a>
+            <a href="/">删除该成分</a>
           </Popconfirm>
         ),
       }

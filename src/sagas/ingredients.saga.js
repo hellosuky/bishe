@@ -79,7 +79,7 @@ function* getCategory(){
 
 function* getCategoryFlow(){
   while (true) {
-    let req = yield take(IngreActions.GET_CATEGORY)
+    yield take(IngreActions.GET_CATEGORY)
     let res = yield call(getCategory)
     if(res.data && res.data.code === 0){
       yield put({type:IngreActions.GET_CATEGORY_SUCCESS,payload:res.data.data})

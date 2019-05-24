@@ -1,5 +1,5 @@
 import React,{Component} from 'react'
-import {Table,Divider,Input,Button,Popconfirm,message} from 'antd'
+import {Table,Input,Button,Popconfirm,message} from 'antd'
 import {connect} from 'react-redux'
 import {getCategory,addCategory,deleteCategory} from '../../reducers/ingredient.redux'
 import './index.css'
@@ -54,7 +54,7 @@ class UploadCategory extends Component{
             okText="是"
             cancelText="否"
             >
-            <a href="#">删除该成分</a>
+            <a href="/">删除该成分</a>
           </Popconfirm>
         ),
       }

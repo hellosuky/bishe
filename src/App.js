@@ -9,7 +9,6 @@ import Detail from './containers/brand/detail'
 import ChoseTheory from './containers/choseTheory/index'
 import ChoseBrand from './containers/choseBrand/index'
 import Pk from './containers/pk/index'
-import IsLoading from './components/isloading/index'
 import Admin from './containers/admin/index'
 import AdminPage from './containers/adminpage/index'
 

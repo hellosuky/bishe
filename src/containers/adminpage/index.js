@@ -8,6 +8,7 @@ import UploadBrand from '../uploadbrand/index'
 import UploadProducts from '../uploadproducts/index'
 import AddAdmin from '../addadmin/index'
 import IsLoading from '../../components/isloading/index'
+import UpdateIngre from '../updateingre/index'
 import './index.css'
 
 const {SubMenu} = Menu
@@ -37,6 +38,7 @@ class AdminPage extends Component{
              <Menu.Item key="3" onClick={()=>this.props.history.push('/adminpage/uploadingre')}>新增有效成分</Menu.Item>
              <Menu.Item key="4" onClick={()=>this.props.history.push('/adminpage/uploadcategory')}>修改有效成分种类</Menu.Item>
              <Menu.Item key="5" onClick={()=>this.props.history.push('/adminpage/addadmin')}>新增后台管理员</Menu.Item>
+             <Menu.Item key="6" onClick={()=>this.props.history.push('/adminpage/updateingre')}>修改有效成分</Menu.Item>
          </Menu>
        </Sider>
        <Layout style={{ padding: '0 24px 24px' }}>
@@ -53,6 +55,7 @@ class AdminPage extends Component{
               <Route path="/adminpage/uploadproducts" component={UploadProducts}/>
               <Route path="/adminpage/uploadbrand" component={UploadBrand}/>
               <Route path="/adminpage/uploadingre" component={UploadIngre}/>
+              <Route path="/adminpage/updateingre" component={UpdateIngre}/>
               <Route path="/adminpage/uploadcategory" component={UploadCategory}/>
               <Route path="/adminpage/addadmin" component={AddAdmin}/>
             </Switch>

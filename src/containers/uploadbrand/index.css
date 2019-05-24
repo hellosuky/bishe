@@ -5,3 +5,19 @@
 #uploadbrand-container .title{
   font-size: 0.5rem;
 }
+
+#uploadbrand-container .addbrand{
+  width: 2.3rem;
+  margin-bottom: 0.3rem;
+}
+
+#uploadbrand-container .addenname{
+  width: 2.3rem;
+  margin-left: 0.3rem;
+  margin-bottom: 0.3rem;
+}
+
+#uploadbrand-container .add-btn{
+  float: right;
+  margin-right: 0.5rem;
+}

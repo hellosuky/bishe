@@ -1,14 +1,18 @@
 import {Actions} from '../actiontypes/ingredient.actions.js'
 
 const initalState = {
-  msg:'',
-  category:[]
+  category:[],
+  ingredients:[]
 }
 
 export function ingredients(state = initalState,action){
   switch(action.type){
     case Actions.ADD_INGREDIENTS_SUCCESS:
-      return {...state,msg:action.payload}
+      return {...state}
+    case Actions.GET_INGREDIENTS_SUCCESS:
+      return {...state,ingredients:action.payload}
+    case Actions.DELETE_INGREDIENTS_SUCCESS:
+        return {...state,ingredients:action.payload}
     case Actions.ADD_CATEGORY_SUCCESS:
       return {...state,category:[...state.category,action.payload]}
     case Actions.GET_CATEGORY_SUCCESS:
@@ -21,7 +25,7 @@ export function ingredients(state = initalState,action){
 }
 
 //ADD ingredient
-export function addIngredient(name,category,url,infor,enname,iupac,pic){
+export function addIngredient(name,category,url,infor,enname,iupac,pic,deleteurl){
   return ({
     type:Actions.ADD_INGREDIENTS,
     name,
@@ -30,7 +34,24 @@ export function addIngredient(name,category,url,infor,enname,iupac,pic){
     infor,
     enname,
     iupac,
-    pic
+    pic,
+    deleteurl
+  })
+}
+
+//get ingredients
+export function getIngredient(page){
+  return ({
+    type:Actions.GET_INGREDIENTS,
+    page
+  })
+}
+
+//delete ingredient
+export function deleteIngredient(id){
+  return ({
+    type:Actions.DELETE_INGREDIENTS,
+    id
   })
 }
 

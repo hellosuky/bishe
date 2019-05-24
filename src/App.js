@@ -11,6 +11,7 @@ import ChoseBrand from './containers/choseBrand/index'
 import Pk from './containers/pk/index'
 import Admin from './containers/admin/index'
 import AdminPage from './containers/adminpage/index'
+import Page from './containers/page/index'
 
 //前端、后端、404
 class App extends Component {
@@ -44,6 +45,7 @@ class App extends Component {
             <Route path="/chosebrand" component={ChoseBrand} />
             <Route path="/principle" component={Principle} />
             <Route path="/brand" component={Brand} />
+            <Route path="/page" component={Page} />
             <Route path="/category" component={Category} />
             <Route path="/admin" component={Admin} />
             <Route path="/adminpage" component={AdminPage} />

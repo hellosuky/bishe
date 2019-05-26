@@ -9,6 +9,8 @@ import UploadProducts from '../uploadproducts/index'
 import AddAdmin from '../addadmin/index'
 import IsLoading from '../../components/isloading/index'
 import UpdateIngre from '../updateingre/index'
+import UploadTheory from '../uploadtheory/index'
+import UpdateTheory from '../updatetheory/index'
 import './index.css'
 
 const {Header,Content,Sider} = Layout
@@ -38,6 +40,8 @@ class AdminPage extends Component{
              <Menu.Item key="4" onClick={()=>this.props.history.push('/adminpage/uploadcategory')}>修改有效成分种类</Menu.Item>
              <Menu.Item key="5" onClick={()=>this.props.history.push('/adminpage/addadmin')}>新增后台管理员</Menu.Item>
              <Menu.Item key="6" onClick={()=>this.props.history.push('/adminpage/updateingre')}>修改有效成分</Menu.Item>
+             <Menu.Item key="7" onClick={()=>this.props.history.push('/adminpage/uploadtheory')}>新增原理详情</Menu.Item>
+             <Menu.Item key="8" onClick={()=>this.props.history.push('/adminpage/updatetheory')}>修改原理详情</Menu.Item>
          </Menu>
        </Sider>
        <Layout style={{ padding: '0 24px 24px' }}>
@@ -52,11 +56,13 @@ class AdminPage extends Component{
           {this.props.isLoading && <IsLoading />}
            <Switch>
               <Route path="/adminpage/uploadproducts" component={UploadProducts}/>
+              <Route path="/adminpage/uploadtheory" component={UploadTheory}/>
               <Route path="/adminpage/uploadbrand" component={UploadBrand}/>
               <Route path="/adminpage/uploadingre" component={UploadIngre}/>
               <Route path="/adminpage/updateingre" component={UpdateIngre}/>
               <Route path="/adminpage/uploadcategory" component={UploadCategory}/>
               <Route path="/adminpage/addadmin" component={AddAdmin}/>
+              <Route path="/adminpage/updatetheory" component={UpdateTheory}/>
             </Switch>
          </Content>
        </Layout>

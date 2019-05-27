@@ -1,16 +1,16 @@
 import {fork,all,put,call,take} from 'redux-saga/effects'
 import axios from 'axios'
-import {Actions} from '../actiontypes/actions'
+import {Helper} from '../actiontypes/helper.actions'
 import {Actions as IngreActions} from '../actiontypes/ingredient.actions'
 
 function* addIngredient(name,category,url,infor,enname,iupac,pic,deleteurl){
-  yield put({type:Actions.FETCH_START})
+  yield put({type:Helper.FETCH_START})
   try{
-    return yield call(axios.post,'/back/addingredients',{name,category,url,infor,enname,iupac,pic,deleteurl})
+    return yield call(axios.post,'/back/ingredient/addingredients',{name,category,url,infor,enname,iupac,pic,deleteurl})
   }catch(err){
     console.log(err)
   }finally{
-    yield put({type:Actions.FETCH_END})
+    yield put({type:Helper.FETCH_END})
   }
 }
 
@@ -24,14 +24,35 @@ function* addIngredientFlow(){
   }
 }
 
-function* getIngredient(page){
-  yield put({type:Actions.FETCH_START})
+function* updateIngredient(id,name,category,url,infor,enname,iupac,pic,deleteurl){
+  yield put({type:Helper.FETCH_START})
   try{
-    return yield call(axios.get,`/back/getingredients?page=${page}`)
+    return yield call(axios.post,'/back/ingredient/updateingredient',{id,name,category,url,infor,enname,iupac,pic,deleteurl})
   }catch(err){
     console.log(err)
   }finally{
-    yield put({type:Actions.FETCH_END})
+    yield put({type:Helper.FETCH_END})
+  }
+}
+
+function* updateIngredientFlow(){
+  while (true) {
+    let req = yield take(IngreActions.UPDATE_INGREDIENT)
+    let res = yield call(updateIngredient,req.id,req.name,req.category,req.url,req.infor,req.enname,req.iupac,req.pic,req.deleteurl)
+    if(res.data && res.data.code === 0){
+      yield put({type:IngreActions.UPDATE_INGREDIENT_SUCCESS})
+    }
+  }
+}
+
+function* getIngredient(page){
+  yield put({type:Helper.FETCH_START})
+  try{
+    return yield call(axios.get,`/back/ingredient/getingredients?page=${page}`)
+  }catch(err){
+    console.log(err)
+  }finally{
+    yield put({type:Helper.FETCH_END})
   }
 }
 
@@ -45,14 +66,35 @@ function* getIngredientFlow(){
   }
 }
 
-function* deleteIngredient(id){
-  yield put({type:Actions.FETCH_START})
+function* getSpecialIngredient(id){
+  yield put({type:Helper.FETCH_START})
   try{
-    return yield call(axios.post,'/back/deleteingredients',{id})
+    return yield call(axios.get,`/back/ingredient/getspecialingredient?id=${id}`)
   }catch(err){
     console.log(err)
   }finally{
-    yield put({type:Actions.FETCH_END})
+    yield put({type:Helper.FETCH_END})
+  }
+}
+
+function* getSpecialIngredientFlow(){
+  while (true) {
+    let req = yield take(IngreActions.GET_SPECIAL_INGREDIENT)
+    let res = yield call(getSpecialIngredient,req.id)
+    if(res.data && res.data.code === 0){
+      yield put({type:IngreActions.GET_SPECIAL_INGREDIENT_SUCCESS,payload:res.data.data})
+    }
+  }
+}
+
+function* deleteIngredient(id){
+  yield put({type:Helper.FETCH_START})
+  try{
+    return yield call(axios.post,'/back/ingredient/deleteingredients',{id})
+  }catch(err){
+    console.log(err)
+  }finally{
+    yield put({type:Helper.FETCH_END})
   }
 }
 
@@ -67,13 +109,13 @@ function* deleteIngredientFlow(){
 }
 
 function* getCategory(){
-  yield put({type:Actions.FETCH_START})
+  yield put({type:Helper.FETCH_START})
   try{
-    return yield call(axios.get,'/back/getcategory')
+    return yield call(axios.get,'/back/ingredient/getcategory')
   }catch(err){
     console.log(err)
   }finally{
-    yield put({type:Actions.FETCH_END})
+    yield put({type:Helper.FETCH_END})
   }
 }
 
@@ -88,13 +130,13 @@ function* getCategoryFlow(){
 }
 
 function* addCategory(name){
-  yield put({type:Actions.FETCH_START})
+  yield put({type:Helper.FETCH_START})
   try{
-    return yield call(axios.post,'/back/addcategory',{name})
+    return yield call(axios.post,'/back/ingredient/addcategory',{name})
   }catch(err){
     console.log(err)
   }finally{
-    yield put({type:Actions.FETCH_END})
+    yield put({type:Helper.FETCH_END})
   }
 }
 
@@ -109,13 +151,13 @@ function* addCategoryFlow(){
 }
 
 function* deleteCategory(id){
-  yield put({type:Actions.FETCH_START})
+  yield put({type:Helper.FETCH_START})
   try{
-    return yield call(axios.post,'/back/deletecategory',{id})
+    return yield call(axios.post,'/back/ingredient/deletecategory',{id})
   }catch(err){
     console.log(err)
   }finally{
-    yield put({type:Actions.FETCH_END})
+    yield put({type:Helper.FETCH_END})
   }
 }
 
@@ -134,6 +176,8 @@ export function* ingredientSaga(){
     fork(addIngredientFlow),
     fork(getIngredientFlow),
     fork(deleteIngredientFlow),
+    fork(getSpecialIngredientFlow),
+    fork(updateIngredientFlow),
     // 分类操作
     fork(getCategoryFlow),
     fork(addCategoryFlow),

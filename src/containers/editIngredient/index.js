@@ -1,7 +1,7 @@
 import React,{Component} from 'react'
 import {Input,Icon,Upload,Button,Select,Modal,message} from 'antd'
 import {connect} from 'react-redux'
-import {addIngredient,getCategory} from '../../reducers/ingredient.redux'
+import {updateIngredient,getCategory} from '../../reducers/ingredient.redux'
 import axios from 'axios'
 import './index.css'
 
@@ -9,12 +9,13 @@ const {TextArea} = Input
 const Option = Select.Option
 @connect(
   state => state.ingredients,
-  {addIngredient,getCategory}
+  {updateIngredient,getCategory}
 )
-class UploadIngre extends Component{
+class EditIngre extends Component{
   constructor(){
     super()
     this.state = {
+       id:'',
        name:'',
        category:'',
        url:"",
@@ -30,6 +31,14 @@ class UploadIngre extends Component{
   }
   componentWillMount(){
     this.props.getCategory()
+  }
+  componentWillReceiveProps(nextProps){
+      if(nextProps.ingredient.infor){
+        let ingre = nextProps.ingredient
+        this.setState({id:ingre._id,name:ingre.name,category:ingre.category._id,
+        url:ingre.url,infor:ingre.infor,enname:ingre.enname,iupac:ingre.iupac,
+        pic:ingre.pic,deleteurl:ingre.deleteurl})
+      }
   }
   handleCustomRequest(options:any){
    const data= new FormData()
@@ -51,16 +60,20 @@ class UploadIngre extends Component{
    this.setState({[key]:val})
  }
  handleClick(){
+   if(!this.state.id){
+     message.error('无法提交')
+     return
+   }
    if(!this.state.name || !this.state.category || !this.state.url ||
      !this.state.infor || !this.state.enname ||!this.state.iupac ||!this.state.pic||!this.state.deleteurl){
      //错误信息
      message.error('请将所有空填完')
    }else{
      //提交
-     this.props.addIngredient(this.state.name,this.state.category,this.state.url,
+     this.props.updateIngredient(this.state.id,this.state.name,this.state.category,this.state.url,
      this.state.infor,this.state.enname,this.state.iupac,this.state.pic,this.state.deleteurl)
-     this.setState({name:'',category:'',url:'',infor:'',enname:'',iupac:'',pic:"",deleteurl:""})
-     message.success('上传成功')
+     this.setState({id:'',name:'',category:'',url:'',infor:'',enname:'',iupac:'',pic:"",deleteurl:""})
+     message.success('更新成功')
    }
  }
  handlePreview(){
@@ -90,14 +103,15 @@ class UploadIngre extends Component{
        <div className="ant-upload-text">Upload</div>
      </div>
    )
-    return(
-      <div id="upload-container">
-        <p className="title">有效成分数据库上传</p>
+
+    return (
+       <div id="upload-container">
+        <p className="title">有效成分数据更改</p>
         <p>输入成分名字:</p>
         <Input value={this.state.name} placeholder="输入成分名字" onChange={e => this.handleChange('name',e.target.value)}/>
         <p>选择成分种类:</p>
         {this.props.category.length > 0?
-          <Select style={{ width: 120 }} onChange={e => this.handleChange('category',e)}>
+          <Select value={this.state.category} style={{ width: 120 }} onChange={e => this.handleChange('category',e)}>
                {this.props.category.map(v=>{
                 return <Option value={v._id} key={v._id}>{v.name}</Option>
               }) }
@@ -136,10 +150,10 @@ class UploadIngre extends Component{
           <img alt="example" style={{ width: '100%' }} src={this.state.pic} />
         </Modal>
        </div>
-       <Button type="primary" className="submit" onClick={this.handleClick.bind(this)}>确认上传</Button>
+       <Button type="primary" className="submit" onClick={this.handleClick.bind(this)}>确认修改</Button>
       </div>
     )
   }
 }
 
-export default UploadIngre
+export default EditIngre

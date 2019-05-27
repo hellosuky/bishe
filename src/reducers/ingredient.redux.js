@@ -2,7 +2,8 @@ import {Actions} from '../actiontypes/ingredient.actions.js'
 
 const initalState = {
   category:[],
-  ingredients:[]
+  ingredients:[],
+  ingredient:{}
 }
 
 export function ingredients(state = initalState,action){
@@ -13,6 +14,10 @@ export function ingredients(state = initalState,action){
       return {...state,ingredients:action.payload}
     case Actions.DELETE_INGREDIENTS_SUCCESS:
         return {...state,ingredients:action.payload}
+    case Actions.GET_SPECIAL_INGREDIENT_SUCCESS:
+        return {...state,ingredient:action.payload}
+    case Actions.UPDATE_INGREDIENT_SUCCESS:
+        return {...state}
     case Actions.ADD_CATEGORY_SUCCESS:
       return {...state,category:[...state.category,action.payload]}
     case Actions.GET_CATEGORY_SUCCESS:
@@ -52,6 +57,30 @@ export function deleteIngredient(id){
   return ({
     type:Actions.DELETE_INGREDIENTS,
     id
+  })
+}
+
+//get special ingredient
+export function getSpecialIngredient(id){
+  return ({
+    type:Actions.GET_SPECIAL_INGREDIENT,
+    id
+  })
+}
+
+//update ingredient
+export function updateIngredient(id,name,category,url,infor,enname,iupac,pic,deleteurl){
+  return ({
+    type:Actions.UPDATE_INGREDIENT,
+    id,
+    name,
+    category,
+    url,
+    infor,
+    enname,
+    iupac,
+    pic,
+    deleteurl
   })
 }
 

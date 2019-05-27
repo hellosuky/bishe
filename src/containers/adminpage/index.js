@@ -11,6 +11,7 @@ import IsLoading from '../../components/isloading/index'
 import UpdateIngre from '../updateingre/index'
 import UploadTheory from '../uploadtheory/index'
 import UpdateTheory from '../updatetheory/index'
+import EditIngre from '../editIngredient/index'
 import './index.css'
 
 const {Header,Content,Sider} = Layout
@@ -19,7 +20,8 @@ const menus = [
   {url:'/adminpage/uploadbrand',name:'展示品牌修改'},
   {url:'/adminpage/uploadproducts',name:'更新展示产品'},
   {url:'/adminpage/uploadcategory',name:'修改有效成分种类'},
-  {url:'/adminpage/uploadingre',name:'更新有效成分'},
+  {url:'/adminpage/uploadingre',name:'新增有效成分'},
+  {url:'/adminpage/updateingre',name:'更新有效成分'},
   {url:'/adminpage/uploadtheory',name:'新增原理详情'},
   {url:'/adminpage/updatetheory',name:'更新原理详情'},
   {url:'/adminpage/addadmin',name:'更新后台管理员'}
@@ -81,6 +83,7 @@ class AdminPage extends Component{
               <Route path="/adminpage/uploadtheory" component={UploadTheory}/>
               <Route path="/adminpage/uploadbrand" component={UploadBrand}/>
               <Route path="/adminpage/uploadingre" component={UploadIngre}/>
+              <Route path="/adminpage/editingredient" component={EditIngre}/>
               <Route path="/adminpage/updateingre" component={UpdateIngre}/>
               <Route path="/adminpage/uploadcategory" component={UploadCategory}/>
               <Route path="/adminpage/addadmin" component={AddAdmin}/>

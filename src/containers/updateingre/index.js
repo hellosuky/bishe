@@ -1,23 +1,28 @@
 import React,{Component} from 'react'
 import {Table,Popconfirm,message,Input} from 'antd'
 import {connect} from 'react-redux'
-import {getIngredient} from '../../reducers/ingredient.redux'
+import {getIngredient,deleteIngredient,getSpecialIngredient} from '../../reducers/ingredient.redux'
 import './index.css'
 
 @connect(
   state => state.ingredients,
-  {getIngredient}
+  {getIngredient,deleteIngredient,getSpecialIngredient}
 )
 class UpdateIngre extends Component{
   componentWillMount(){
     this.props.getIngredient(1)
   }
   confirm(id) {
+    this.props.deleteIngredient(id)
     message.success('删除成功')
   }
 
   cancel(e) {
     message.error('取消删除')
+  }
+  edit(id){
+    this.props.getSpecialIngredient(id)
+    this.props.history.push('/adminpage/editingredient')
   }
   getColumns(){
     return  [
@@ -31,7 +36,7 @@ class UpdateIngre extends Component{
         title: '成分种类',
         dataIndex: 'category',
         key: 'category',
-        render: text => <span>{text}</span>,
+        render: text => <span>{text.name}</span>,
       },
       {
         title: '成分三维结构',
@@ -80,9 +85,9 @@ class UpdateIngre extends Component{
       },
       {
         title: '操作',
-        key: 'action',
+        key: 'action1',
         render: (text, record) => (
-            <a href="/">修改该成分</a>
+            <span onClick={this.edit.bind(this,record._id)}>修改该成分</span>
         ),
       }
     ]

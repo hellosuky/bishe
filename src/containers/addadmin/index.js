@@ -1,5 +1,5 @@
 import React,{Component} from 'react'
-import {Input,Table,Button,Popconfirm} from 'antd'
+import {Input,Table,Button,Popconfirm,message} from 'antd'
 import {connect} from 'react-redux'
 import {getAllAdmin,addAdmin,deleteAdmin} from '../../reducers/login.redux'
 import './index.css'
@@ -24,10 +24,12 @@ class AddAdmin extends Component{
     // add new admin
     this.props.addAdmin(this.state.username,this.state.pwd)
     this.setState({username:'',pwd:''})
+    message.success('新增成功')
   }
   delete(id){
     //delete a admin
     this.props.deleteAdmin(id)
+    message.success('删除成功')
   }
   handleChange(key,val){
     this.setState({[key]:val})

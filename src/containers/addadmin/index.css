@@ -6,3 +6,36 @@
 #addadmin-container .title{
   font-size: 0.5rem;
 }
+
+#addadmin-container .add-admin{
+  font-size: 0.3rem;
+}
+
+#addadmin-container .add-admin-input{
+  width: 3rem;
+  margin-left:0.2rem;
+  margin-right: 0.1rem;
+}
+
+#addadmin-container .add-pwd-input{
+  width: 3rem;
+  margin-left:0.2rem;
+}
+
+#addadmin-container .add-admin-btn{
+  margin-top: 0.2rem;
+  margin-left: 7.6rem;
+  margin-bottom: 0.4rem;
+}
+
+#addadmin-container .now-admin{
+  font-size: 0.3rem;
+}
+
+#addadmin-container .delete-admin{
+  color: #1890ff;
+}
+
+#addadmin-container .delete-admin:hover{
+  cursor: pointer;
+}

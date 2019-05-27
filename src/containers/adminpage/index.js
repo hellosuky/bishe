@@ -1,5 +1,5 @@
 import React,{Component} from 'react'
-import {Layout,Menu,} from 'antd'
+import {Layout,Menu,message} from 'antd'
 import {Switch,Route} from 'react-router-dom'
 import {connect} from 'react-redux'
 import UploadIngre from '../uploadIngre/index'
@@ -15,10 +15,36 @@ import './index.css'
 
 const {Header,Content,Sider} = Layout
 
+const menus = [
+  {url:'/adminpage/uploadbrand',name:'展示品牌修改'},
+  {url:'/adminpage/uploadproducts',name:'更新展示产品'},
+  {url:'/adminpage/uploadcategory',name:'修改有效成分种类'},
+  {url:'/adminpage/uploadingre',name:'更新有效成分'},
+  {url:'/adminpage/uploadtheory',name:'新增原理详情'},
+  {url:'/adminpage/updatetheory',name:'更新原理详情'},
+  {url:'/adminpage/addadmin',name:'更新后台管理员'}
+]
+
 @connect(
-  state => state.globalMsg
+  state => ({globalMsg:state.globalMsg,loginReducers:state.loginReducers})
 )
 class AdminPage extends Component{
+  constructor(){
+    super()
+    this.state = {
+      current:'/adminpage/uploadbrand'
+    }
+  }
+  componentDidMount(){
+    if(!this.props.loginReducers.isLogin){
+      message.error('你没有登陆这里的权限')
+      // setTimeout(()=>this.props.history.push('/admin'),1500)
+    }
+  }
+  handleChooseMenu(e){
+   this.setState({current:e.key})
+   this.props.history.push(`${e.key}`)
+ }
   render(){
     return(
       <Layout id="layout-container" style={{'minHeight':"100%"}}>
@@ -28,21 +54,17 @@ class AdminPage extends Component{
      </Header>
      <Layout>
        <Sider width={200} style={{ background: '#fff' }}>
-         <Menu
-           mode="inline"
-           defaultSelectedKeys={['1']}
-           defaultOpenKeys={['sub1']}
-           style={{ height: '100%', borderRight: 0 }}
-         >
-             <Menu.Item key="1" onClick={()=>this.props.history.push('/adminpage/uploadproducts')}>修改展示产品</Menu.Item>
-             <Menu.Item key="2" onClick={()=>this.props.history.push('/adminpage/uploadbrand')}>展示品牌修改</Menu.Item>
-             <Menu.Item key="3" onClick={()=>this.props.history.push('/adminpage/uploadingre')}>新增有效成分</Menu.Item>
-             <Menu.Item key="4" onClick={()=>this.props.history.push('/adminpage/uploadcategory')}>修改有效成分种类</Menu.Item>
-             <Menu.Item key="5" onClick={()=>this.props.history.push('/adminpage/addadmin')}>新增后台管理员</Menu.Item>
-             <Menu.Item key="6" onClick={()=>this.props.history.push('/adminpage/updateingre')}>修改有效成分</Menu.Item>
-             <Menu.Item key="7" onClick={()=>this.props.history.push('/adminpage/uploadtheory')}>新增原理详情</Menu.Item>
-             <Menu.Item key="8" onClick={()=>this.props.history.push('/adminpage/updatetheory')}>修改原理详情</Menu.Item>
-         </Menu>
+       <Menu
+        mode="inline"
+        defaultSelectedKeys={['/adminpage/uploadbrand']}
+        selectedKeys={[this.state.current]}
+        onClick={this.handleChooseMenu.bind(this)}>
+          {menus.map(v=>
+              <Menu.Item key={v.url}>
+                <span>{v.name}</span>
+              </Menu.Item>)
+          }
+        </Menu>
        </Sider>
        <Layout style={{ padding: '0 24px 24px' }}>
          <Content

@@ -1,20 +1,51 @@
 const express = require('express')
+const axios = require('axios')
 const Router = express.Router()
 const Product = require('../schemas/product.schemas')
 const Brand = require('../schemas/brand.schemas')
 
+Router.get('/getproducts',function(req,res){
+    let {page} = req.query
+    Product.find({})
+    .limit(10)
+    .skip(10* (page-1))
+    .exec(function(err,results){
+      if(err){
+        res.json({code:1,msg:'服务端出错'})
+        return
+      }
+      res.json({code:0,data:results})
+    })
+})
+
+Router.post('/isshow',function(req,res){
+  let {id} = req.body
+  Product.findOne({'_id':id})
+  .then(one=> {return one.show})
+  .then(show =>{ return !show})
+  .then(nowshow=>{return Product.updateOne({'_id':id},{'show':nowshow})})
+  .then(()=> {return Product.find({}).limit(10)})
+  .then(all=>res.json({code:0,data:all}))
+  .catch(err=>console.log(err))
+})
+
 Router.post('/addbrand',function(req,res){
-  let {brand,enname,pic,deleteurl} = req.body
-  Brand.find({'name':brand},function(err,doc){
+  let {brand,enname,pic} = req.body
+  //添加后要查找我们的一个产品
+  Brand.find({'name':brand})
+  .then(doc=>{
     if(doc.length === 0){
-      let ingre = new Brand({"name":brand,enname,pic,deleteurl})
-      ingre.save().then(function(ingre){
-        res.json({code:0,data:ingre})
-      })
+      let ingre = new Brand({"name":brand,enname,pic})
+      return ingre.save()
     }else{
       res.json({code:1,msg:"存在该成分了"})
     }
+  }).then((ingre)=>{
+    //ingre 是保存的新品牌
+    res.json({code:0,data:ingre})
   })
+  .catch(err=>console.log(err))
+  // 利用正则表达式
 })
 
 Router.get('/getbrand',function(req,res){
@@ -25,11 +56,17 @@ Router.get('/getbrand',function(req,res){
 
 Router.post('/deletebrand',function(req,res){
   let {id} = req.body
-  Brand.deleteOne({'_id':id},function(err,doc){
-    Brand.find({},function(e,d){
-        res.json({code:0,data:d})
-    })
+  //delete brand 也需要将所有brand删除
+  //同时删除连接
+  Product.deleteMany({'brand':id})
+  .then(()=>{
+    return Brand.deleteOne({'_id':id})
+  }).then(()=>{
+    return Brand.find({})
+  }).then(all=>{
+    res.json({code:0,data:all})
   })
+  .catch(err=>console.log(err))
 })
 
 module.exports = Router

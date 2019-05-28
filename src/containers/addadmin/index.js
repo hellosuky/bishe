@@ -58,7 +58,6 @@ class AddAdmin extends Component{
     }]
   }
   render(){
-    console.log(this.props.admin)
     return(
       <div id="addadmin-container">
         <p className="title">后台管理员管理</p>

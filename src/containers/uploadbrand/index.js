@@ -5,6 +5,8 @@ import axios from 'axios'
 import {addBrand,getBrand,deleteBrand} from '../../reducers/product.redux'
 import './index.css'
 
+const URL = 'http://localhost:9090/upload/'
+
 @connect(
   state => state.products,
   {addBrand,getBrand,deleteBrand}
@@ -14,8 +16,7 @@ class UploadBrand extends Component{
     super()
     this.state = {
       brand:'',
-      pic:"",
-      deleteurl:""
+      pic:""
     }
     this.handleChange = this.handleChange.bind(this)
   }
@@ -23,8 +24,8 @@ class UploadBrand extends Component{
     this.props.getBrand()
   }
   handleClick(){
-    this.props.addBrand(this.state.brand,this.state.enname,this.state.pic,this.state.deleteurl)
-    this.setState({brand:'',pic:'',enname:'',deleteurl:''})
+    this.props.addBrand(this.state.brand,this.state.enname,this.state.pic)
+    this.setState({brand:'',pic:'',enname:''})
     message.success('新增成功')
   }
   handleChange(key,val){
@@ -56,7 +57,7 @@ class UploadBrand extends Component{
         title: '图片',
         dataIndex: 'pic',
         key: 'pic',
-        render: text => <img style={{"width":"150px"}} src={text} alt="img"/>,
+        render: text => <img style={{"width":"150px"}} src={URL + text} alt="img"/>,
       },
       {
         title: '操作',
@@ -77,7 +78,7 @@ class UploadBrand extends Component{
   }
   handleCustomRequest(options:any){
    const data= new FormData()
-     data.append('smfile', options.file)
+     data.append('pic', options.file)
      const config= {
        "headers": {
          "content-type": 'multipart/form-data; boundary=----WebKitFormBoundaryqTqJIxvkWFYqvP5s'
@@ -85,7 +86,7 @@ class UploadBrand extends Component{
      }
      axios.post('/api/upload', data, config)
      .then((res: any) => {
-       this.setState({pic:res.data.data.url,deleteurl:res.data.data.delete})
+       this.setState({pic:res.data.data.filename})
        options.onSuccess(res.data, options.file)
      }).catch((err: Error) => {
        console.log(err)
@@ -108,8 +109,8 @@ class UploadBrand extends Component{
    this.setState({hover:false})
  }
  handleDelete(){
-   axios.get(this.state.deleteurl)
-   this.setState({pic:'',deleteurl:''})
+   axios.post('/api/delete',{url:this.state.pic})
+   this.setState({pic:''})
  }
   render(){
     const uploadButton = (
@@ -122,10 +123,14 @@ class UploadBrand extends Component{
       <div id="uploadbrand-container">
         <p className="title">展示品牌更新</p>
         <p className="add">新增品牌</p>
+        <span className="brand-chin">品牌中文</span>
         <Input className="addbrand" value={this.state.brand} placeholder="新增品牌"
         onChange={e => this.handleChange('brand',e.target.value)}/>
+        <span className="brand-en">品牌英文</span>
         <Input className="addenname" value={this.state.enname} placeholder="新增品牌英语"
         onChange={e => this.handleChange('enname',e.target.value)}/>
+        <br/>
+        <span>品牌图片</span>
         <div className="clearfix">
          <Upload
            customRequest={this.handleCustomRequest.bind(this)}
@@ -136,7 +141,7 @@ class UploadBrand extends Component{
          >
            {this.state.pic ?
             <div onMouseLeave={this.handleBlur.bind(this)} onMouseOver={this.handleHover.bind(this)}>
-              <img alt="pic" style={{"width":"200px"}} src={this.state.pic}/>
+              <img alt="pic" style={{"width":"200px"}} src={URL + this.state.pic}/>
               {this.state.hover?
               <div>
                 <Icon style={{'position':'absolute',"left":'45%',"top":"50%","transform":"translate(-50%,-50%)"}} onClick={this.handleDelete.bind(this)} type="delete"/>
@@ -146,7 +151,7 @@ class UploadBrand extends Component{
              : uploadButton}
          </Upload>
          <Modal visible={this.state.previewVisible} footer={null} onCancel={this.handleCancel.bind(this)}>
-          <img alt="example" style={{ width: '100%' }} src={this.state.pic} />
+          <img alt="example" style={{ width: '100%' }} src={URL + this.state.pic} />
         </Modal>
        </div>
         <Button className="add-btn" type="primary" onClick={this.handleClick.bind(this)}>确认增加</Button>

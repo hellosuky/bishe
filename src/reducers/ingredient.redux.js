@@ -30,7 +30,7 @@ export function ingredients(state = initalState,action){
 }
 
 //ADD ingredient
-export function addIngredient(name,category,url,infor,enname,iupac,pic,deleteurl){
+export function addIngredient(name,category,url,infor,enname,iupac,pic){
   return ({
     type:Actions.ADD_INGREDIENTS,
     name,
@@ -39,8 +39,7 @@ export function addIngredient(name,category,url,infor,enname,iupac,pic,deleteurl
     infor,
     enname,
     iupac,
-    pic,
-    deleteurl
+    pic
   })
 }
 
@@ -69,7 +68,7 @@ export function getSpecialIngredient(id){
 }
 
 //update ingredient
-export function updateIngredient(id,name,category,url,infor,enname,iupac,pic,deleteurl){
+export function updateIngredient(id,name,category,url,infor,enname,iupac,pic){
   return ({
     type:Actions.UPDATE_INGREDIENT,
     id,
@@ -79,8 +78,7 @@ export function updateIngredient(id,name,category,url,infor,enname,iupac,pic,del
     infor,
     enname,
     iupac,
-    pic,
-    deleteurl
+    pic
   })
 }
 

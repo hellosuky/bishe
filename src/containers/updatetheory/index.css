@@ -1,0 +1,16 @@
+#updatetheory-container {
+  max-width: 1080px;
+  margin:0 auto;
+}
+#updatetheory-container .title{
+  font-size: 0.5rem;
+}
+#updatetheory-container .search{
+  font-size: 0.2rem;
+  margin-bottom: 0.2rem;
+  display: block;
+}
+#updatetheory-container .search-input{
+  width: 300px;
+  margin-bottom: 0.2rem;
+}

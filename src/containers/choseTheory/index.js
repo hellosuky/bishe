@@ -1,9 +1,8 @@
 import React,{Component} from 'react'
-import { Input,Card,List,Avatar,Icon} from 'antd'
+import { Input,List} from 'antd'
 import './index.css'
 
 const Search = Input.Search
-const { Meta } = Card
 
 const listData = [];
 for (let i = 0; i < 2; i++) {
@@ -16,13 +15,6 @@ for (let i = 0; i < 2; i++) {
       '在较低湿度范围内具有结合水的能力，给皮肤补充水分，它们可以通过控制产品与周围空气之间水分的交换使皮肤维持在高于正常水含量的平衡状态，起到减轻皮肤干燥的作用',
   });
 }
-
-const IconText = ({ type, text }) => (
-  <span>
-    <Icon type={type} style={{ marginRight: 8 }} />
-    {text}
-  </span>
-)
 
 class ChoseTheory extends Component{
   handleClick(){

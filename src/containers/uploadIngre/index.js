@@ -5,6 +5,8 @@ import {addIngredient,getCategory} from '../../reducers/ingredient.redux'
 import axios from 'axios'
 import './index.css'
 
+const URL = `http://localhost:9090/upload/`
+
 const {TextArea} = Input
 const Option = Select.Option
 @connect(
@@ -22,7 +24,6 @@ class UploadIngre extends Component{
        enname:"",
        iupac:"",
        pic:"",
-       deleteurl:'',
        previewVisible:false,
        hover:false
     }
@@ -33,7 +34,7 @@ class UploadIngre extends Component{
   }
   handleCustomRequest(options:any){
    const data= new FormData()
-     data.append('smfile', options.file)
+     data.append('pic', options.file)
      const config= {
        "headers": {
          "content-type": 'multipart/form-data; boundary=----WebKitFormBoundaryqTqJIxvkWFYqvP5s'
@@ -41,7 +42,7 @@ class UploadIngre extends Component{
      }
      axios.post('/api/upload', data, config)
      .then((res: any) => {
-       this.setState({pic:res.data.data.url,deleteurl:res.data.data.delete})
+       this.setState({pic:res.data.data.filename})
        options.onSuccess(res.data, options.file)
      }).catch((err: Error) => {
        console.log(err)
@@ -52,14 +53,14 @@ class UploadIngre extends Component{
  }
  handleClick(){
    if(!this.state.name || !this.state.category || !this.state.url ||
-     !this.state.infor || !this.state.enname ||!this.state.iupac ||!this.state.pic||!this.state.deleteurl){
+     !this.state.infor || !this.state.enname ||!this.state.iupac ||!this.state.pic){
      //错误信息
      message.error('请将所有空填完')
    }else{
      //提交
      this.props.addIngredient(this.state.name,this.state.category,this.state.url,
-     this.state.infor,this.state.enname,this.state.iupac,this.state.pic,this.state.deleteurl)
-     this.setState({name:'',category:'',url:'',infor:'',enname:'',iupac:'',pic:"",deleteurl:""})
+     this.state.infor,this.state.enname,this.state.iupac,this.state.pic)
+     this.setState({name:'',category:'',url:'',infor:'',enname:'',iupac:'',pic:""})
      message.success('上传成功')
    }
  }
@@ -80,8 +81,8 @@ class UploadIngre extends Component{
    this.setState({hover:false})
  }
  handleDelete(){
-   axios.get(this.state.deleteurl)
-   this.setState({pic:'',deleteurl:''})
+   axios.post('/api/delete',{url:this.state.pic})
+   this.setState({pic:''})
  }
   render(){
     const uploadButton = (
@@ -123,7 +124,7 @@ class UploadIngre extends Component{
          >
            {this.state.pic ?
             <div onMouseLeave={this.handleBlur.bind(this)} onMouseOver={this.handleHover.bind(this)}>
-              <img alt="pic" style={{"width":"200px"}} src={this.state.pic}/>
+              <img alt="pic" style={{"width":"200px"}} src={URL + this.state.pic}/>
               {this.state.hover?
               <div>
                 <Icon style={{'position':'absolute',"left":'45%',"top":"50%","transform":"translate(-50%,-50%)"}} onClick={this.handleDelete.bind(this)} type="delete"/>
@@ -133,7 +134,7 @@ class UploadIngre extends Component{
              : uploadButton}
          </Upload>
          <Modal visible={this.state.previewVisible} footer={null} onCancel={this.handleCancel.bind(this)}>
-          <img alt="example" style={{ width: '100%' }} src={this.state.pic} />
+          <img alt="example" style={{ width: '100%' }} src={URL + this.state.pic} />
         </Modal>
        </div>
        <Button type="primary" className="submit" onClick={this.handleClick.bind(this)}>确认上传</Button>

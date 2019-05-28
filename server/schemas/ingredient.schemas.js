@@ -8,8 +8,7 @@ const IngredientSchema =  new Schema({
   infor:{type:String,required:true},
   enname:{type:String,required:true},
   iupac:{type:String,required:true},
-  pic:{type:String,required:true},
-  deleteurl:{type:String,required:true}
+  pic:{type:String,required:true}
 })
 
 module.exports = mongoose.model('Ingredient',IngredientSchema)

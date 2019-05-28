@@ -1,7 +1,7 @@
 import React,{Component} from 'react'
 import {Input,Button, Upload,Icon,Modal,message} from 'antd'
 import {connect} from 'react-redux'
-import {addTheory} from '../../reducers/theory.redux'
+import {editTheory} from '../../reducers/theory.redux'
 import axios from 'axios'
 import wangEditor from 'wangeditor'
 import './index.css'
@@ -9,16 +9,17 @@ import './index.css'
 const URL = 'http://localhost:9090/upload/'
 
 @connect(
-  null,
-  {addTheory}
+  state=>state.theory,
+  {editTheory}
 )
-class UploadTheory extends Component{
+class EditTheory extends Component{
   constructor(){
     super()
     this.state = {
       editorContent: '',
       title:'',
       cover:'',
+      id:'',
       previewVisible:false,
       hover:false
     }
@@ -64,6 +65,13 @@ class UploadTheory extends Component{
     }
     this.editor.create()
   }
+  componentWillReceiveProps(nextProps){
+      if(nextProps.article.title){
+        let ingre = nextProps.article
+        this.editor.txt.html(ingre.content)
+        this.setState({id:ingre._id,title:ingre.title,editorContent:ingre.content,cover:ingre.cover})
+      }
+  }
   handleCustomRequest(options:any){
    const data= new FormData()
      data.append('pic', options.file)
@@ -79,40 +87,39 @@ class UploadTheory extends Component{
      }).catch((err: Error) => {
        console.log(err)
      })
- }
+  }
   onChange(key,val){
     this.setState({[key]:val})
   }
- handleSubmit(){
+  handleSubmit(){
    if(!this.state.title||!this.state.editorContent||!this.state.cover){
      message.error('请把空填完')
      return
    }
-   this.props.addTheory(this.state.title,this.state.editorContent,this.state.cover)
-   this.editor.txt.clear()
-   this.setState({title:'',cover:''})
-   message.success('新增成功')
- }
- handlePreview(){
+   this.props.editTheory(this.state.id,this.state.title,this.state.editorContent,this.state.cover)
+   message.success('修改成功')
+   setTimeout(()=>this.props.history.push('/adminpage/updatetheory'),1500)
+  }
+  handlePreview(){
    this.setState({
      previewVisible:true
    })
- }
- handleCancel(){
+  }
+  handleCancel(){
    this.setState({
      previewVisible:false
    })
- }
- handleHover(){
+  }
+  handleHover(){
    this.setState({hover:true})
- }
- handleBlur(){
+  }
+  handleBlur(){
    this.setState({hover:false})
- }
- handleDelete(){
+  }
+  handleDelete(){
    axios.post('/api/delete',{url:this.state.cover})
    this.setState({cover:''})
- }
+  }
   render(){
     const uploadButton = (
         <div>
@@ -150,10 +157,10 @@ class UploadTheory extends Component{
           <img alt="example" style={{ width: '100%' }} src={URL + this.state.cover} />
         </Modal>
        </div>
-        <Button type="primary" style={{"marginTop":'15px'}} onClick={this.handleSubmit.bind(this)}>发布</Button>
+        <Button type="primary" style={{"marginTop":'15px'}} onClick={this.handleSubmit.bind(this)}>修改</Button>
       </div>
     )
   }
 }
 
-export default UploadTheory
+export default EditTheory

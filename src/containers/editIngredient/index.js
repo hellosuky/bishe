@@ -7,6 +7,8 @@ import './index.css'
 
 const {TextArea} = Input
 const Option = Select.Option
+const URL = 'http://localhost:9090/upload/'
+
 @connect(
   state => state.ingredients,
   {updateIngredient,getCategory}
@@ -23,7 +25,6 @@ class EditIngre extends Component{
        enname:"",
        iupac:"",
        pic:"",
-       deleteurl:'',
        previewVisible:false,
        hover:false
     }
@@ -37,12 +38,12 @@ class EditIngre extends Component{
         let ingre = nextProps.ingredient
         this.setState({id:ingre._id,name:ingre.name,category:ingre.category._id,
         url:ingre.url,infor:ingre.infor,enname:ingre.enname,iupac:ingre.iupac,
-        pic:ingre.pic,deleteurl:ingre.deleteurl})
+        pic:ingre.pic})
       }
   }
   handleCustomRequest(options:any){
    const data= new FormData()
-     data.append('smfile', options.file)
+     data.append('pic', options.file)
      const config= {
        "headers": {
          "content-type": 'multipart/form-data; boundary=----WebKitFormBoundaryqTqJIxvkWFYqvP5s'
@@ -50,7 +51,7 @@ class EditIngre extends Component{
      }
      axios.post('/api/upload', data, config)
      .then((res: any) => {
-       this.setState({pic:res.data.data.url,deleteurl:res.data.data.delete})
+       this.setState({pic:res.data.data.url})
        options.onSuccess(res.data, options.file)
      }).catch((err: Error) => {
        console.log(err)
@@ -65,14 +66,14 @@ class EditIngre extends Component{
      return
    }
    if(!this.state.name || !this.state.category || !this.state.url ||
-     !this.state.infor || !this.state.enname ||!this.state.iupac ||!this.state.pic||!this.state.deleteurl){
+     !this.state.infor || !this.state.enname ||!this.state.iupac ||!this.state.pic){
      //错误信息
      message.error('请将所有空填完')
    }else{
      //提交
      this.props.updateIngredient(this.state.id,this.state.name,this.state.category,this.state.url,
-     this.state.infor,this.state.enname,this.state.iupac,this.state.pic,this.state.deleteurl)
-     this.setState({id:'',name:'',category:'',url:'',infor:'',enname:'',iupac:'',pic:"",deleteurl:""})
+     this.state.infor,this.state.enname,this.state.iupac,this.state.pic)
+     this.setState({id:'',name:'',category:'',url:'',infor:'',enname:'',iupac:'',pic:""})
      message.success('更新成功')
    }
  }
@@ -93,8 +94,8 @@ class EditIngre extends Component{
    this.setState({hover:false})
  }
  handleDelete(){
-   axios.get(this.state.deleteurl)
-   this.setState({pic:'',deleteurl:''})
+   axios.post('/api/delete',{url:this.state.pic})
+   this.setState({pic:''})
  }
   render(){
     const uploadButton = (
@@ -137,7 +138,7 @@ class EditIngre extends Component{
          >
            {this.state.pic ?
             <div onMouseLeave={this.handleBlur.bind(this)} onMouseOver={this.handleHover.bind(this)}>
-              <img alt="pic" style={{"width":"200px"}} src={this.state.pic}/>
+              <img alt="pic" style={{"width":"200px"}} src={URL + this.state.pic}/>
               {this.state.hover?
               <div>
                 <Icon style={{'position':'absolute',"left":'45%',"top":"50%","transform":"translate(-50%,-50%)"}} onClick={this.handleDelete.bind(this)} type="delete"/>

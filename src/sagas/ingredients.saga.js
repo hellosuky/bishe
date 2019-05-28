@@ -3,10 +3,10 @@ import axios from 'axios'
 import {Helper} from '../actiontypes/helper.actions'
 import {Actions as IngreActions} from '../actiontypes/ingredient.actions'
 
-function* addIngredient(name,category,url,infor,enname,iupac,pic,deleteurl){
+function* addIngredient(name,category,url,infor,enname,iupac,pic){
   yield put({type:Helper.FETCH_START})
   try{
-    return yield call(axios.post,'/back/ingredient/addingredients',{name,category,url,infor,enname,iupac,pic,deleteurl})
+    return yield call(axios.post,'/back/ingredient/addingredients',{name,category,url,infor,enname,iupac,pic})
   }catch(err){
     console.log(err)
   }finally{
@@ -17,17 +17,17 @@ function* addIngredient(name,category,url,infor,enname,iupac,pic,deleteurl){
 function* addIngredientFlow(){
   while (true) {
     let req = yield take(IngreActions.ADD_INGREDIENTS)
-    let res = yield call(addIngredient,req.name,req.category,req.url,req.infor,req.enname,req.iupac,req.pic,req.deleteurl)
+    let res = yield call(addIngredient,req.name,req.category,req.url,req.infor,req.enname,req.iupac,req.pic)
     if(res.data && res.data.code === 0){
       yield put({type:IngreActions.ADD_INGREDIENTS_SUCCESS})
     }
   }
 }
 
-function* updateIngredient(id,name,category,url,infor,enname,iupac,pic,deleteurl){
+function* updateIngredient(id,name,category,url,infor,enname,iupac,pic){
   yield put({type:Helper.FETCH_START})
   try{
-    return yield call(axios.post,'/back/ingredient/updateingredient',{id,name,category,url,infor,enname,iupac,pic,deleteurl})
+    return yield call(axios.post,'/back/ingredient/updateingredient',{id,name,category,url,infor,enname,iupac,pic})
   }catch(err){
     console.log(err)
   }finally{
@@ -38,7 +38,7 @@ function* updateIngredient(id,name,category,url,infor,enname,iupac,pic,deleteurl
 function* updateIngredientFlow(){
   while (true) {
     let req = yield take(IngreActions.UPDATE_INGREDIENT)
-    let res = yield call(updateIngredient,req.id,req.name,req.category,req.url,req.infor,req.enname,req.iupac,req.pic,req.deleteurl)
+    let res = yield call(updateIngredient,req.id,req.name,req.category,req.url,req.infor,req.enname,req.iupac,req.pic)
     if(res.data && res.data.code === 0){
       yield put({type:IngreActions.UPDATE_INGREDIENT_SUCCESS})
     }

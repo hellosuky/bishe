@@ -7,6 +7,7 @@ const UserRouter = require('./router/user.router')
 const IngredientRouter = require('./router/ingredient.router')
 const ProductRouter = require('./router/products.router')
 const TheoryRouter = require('./router/theory.router')
+const UploadRouter = require('./router/upload.router')
 
 app.use(bodyParser.json({limit:'50mb'}))
 app.use(bodyParser.urlencoded({limit:'50mb',extended:true,parameterLimit:50000}))
@@ -17,6 +18,10 @@ app.use('/back/user',UserRouter)
 app.use('/back/ingredient',IngredientRouter)
 app.use('/back/products',ProductRouter)
 app.use('/back/theory',TheoryRouter)
+app.use('/api',UploadRouter)
+
+//图片储存路径
+app.use('/upload',express.static(__dirname + '/upload'))
 
 
 //connect to mongodb

@@ -11,6 +11,10 @@
   margin-bottom: 0.3rem;
 }
 
+#uploadbrand-container .add{
+  font-size: 0.3rem;
+}
+
 #uploadbrand-container .addenname{
   width: 2.3rem;
   margin-left: 0.3rem;
@@ -20,4 +24,15 @@
 #uploadbrand-container .add-btn{
   float: right;
   margin-right: 0.5rem;
+}
+#uploadbrand-container .brand-chin{
+  margin-right: 0.2rem;
+}
+
+#uploadbrand-container .brand-en{
+  margin-left: 0.2rem;
+}
+
+#uploadbrand-container .clearfix{
+  margin-top: 0.2rem;
 }

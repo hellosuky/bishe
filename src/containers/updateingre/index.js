@@ -4,6 +4,8 @@ import {connect} from 'react-redux'
 import {getIngredient,deleteIngredient,getSpecialIngredient} from '../../reducers/ingredient.redux'
 import './index.css'
 
+const URL = 'http://localhost:9090/upload/'
+
 @connect(
   state => state.ingredients,
   {getIngredient,deleteIngredient,getSpecialIngredient}
@@ -66,7 +68,7 @@ class UpdateIngre extends Component{
         title: '成分封面图',
         dataIndex: 'pic',
         key: 'pic',
-        render: text => <img style={{"width":"150px"}} src={text} alt="pic"/>,
+        render: text => <img style={{"width":"150px"}} src={URL + text} alt="pic"/>,
       },
       {
         title: '操作',

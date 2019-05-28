@@ -28,13 +28,12 @@ export function getBrand(){
 }
 
 //add brand
-export function addBrand(brand,enname,pic,deleteurl){
+export function addBrand(brand,enname,pic){
   return ({
     type:Actions.ADD_BRAND,
     brand,
     enname,
-    pic,
-    deleteurl
+    pic
   })
 }
 

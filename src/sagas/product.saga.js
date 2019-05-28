@@ -1,15 +1,16 @@
 import {fork,all,put,call,take} from 'redux-saga/effects'
 import axios from 'axios'
+import {Helper} from '../actiontypes/helper.actions'
 import {Actions} from '../actiontypes/actions'
 
 function* getProduct(brand){
-  yield put({type:Actions.FETCH_START})
+  yield put({type:Helper.FETCH_START})
   try{
-    return yield call(axios.post,'/products',{brand})
+    return yield call(axios.post,'/back/products/getproducts',{brand})
   }catch(err){
     console.log(err)
   }finally{
-    yield put({type:Actions.FETCH_END})
+    yield put({type:Helper.FETCH_END})
   }
 }
 
@@ -23,35 +24,60 @@ function* getProductFlow(){
   }
 }
 
-function* addBrand(brand,enname,pic,deleteurl){
-  yield put({type:Actions.FETCH_START})
+function* addBrand(brand,enname,pic){
+  yield put({type:Helper.FETCH_START})
   try{
-    return yield call(axios.post,'/back/addbrand',{brand,enname,pic,deleteurl})
+    return yield call(axios.post,'/back/products/addbrand',{brand,enname,pic})
   }catch(err){
     console.log(err)
   }finally{
-    yield put({type:Actions.FETCH_END})
+    yield put({type:Helper.FETCH_END})
+  }
+}
+
+function* getBrandProducts(brand){
+  yield put({type:Helper.FETCH_START})
+  try{
+    let data = yield call(axios({
+      method:'POST',
+      url:`/province/webquery/wq.do?method=query`,
+      data:`querytype=productname&pfid=&content=${brand.name}&dataPage=&allPage=&perPage=&allRows=&order=`,
+      headers:{
+        "Content-Type": 'application/x-www-form-urlencoded; charset=UTF-8'
+      }
+    }))
+    let page = data.pageBean.allPage
+    console.log(page)
+  }catch(err){
+    console.log(err)
+  }finally{
+    yield put({type:Helper.FETCH_END})
   }
 }
 
 function* addBrandFlow(){
   while (true) {
     let req = yield take(Actions.ADD_BRAND)
-    let res = yield call(addBrand,req.brand,req.enname,req.pic,req.deleteurl)
+    let res = yield call(addBrand,req.brand,req.enname,req.pic)
     if(res.data && res.data.code === 0){
-      yield put({type:Actions.ADD_BRAND_SUCCESS,payload:res.data.data})
+      let add = res.data.data
+      //品牌新增成功
+      yield put({type:Actions.ADD_BRAND_SUCCESS,payload:add})
+      //获取产品
+      let res2 = yield call(getBrandProducts,add)
+      console.log(res2.data)
     }
   }
 }
 
 function* getBrand(){
-  yield put({type:Actions.FETCH_START})
+  yield put({type:Helper.FETCH_START})
   try{
-    return yield call(axios.get,'/back/getbrand')
+    return yield call(axios.get,'/back/products/getbrand')
   }catch(err){
     console.log(err)
   }finally{
-    yield put({type:Actions.FETCH_END})
+    yield put({type:Helper.FETCH_END})
   }
 }
 
@@ -66,13 +92,13 @@ function* getBrandFlow(){
 }
 
 function* deleteBrand(id){
-  yield put({type:Actions.FETCH_START})
+  yield put({type:Helper.FETCH_START})
   try{
-    return yield call(axios.post,'/back/deletebrand',{id})
+    return yield call(axios.post,'/back/products/deletebrand',{id})
   }catch(err){
     console.log(err)
   }finally{
-    yield put({type:Actions.FETCH_END})
+    yield put({type:Helper.FETCH_END})
   }
 }
 

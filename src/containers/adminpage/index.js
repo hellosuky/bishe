@@ -12,6 +12,7 @@ import UpdateIngre from '../updateingre/index'
 import UploadTheory from '../uploadtheory/index'
 import UpdateTheory from '../updatetheory/index'
 import EditIngre from '../editIngredient/index'
+import EditTheory from '../edittheory/index'
 import './index.css'
 
 const {Header,Content,Sider} = Layout
@@ -84,6 +85,7 @@ class AdminPage extends Component{
               <Route path="/adminpage/uploadbrand" component={UploadBrand}/>
               <Route path="/adminpage/uploadingre" component={UploadIngre}/>
               <Route path="/adminpage/editingredient" component={EditIngre}/>
+              <Route path="/adminpage/edittheory" component={EditTheory}/>
               <Route path="/adminpage/updateingre" component={UpdateIngre}/>
               <Route path="/adminpage/uploadcategory" component={UploadCategory}/>
               <Route path="/adminpage/addadmin" component={AddAdmin}/>

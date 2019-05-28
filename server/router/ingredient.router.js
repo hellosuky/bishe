@@ -5,10 +5,10 @@ const Ingredient = require('../schemas/ingredient.schemas')
 const Category = require('../schemas/category.schemas')
 
 Router.post('/addingredients',function(req,res){
-  let {name,enname,category,url,infor,iupac,pic,deleteurl} = req.body
+  let {name,enname,category,url,infor,iupac,pic} = req.body
   Ingredient.find({'name':name},function(err,doc){
     if(doc.length === 0){
-      let ingre = new Ingredient({name,enname,category,url,infor,iupac,pic,deleteurl})
+      let ingre = new Ingredient({name,enname,category,url,infor,iupac,pic})
       ingre.save().then(function(ingre){
         res.json({code:0,msg:'新增成功'})
       })
@@ -19,8 +19,8 @@ Router.post('/addingredients',function(req,res){
 })
 
 Router.post('/updateingredient',function(req,res){
-  let {id,name,enname,category,url,infor,iupac,pic,deleteurl} = req.body
-  Ingredient.updateOne({'_id':id},{name,enname,category,url,infor,iupac,pic,deleteurl})
+  let {id,name,enname,category,url,infor,iupac,pic} = req.body
+  Ingredient.updateOne({'_id':id},{name,enname,category,url,infor,iupac,pic})
   .then(results => {
     res.json({code:0,msg:'成功更新'})
   })
@@ -78,17 +78,16 @@ Router.post('/addcategory',function(req,res){
   })
 })
 
+// 删除分类应该把相应的有效成分也删除
 Router.post('/deletecategory',function(req,res){
   let {id} = req.body
-  Category.deleteOne({'_id':id},function(err,doc){
-    Category.find({},function(e,d){
-      if(e){
-        res.json({code:1,msg:'服务端出错'})
-      }else{
-        res.json({code:0,data:d})
-      }
-    })
-  })
+  Ingredient.deleteMany({'category':id})
+  .then(()=>{
+    return Category.deleteOne({'_id':id})
+  }).then(()=>{
+    return Category.find({})
+  }).then(all=>res.json({code:0,data:all}))
+  .catch(err=>console.log(err))
 })
 
 Router.get('/getcategory',function(req,res){

@@ -6,27 +6,53 @@ const Brand = require('../schemas/brand.schemas')
 const Ingredient = require('../schemas/ingredient.schemas')
 
 Router.get('/getproducts',function(req,res){
-    let {page} = req.query
-    Product.find({})
-    .limit(10)
-    .skip(10* (page-1))
-    .exec(function(err,results){
-      if(err){
-        res.json({code:1,msg:'服务端出错'})
-        return
-      }
-      res.json({code:0,data:results})
-    })
+    let {page,brand} = req.query
+    if(brand !== 'null'){
+      Product.find({'brand':brand})
+      .populate({path:'brand', select: 'name'})
+      .populate({path:'Ingredient',select:'name'})
+      .limit(10)
+      .skip(10* (page-1))
+      .exec(function(err,results){
+        if(err){
+          res.json({code:1,msg:'服务端出错'})
+          return
+        }
+        res.json({code:0,data:results})
+      })
+    }else{
+      Product.find({})
+      .populate({path:'brand',select:'name'})
+      .populate({path:'Ingredient',select:'name'})
+      .limit(10)
+      .skip(10* (page-1))
+      .exec(function(err,results){
+        if(err){
+          res.json({code:1,msg:'服务端出错'})
+          return
+        }
+        res.json({code:0,data:results})
+      })
+    }
 })
 
 Router.post('/isshow',function(req,res){
   let {id} = req.body
   Product.findOne({'_id':id})
-  .then(one=> {return one.show})
-  .then(show =>{ return !show})
-  .then(nowshow=>{return Product.updateOne({'_id':id},{'show':nowshow})})
-  .then(()=> {return Product.find({}).limit(10)})
-  .then(all=>res.json({code:0,data:all}))
+  .then(one=> {
+    return !one.show
+  })
+  .then(nowshow=>{
+    return Product.updateOne({'_id':id},{'show':nowshow})})
+  .then(()=> {
+    Product.find({})
+    .populate({path:'brand',select:'name'})
+    .populate({path:'Ingredient',select:'name'})
+    .limit(10)
+    .exec(function(err,results){
+      res.json({code:0,data:results})
+    })
+  })
   .catch(err=>console.log(err))
 })
 
@@ -49,21 +75,48 @@ Router.post('/addbrand',function(req,res){
   // 利用正则表达式
 })
 
-function addNewProduct(product){
-  let arr = product.cf.split("、")
-  let promises = arr.map(item => Ingredient.findOne({'name':item}))
+function exists(item){
+  return Ingredient.findOne({'name':item})
+}
+//分类
+function classification(arr,productname,id){
+  let base = []
+  let ingredient = []
+  let promises = arr.map(item => exists(item))
   Promise.all(promises)
-  .then(one => {
-
+  .then(all=>{
+    for(let i =0;i<all.length;i++){
+      if(all[i]){
+        ingredient.push(all[i]._id)
+      }else{
+        base.push(arr[i])
+      }
+    }
+    return new Promise((resolve,reject)=>{
+      let obj = {'base':base,'Ingredient':ingredient}
+      resolve(obj)
+    })
+  }).then(obj=>{
+    let newproduct = new Product({'name':productname,'brand':id,'base':obj.base,'Ingredient':obj.Ingredient})
+    newproduct.save()
   })
+}
+
+//分成数组
+function addNewProduct(product){
+  return product.cf.split("、")
 }
 
 Router.post('/addproducts',async function(req,res){
   let {products,id} = req.body
   for(let i=0;i<products.length;i++){
     //挨个顺序执行
-    await addNewProduct(products[i])
+    let arr = await addNewProduct(products[i])
+    //传入函数中进行分类
+    classification(arr,products[i].productname,id)
+    //保存值到数据库
   }
+  res.json({code:0})
 })
 
 Router.get('/getbrand',function(req,res){

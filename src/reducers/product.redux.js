@@ -13,6 +13,8 @@ export function products(state = initalState,action){
       return {...state,brands:action.payload}
     case Actions.DELETE_BRAND_SUCCESS:
       return {...state,brands:action.payload}
+    case Actions.SHOW_NOSHOW_SUCCESS:
+      return {...state,products:action.payload}
     case Actions.ADD_BRAND_SUCCESS:
       return {...state,brands:[...state.brands,action.payload]}
     default:
@@ -46,9 +48,18 @@ export function deleteBrand(id){
 }
 
 //get products
-export function getProducts(brand){
+export function getProducts(page,brand){
   return ({
     type:Actions.GET_PRODUCT,
+    page,
     brand
+  })
+}
+
+//show boolean
+export function show(id){
+  return ({
+    type:Actions.SHOW_NOSHOW,
+    id
   })
 }

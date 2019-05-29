@@ -3,6 +3,7 @@ const Router = express.Router()
 const axios = require('axios')
 const Ingredient = require('../schemas/ingredient.schemas')
 const Category = require('../schemas/category.schemas')
+const Product = require('../schemas/product.schemas')
 
 Router.post('/addingredients',function(req,res){
   let {name,enname,category,url,infor,iupac,pic} = req.body
@@ -12,12 +13,15 @@ Router.post('/addingredients',function(req,res){
       ingre.save().then(function(ingre){
         res.json({code:0,msg:'新增成功'})
       })
+      //进行产品重新分类
+      // Product.updateMany({Ingredient:{$in:[name]},{$pull:{'Ingredient':name}},{multi:true}})
     }else{
       res.json({code:1,msg:"存在该成分了"})
     }
   })
 })
 
+//ingredient 应该在name发生改变时，才会影响到products
 Router.post('/updateingredient',function(req,res){
   let {id,name,enname,category,url,infor,iupac,pic} = req.body
   Ingredient.updateOne({'_id':id},{name,enname,category,url,infor,iupac,pic})
@@ -28,13 +32,8 @@ Router.post('/updateingredient',function(req,res){
 
 Router.post('/deleteingredients',function(req,res){
   let {id} = req.body
-  Ingredient.findOne({'_id':id})
-  .then((ingre) => {
-    axios.get(ingre.deleteurl)
-    return ingre._id
-  }).then((id)=>{
-    return Ingredient.deleteOne({'_id':id})
-  }).then((del) =>{
+  Ingredient.deleteOne({'_id':id})
+  .then((del) =>{
     Ingredient.find({})
     .limit(10)
     .exec(function(err,results){

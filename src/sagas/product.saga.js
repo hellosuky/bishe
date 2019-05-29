@@ -3,10 +3,10 @@ import axios from 'axios'
 import {Helper} from '../actiontypes/helper.actions'
 import {Actions} from '../actiontypes/actions'
 
-function* getProduct(brand){
+function* getProduct(page,brand){
   yield put({type:Helper.FETCH_START})
   try{
-    return yield call(axios.post,'/back/products/getproducts',{brand})
+    return yield call(axios.get,`/back/products/getproducts?page=${page}&brand=${brand}`)
   }catch(err){
     console.log(err)
   }finally{
@@ -17,9 +17,9 @@ function* getProduct(brand){
 function* getProductFlow(){
   while (true) {
     let req = yield take(Actions.GET_PRODUCT)
-    let res = yield call(getProduct,req.brand)
+    let res = yield call(getProduct,req.page,req.brand)
     if(res.data && res.data.code === 0){
-      yield put({type:Actions.GET_PRODUCT_SUCCESS})
+      yield put({type:Actions.GET_PRODUCT_SUCCESS,payload:res.data.data})
     }
   }
 }
@@ -172,11 +172,33 @@ function* deleteBrandFlow(){
   }
 }
 
+function* show(id){
+  yield put({type:Helper.FETCH_START})
+  try{
+    return yield call(axios.post,'/back/products/isshow',{id})
+  }catch(err){
+    console.log(err)
+  }finally{
+    yield put({type:Helper.FETCH_END})
+  }
+}
+
+function* showFlow(){
+  while (true) {
+    let req = yield take(Actions.SHOW_NOSHOW)
+    let res = yield call(show,req.id)
+    if(res.data && res.data.code === 0){
+      yield put({type:Actions.SHOW_NOSHOW_SUCCESS,payload:res.data.data})
+    }
+  }
+}
+
 export function* actionSaga(){
   yield all([
     fork(getProductFlow),
     fork(addBrandFlow),
     fork(getBrandFlow),
-    fork(deleteBrandFlow)
+    fork(deleteBrandFlow),
+    fork(showFlow)
   ])
 }

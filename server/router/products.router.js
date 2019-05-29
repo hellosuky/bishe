@@ -3,6 +3,7 @@ const axios = require('axios')
 const Router = express.Router()
 const Product = require('../schemas/product.schemas')
 const Brand = require('../schemas/brand.schemas')
+const Ingredient = require('../schemas/ingredient.schemas')
 
 Router.get('/getproducts',function(req,res){
     let {page} = req.query
@@ -46,6 +47,23 @@ Router.post('/addbrand',function(req,res){
   })
   .catch(err=>console.log(err))
   // 利用正则表达式
+})
+
+function addNewProduct(product){
+  let arr = product.cf.split("、")
+  let promises = arr.map(item => Ingredient.findOne({'name':item}))
+  Promise.all(promises)
+  .then(one => {
+
+  })
+}
+
+Router.post('/addproducts',async function(req,res){
+  let {products,id} = req.body
+  for(let i=0;i<products.length;i++){
+    //挨个顺序执行
+    await addNewProduct(products[i])
+  }
 })
 
 Router.get('/getbrand',function(req,res){

@@ -7,8 +7,7 @@ const ProductSchema =  new Schema({
   base:{type:Array,required:true},
   Ingredient:[{type:mongoose.Schema.ObjectId,ref:'Ingredient'}],
   show:{type:Boolean,default:false},
-  pic:{type:String,required:true},
-  deleteurl:{type:String,required:true}
+  pic:{type:String}
 })
 
 module.exports = mongoose.model('Product',ProductSchema)

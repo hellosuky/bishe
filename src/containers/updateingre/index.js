@@ -99,8 +99,8 @@ class UpdateIngre extends Component{
       <div id="updateingre-container">
         <p className="title">修改有效成分</p>
         <Input style={{"width":"300px","float":"right"}} placeholder="搜索某一成分"/>
-        {this.props.ingredients?<Table rowKey={record =>record._id} pagination={false} columns={this.getColumns()}
-        dataSource={this.props.ingredients} />:null}
+        <Table rowKey={record =>record._id} pagination={false} columns={this.getColumns()}
+        dataSource={this.props.ingredients} />
       </div>
     )
   }

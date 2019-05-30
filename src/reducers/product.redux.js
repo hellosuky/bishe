@@ -10,8 +10,6 @@ export function products(state = initalState,action){
   switch(action.type){
     case Actions.GET_PRODUCT_SUCCESS:
       return {...state,products:action.payload}
-    case Actions.GET_FRONT_PRODUCTS_SUCCESS:
-      return {...state,products:action.payload}
     case Actions.GET_BRAND_SUCCESS:
       return {...state,brands:action.payload}
     case Actions.DELETE_BRAND_SUCCESS:
@@ -55,11 +53,12 @@ export function deleteBrand(id){
 }
 
 //get products
-export function getProducts(page,brand){
+export function getProducts(page,brand,word){
   return ({
     type:Actions.GET_PRODUCT,
     page,
-    brand
+    brand,
+    word
   })
 }
 
@@ -85,13 +84,5 @@ export function getDetail(id){
   return ({
     type:Actions.GET_DETAIL,
     id
-  })
-}
-
-export function getFrontProducts(page,brand){
-  return ({
-    type:Actions.GET_FRONT_PRODUCTS,
-    page,
-    brand
   })
 }

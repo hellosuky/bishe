@@ -5,3 +5,11 @@
 #uploadproducts-container .title{
   font-size: 0.4rem;
 }
+
+#uploadproducts-container .upload-pic-btn{
+  color:#1890ff;
+}
+
+#uploadproducts-container .upload-pic-btn:hover{
+  cursor: pointer;
+}

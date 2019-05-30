@@ -2,7 +2,7 @@ import React,{Component} from 'react'
 import { Input,Card,Pagination,Select} from 'antd'
 import _ from 'lodash'
 import {connect} from 'react-redux'
-import {getIngredient,getCategory,getSearchIngredients} from '../../reducers/ingredient.redux'
+import {getIngredient,getCategory} from '../../reducers/ingredient.redux'
 import SelfModal from '../../components/modal/index'
 import './index.css'
 
@@ -13,7 +13,7 @@ const URL = 'http://localhost:9090/upload/'
 
 @connect(
   state => state.ingredients,
-  {getIngredient,getCategory,getSearchIngredients}
+  {getIngredient,getCategory}
 )
 class Category extends Component{
   constructor(){
@@ -21,32 +21,33 @@ class Category extends Component{
     this.state = {
        visible: false,
        val:'',
+       category:'',
        data:{}
     }
     this.handleSearchWord1 = _.debounce(this.handleSearchWord,1000)
   }
   componentWillMount(){
-    this.props.getIngredient(1,'null')
+    this.props.getIngredient(1,'null','')
     this.props.getCategory()
   }
   showModal(data){
     this.setState({visible: true,data})
   }
   onChange(page,pageSize){
-    this.props.getIngredient(page,'null')
+    this.props.getIngredient(page,this.state.category,this.state.val)
   }
   // 关键字搜索
   handleSearchWord(word){
-    this.props.getSearchIngredients(page,category,word)
+    this.props.getIngredient(1,this.state.category,word)
   }
   handleChange(category){
-    this.props.getIngredient(1,category)
+    this.setState({category})
+    this.props.getIngredient(1,category,this.state.val)
   }
   close(){
     this.setState({visible:false})
   }
   handleSearch(e){
-    console.log(e)
     this.setState({val:e},this.handleSearchWord1(this.state.val))
   }
   render(){
@@ -65,10 +66,8 @@ class Category extends Component{
               </div>
               <Search
               className="top-search"
-              className="top-search"
               placeholder="搜索有效成分"
-              value={this.state.val}
-              onChange={e=>this.handleSearch.bind(this,e)}
+              onSearch={e=>this.handleSearch.bind(this,e)}
               style={{ width: 200 }}
             />
         </div>

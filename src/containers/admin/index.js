@@ -18,7 +18,7 @@ class NormalLoginForm extends React.Component {
   }
   componentWillReceiveProps(nextProps){
     if(nextProps.isLogin){
-      this.props.history.push('/adminpage')
+      this.props.history.push('/adminpage/uploadbrand')
     }
   }
   handleSubmit(e){

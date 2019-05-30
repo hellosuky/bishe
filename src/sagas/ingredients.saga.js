@@ -45,10 +45,10 @@ function* updateIngredientFlow(){
   }
 }
 
-function* getIngredient(page,category){
+function* getIngredient(page,category,word){
   yield put({type:Helper.FETCH_START})
   try{
-    return yield call(axios.get,`/back/ingredient/getingredients?page=${page}&category=${category}`)
+    return yield call(axios.get,`/back/ingredient/getingredients?page=${page}&category=${category}&word=${word}`)
   }catch(err){
     console.log(err)
   }finally{
@@ -59,7 +59,7 @@ function* getIngredient(page,category){
 function* getIngredientFlow(){
   while (true) {
     let req = yield take(IngreActions.GET_INGREDIENTS)
-    let res = yield call(getIngredient,req.page,req.category)
+    let res = yield call(getIngredient,req.page,req.category,req.word)
     if(res.data && res.data.code === 0){
       yield put({type:IngreActions.GET_INGREDIENTS_SUCCESS,payload:res.data.data})
     }

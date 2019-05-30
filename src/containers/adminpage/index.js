@@ -90,6 +90,7 @@ class AdminPage extends Component{
               <Route path="/adminpage/uploadcategory" component={UploadCategory}/>
               <Route path="/adminpage/addadmin" component={AddAdmin}/>
               <Route path="/adminpage/updatetheory" component={UpdateTheory}/>
+              <Route component={UploadBrand} />
             </Switch>
          </Content>
        </Layout>

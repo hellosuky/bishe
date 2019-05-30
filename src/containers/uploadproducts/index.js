@@ -1,5 +1,5 @@
 import React,{Component} from 'react'
-import {Table,Input,Select,Button,Modal,Upload,Icon} from 'antd'
+import {Table,Input,Select,Button,Modal,Upload,Icon,Pagination} from 'antd'
 import axios from 'axios'
 import {connect} from 'react-redux'
 import _ from 'lodash'
@@ -8,6 +8,7 @@ import './index.css'
 
 const Option = Select.Option
 const URL = 'http://localhost:9090/upload/'
+
 @connect(
   state =>state.products,
   {getBrand,getProducts,show,uploadpic}
@@ -19,6 +20,8 @@ class UploadProducts extends Component{
       visible:false,
       pic:'',
       id:'',
+      val:'', //查的值
+      brand:'',//品牌
       previewVisible:false,
       hover:false
     }
@@ -26,13 +29,13 @@ class UploadProducts extends Component{
   }
   componentWillMount(){
     this.props.getBrand()
-    this.props.getProducts(1,null)
+    this.props.getProducts(1,'','')
   }
-  onChange(val){
-    // this.props.getSearchTheory(val)
+  onChange(){
+    this.props.getProducts(1,this.state.brand,this.state.val)
   }
   handleChange(key,val){
-    this.setState({[key]:val},()=>this.onChange1(this.state.search))
+    this.setState({[key]:val},()=>this.onChange1(this.state.val))
   }
   handleCustomRequest(options:any){
    const data= new FormData()
@@ -92,14 +95,16 @@ class UploadProducts extends Component{
         key: 'pic',
         render: (text,record) => <span>
         {text?<img style={{"width":"150px"}} alt='img' src={URL +text}/>:<span
-        onClick={this.showModal.bind(this,record._id)}>上传图片</span>}
+        className="upload-pic-btn" onClick={this.showModal.bind(this,record._id)}>上传图片</span>}
         </span>,
       },
       {
         title: '操作',
         key: 'action',
         render: (text, record) => (
-          <Button type="primary" onClick={this.handleShow.bind(this,record._id)}>{record.show?"下架":"展示"}</Button>
+          <Button type="primary"
+          disabled={record.pic?false:true}
+          onClick={this.handleShow.bind(this,record._id)}>{record.show?"下架":"展示"}</Button>
         ),
       }
     ]
@@ -114,26 +119,16 @@ class UploadProducts extends Component{
     this.props.uploadpic(this.state.pic,this.state.id)
     this.setState({visible:false})
   }
-  handleCancel(){
-    this.setState({visible:false})
-  }
-  handleCancel1(){
-    this.setState({previewVisible:false})
-  }
-  handleHover(){
-    this.setState({hover:true})
-  }
-  handleBlur(){
-    this.setState({hover:false})
-  }
   handleDelete(){
     axios.post('/api/delete',{url:this.state.pic})
     this.setState({pic:''})
   }
   handlePreview(){
-    this.setState({
-      previewVisible:true
-    })
+    this.setState({previewVisible:true})
+  }
+  onPageChange(page,pageSize){
+    //检索是否有那个换页
+    this.props.getProducts(page,this.state.brand,this.state.val)
   }
   render(){
     const uploadButton = (
@@ -144,23 +139,28 @@ class UploadProducts extends Component{
    )
     return(
       <div id="uploadproducts-container">
-        <p className="title">产品种类更新</p>
+        <p className="title">产品更新</p>
         {this.props.brands.length > 0?
-          <Select style={{ width: 120 }} onChange={e => this.handleChange('category',e)}>
+          <Select defaultValue="null" style={{ width: 120 }}
+          onChange={e => this.handleChange('category',e)}>
+              <Option value="null">选择品牌</Option>
                {this.props.brands.map(v=>{
                 return <Option value={v._id} key={v._id}>{v.name}</Option>
               }) }
             </Select>
             :null
         }
-        <Input placeholder="种类搜索" style={{'maxWidth':"400px","marginRight":"20px","float":"right"}}/>
+        <Input placeholder="种类搜索" value={this.state.val}
+        onChange={e=>this.handleChange('val',e.target.value)} style={{'maxWidth':"400px","marginRight":"20px","float":"right"}}/>
         <p>现有种类</p>
-        <Table rowKey={record =>record._id} columns={this.getColumns()} dataSource={this.props.products} />
+        <Table rowKey={record =>record._id} pagination={false} columns={this.getColumns()}
+        dataSource={this.props.products} />
+        <Pagination defaultCurrent={1} total={50} onChange={this.onPageChange.bind(this)}/>
         <Modal
           title="上传产品图片"
           visible={this.state.visible}
           onOk={this.handleOk.bind(this)}
-          onCancel={this.handleCancel.bind(this)}>
+          onCancel={()=>this.setState({visible:false})}>
             <div className="clearfix">
              <Upload
                customRequest={this.handleCustomRequest.bind(this)}
@@ -170,7 +170,7 @@ class UploadProducts extends Component{
                style={{'position':'relative'}}
              >
                {this.state.pic ?
-                <div onMouseLeave={this.handleBlur.bind(this)} onMouseOver={this.handleHover.bind(this)}>
+                <div onMouseLeave={()=>this.setState({hover:false})} onMouseOver={()=>this.setState({hover:true})}>
                   <img alt="pic" style={{"width":"200px"}} src={URL + this.state.pic}/>
                   {this.state.hover?
                   <div>
@@ -180,7 +180,7 @@ class UploadProducts extends Component{
                 </div>
                  : uploadButton}
              </Upload>
-             <Modal visible={this.state.previewVisible} footer={null} onCancel={this.handleCancel1.bind(this)}>
+             <Modal visible={this.state.previewVisible} footer={null} onCancel={()=>this.setState({previewVisible:false})}>
               <img alt="example" style={{ width: '100%' }} src={URL + this.state.pic} />
             </Modal>
          </div>

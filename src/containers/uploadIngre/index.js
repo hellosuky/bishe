@@ -65,14 +65,10 @@ class UploadIngre extends Component{
    }
  }
  handlePreview(){
-   this.setState({
-     previewVisible:true
-   })
+   this.setState({previewVisible:true})
  }
  handleCancel(){
-   this.setState({
-     previewVisible:false
-   })
+   this.setState({previewVisible:false})
  }
  handleHover(){
    this.setState({hover:true})
@@ -97,14 +93,11 @@ class UploadIngre extends Component{
         <p>输入成分名字:</p>
         <Input value={this.state.name} placeholder="输入成分名字" onChange={e => this.handleChange('name',e.target.value)}/>
         <p>选择成分种类:</p>
-        {this.props.category.length > 0?
-          <Select style={{ width: 120 }} onChange={e => this.handleChange('category',e)}>
+          <Select defaultValue="选择种类" style={{ width: 120 }} onChange={e => this.handleChange('category',e)}>
                {this.props.category.map(v=>{
                 return <Option value={v._id} key={v._id}>{v.name}</Option>
               }) }
-            </Select>
-            :null
-        }
+          </Select>
         <p>输入成分三维图地址:</p>
         <Input value={this.state.url} placeholder="输入成分三维图地址" onChange={e => this.handleChange('url',e.target.value)}/>
         <p>输入成分的相关信息:</p>

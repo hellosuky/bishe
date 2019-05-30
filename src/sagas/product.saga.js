@@ -3,10 +3,10 @@ import axios from 'axios'
 import {Helper} from '../actiontypes/helper.actions'
 import {Actions} from '../actiontypes/actions'
 
-function* getProduct(page,brand){
+function* getProduct(page,brand,word){
   yield put({type:Helper.FETCH_START})
   try{
-    return yield call(axios.get,`/back/products/getproducts?page=${page}&brand=${brand}`)
+    return yield call(axios.get,`/back/products/getproducts?page=${page}&brand=${brand}&word=${word}`)
   }catch(err){
     console.log(err)
   }finally{
@@ -17,33 +17,13 @@ function* getProduct(page,brand){
 function* getProductFlow(){
   while (true) {
     let req = yield take(Actions.GET_PRODUCT)
-    let res = yield call(getProduct,req.page,req.brand)
+    let res = yield call(getProduct,req.page,req.brand,req.word)
     if(res.data && res.data.code === 0){
       yield put({type:Actions.GET_PRODUCT_SUCCESS,payload:res.data.data})
     }
   }
 }
 
-function* getFrontProduct(page,brand){
-  yield put({type:Helper.FETCH_START})
-  try{
-    return yield call(axios.get,`/back/products/getfrontproducts?page=${page}&brand=${brand}`)
-  }catch(err){
-    console.log(err)
-  }finally{
-    yield put({type:Helper.FETCH_END})
-  }
-}
-
-function* getFrontProductFlow(){
-  while (true) {
-    let req = yield take(Actions.GET_FRONT_PRODUCTS)
-    let res = yield call(getFrontProduct,req.page,req.brand)
-    if(res.data && res.data.code === 0){
-      yield put({type:Actions.GET_FRONT_PRODUCTS_SUCCESS,payload:res.data.data})
-    }
-  }
-}
 
 function* addBrand(brand,enname,pic){
   yield put({type:Helper.FETCH_START})
@@ -259,7 +239,6 @@ function* getDetailFlow(){
 export function* actionSaga(){
   yield all([
     fork(getProductFlow),
-    fork(getFrontProductFlow),
     fork(addBrandFlow),
     fork(getBrandFlow),
     fork(deleteBrandFlow),

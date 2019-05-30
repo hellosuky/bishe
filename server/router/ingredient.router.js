@@ -58,23 +58,43 @@ Router.post('/deleteingredients',function(req,res){
 })
 
 Router.get('/getingredients',function(req,res){
-  let {page,category} = req.query
-  if(category==="null"){
-    Ingredient.find({'category':category})
-    .populate({path:'category',select:'name'})
-    .limit(10)
-    .skip(10 * (page -1 ))
-    .exec(function(err,results){
-      res.json({code:0,data:results})
-    })
+  let {page,category,word} = req.query
+  if(word === ''){
+    if(category==="null"){
+      Ingredient.find({})
+      .populate({path:'category',select:'name'})
+      .limit(10)
+      .skip(10 * (page -1 ))
+      .exec(function(err,results){
+        res.json({code:0,data:results})
+      })
+    }else{
+      Ingredient.find({'category':category})
+      .populate({path:'category',select:'name'})
+      .limit(10)
+      .skip(10 * (page -1 ))
+      .exec(function(err,results){
+        res.json({code:0,data:results})
+      })
+    }
   }else{
-    Ingredient.find({})
-    .populate({path:'category',select:'name'})
-    .limit(10)
-    .skip(10 * (page -1 ))
-    .exec(function(err,results){
-      res.json({code:0,data:results})
-    })
+    if(category==="null"){
+      Ingredient.find({'name':new RegExp(word)})
+      .populate({path:'category',select:'name'})
+      .limit(10)
+      .skip(10 * (page -1 ))
+      .exec(function(err,results){
+        res.json({code:0,data:results})
+      })
+    }else{
+      Ingredient.find({'category':category,'name':new RegExp(word)})
+      .populate({path:'category',select:'name'})
+      .limit(10)
+      .skip(10 * (page -1 ))
+      .exec(function(err,results){
+        res.json({code:0,data:results})
+      })
+    }
   }
 })
 

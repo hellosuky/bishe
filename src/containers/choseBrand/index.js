@@ -1,7 +1,7 @@
 import React,{Component} from 'react'
 import { Input,Card} from 'antd'
 import {connect} from 'react-redux'
-import {getBrand,getFrontProducts} from '../../reducers/product.redux'
+import {getBrand,getProducts} from '../../reducers/product.redux'
 import './index.css'
 
 const Search = Input.Search
@@ -10,7 +10,7 @@ const URL = "http://localhost:9090/upload/"
 
 @connect(
   state => state.products,
-  {getBrand,getFrontProducts}
+  {getBrand,getProducts}
 )
 class ChoseBrand extends Component{
   constructor(){
@@ -22,7 +22,7 @@ class ChoseBrand extends Component{
   }
   handleClick(brand){
     //获取后端产品信息
-    this.props.getFrontProducts(1,brand)
+    this.props.getProducts(1,brand,null)
     this.props.history.push('/brand')
   }
   render(){

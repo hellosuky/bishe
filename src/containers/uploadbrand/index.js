@@ -93,14 +93,10 @@ class UploadBrand extends Component{
      })
  }
  handlePreview(){
-   this.setState({
-     previewVisible:true
-   })
+   this.setState({previewVisible:true})
  }
  handleCancel(){
-   this.setState({
-     previewVisible:false
-   })
+   this.setState({previewVisible:false})
  }
  handleHover(){
    this.setState({hover:true})
@@ -155,7 +151,7 @@ class UploadBrand extends Component{
         </Modal>
        </div>
         <Button className="add-btn" type="primary" onClick={this.handleClick.bind(this)}>确认增加</Button>
-        <br/><br/><br/><br/>
+        <br/><br/><br/><br/><br/>
         <p>现有品牌</p>
         {this.props.brands?<Table rowKey={record =>record._id} pagination={false} columns={this.getColumns()} dataSource={this.props.brands} />:null}
       </div>

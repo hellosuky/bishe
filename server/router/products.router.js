@@ -6,22 +6,70 @@ const Brand = require('../schemas/brand.schemas')
 const Ingredient = require('../schemas/ingredient.schemas')
 
 Router.get('/getproducts',function(req,res){
-    let {page,brand} = req.query
-    if(brand !== 'null'){
-      Product.find({'brand':brand})
-      .populate({path:'brand', select: 'name'})
-      .populate({path:'Ingredient',select:'name'})
-      .limit(10)
-      .skip(10* (page-1))
-      .exec(function(err,results){
-        if(err){
-          res.json({code:1,msg:'服务端出错'})
-          return
-        }
-        res.json({code:0,data:results})
-      })
+    let {page,brand,word} = req.query
+    if(word === ""){
+      if(brand !== ''){
+        Product.find({'brand':brand})
+        .populate({path:'brand', select: 'name'})
+        .populate({path:'Ingredient',select:'name'})
+        .limit(10)
+        .skip(10* (page-1))
+        .exec(function(err,results){
+          if(err){
+            res.json({code:1,msg:'服务端出错'})
+            return
+          }
+          res.json({code:0,data:results})
+        })
+      }else{
+        Product.find({})
+        .populate({path:'brand',select:'name'})
+        .populate({path:'Ingredient',select:'name'})
+        .limit(10)
+        .skip(10* (page-1))
+        .exec(function(err,results){
+          if(err){
+            res.json({code:1,msg:'服务端出错'})
+            return
+          }
+          res.json({code:0,data:results})
+        })
+      }
     }else{
-      Product.find({})
+      if(brand !== ''){
+        Product.find({'name':new RegExp(word),'brand':brand})
+        .populate({path:'brand', select: 'name'})
+        .populate({path:'Ingredient',select:'name'})
+        .limit(10)
+        .skip(10* (page-1))
+        .exec(function(err,results){
+          if(err){
+            res.json({code:1,msg:'服务端出错'})
+            return
+          }
+          res.json({code:0,data:results})
+        })
+      }else{
+        Product.find({'name':new RegExp(word)})
+        .populate({path:'brand',select:'name'})
+        .populate({path:'Ingredient',select:'name'})
+        .limit(10)
+        .skip(10* (page-1))
+        .exec(function(err,results){
+          if(err){
+            res.json({code:1,msg:'服务端出错'})
+            return
+          }
+          console.log(results)
+          res.json({code:0,data:results})
+        })
+      }
+    }
+})
+
+Router.get('/getfrontproducts',function(req,res){
+    let {page,brand} = req.query
+      Product.find({'brand':brand,'show':true})
       .populate({path:'brand',select:'name'})
       .populate({path:'Ingredient',select:'name'})
       .limit(10)
@@ -33,12 +81,11 @@ Router.get('/getproducts',function(req,res){
         }
         res.json({code:0,data:results})
       })
-    }
 })
 
-Router.get('/getfrontproducts',function(req,res){
-    let {page,brand} = req.query
-      Product.find({'brand':brand,'show':true})
+Router.get('/getsearchproducts',function(req,res){
+    let {word,page} = req.query
+      Product.find({'name':new RegExp(word)})
       .populate({path:'brand',select:'name'})
       .populate({path:'Ingredient',select:'name'})
       .limit(10)

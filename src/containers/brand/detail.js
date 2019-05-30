@@ -1,10 +1,19 @@
 import React,{Component} from 'react'
-import { Input,Breadcrumb,Pagination,Modal,List,Typography,Button } from 'antd'
+import { Input,Breadcrumb,Pagination,Modal,List,Button } from 'antd'
+import {connect} from 'react-redux'
+import {getDetail} from '../../reducers/product.redux'
 import './index.css'
 
 const Search = Input.Search
 
+@connect(
+  state => state.products,
+  {getDetail}
+)
 class Detail extends Component{
+  componentWillMount(){
+    this.props.getDetail('5cef418ea2ee004c98742b90')
+  }
   constructor(){
     super()
     this.state = {
@@ -13,25 +22,22 @@ class Detail extends Component{
   }
   showModal(){
     this.setState({
-      visible: true,
+      visible: true
     })
   };
 
   handleOk(e){
-    console.log(e);
     this.setState({
-      visible: false,
-    });
-  };
+      visible: false
+    })
+  }
 
   handleCancel(e){
-    console.log(e);
     this.setState({
-      visible: false,
-    });
-  };
+      visible: false
+    })
+  }
   render(){
-  const data = "水、C12-20 酸 PEG-8 酯、甘油、辛酸/癸酸甘油三酯、椰油醇-辛酸酯/癸酸酯、鲸蜡醇蓖麻醇酸酯、鲸蜡醇、丁二醇、PEG-100 硬脂酸酯、1,3-丙二醇、鲸蜡醇磷酸酯钾、乙酰壳糖胺、生育酚乙酸酯、卡波姆、辛甘醇、丙二醇二癸酸酯、聚二甲基硅氧烷、苯氧乙醇、向日葵(HELIANTHUS ANNUUS)籽饼、(日用)香精、咖啡因、甘草亭酸、假交替单胞菌发酵产物提取物、氨丁三醇、葡萄糖、植物鞘氨醇、碳酸钙、乳清蛋白、珍珠粉、白桦(BETULA ALBA)树皮/叶提取物、酵母提取物、糊精、黄原胶、己二醇、亚油酸、透明质酸钠、虎杖(POLYGONUM CUSPIDATUM)根提取物、脱羧肌肽 HCl、EDTA 二钠、磷脂、氨基丙醇抗坏血酸磷酸酯、丙烯酸钠/丙烯酰二甲基牛磺酸钠共聚物、植物甾醇低芥酸菜子油甘油酯类、掌状海带(LAMINARIA DIGITATA)提取物、氢化聚癸烯、棕榈酸、藻提取物、大麦(HORDEUM VULGARE)籽提取物、油酸、卵磷脂、百金花(CENTAURIUM ERYTHRAEA)提取物、聚甲基硅倍半氧烷、硬脂酸、三油精、奥氏海藻(CLADOSIPHON OKAMURANUS)提取物、月桂醇聚醚-8、稻(ORYZA SATIVA)糠提取物、黄瓜(CUCUMIS SATIVUS)果提取物、微球菌溶胞产物、柠檬酸、迷迭香(ROSMARINUS OFFICINALIS)叶提取物、野大豆(GLYCINE SOJA)蛋白、葡萄(VITIS VINIFERA)籽提取物、卷柏(SELAGINELLA TAMARISCINA)提取物、迷迭香(ROSMARINUS OFFICINALIS)提取物、啤酒花(HUMULUS LUPULUS)提取物、麦角硫因、柑橘(CITRUS RETICULATA)果皮提取物、去甲二氢愈创木酸、石榴(PUNICA GRANATUM)果汁、环糊精、乙酰基六肽-8、粉团扇藻(PADINA PAVONICA)叶状体提取物、乳过氧化物酶、葡糖氧化酶、亚麻酸、乙基双亚氨基甲基愈创木酚锰氯化物、金、水解小麦蛋白".split("、")
     return (
       <div id="detail-container">
         <div className="top">
@@ -55,21 +61,36 @@ class Detail extends Component{
         </Breadcrumb>
         <div className="container" style={{"color":"#000"}}>
           <img alt="pic"style={{'width':"200px","height":"200px","float":"left"}} src={require('./images/pic1.png')}/>
-          <div class="word">
+          <div className="word">
             <p>雅诗兰黛白金级尊宠精华霜</p>
             <p>ESTĒE LAUDER Re-Nutriv Re-Creation Face Creme</p>
             <Button type="primary">Pk</Button>
           </div>
+          <br/>
+          <p>有效成分</p>
           <List
-          style={{"marginTop":"10px","clear":"both"}}
-          bordered
-          dataSource={data}
-          renderItem={(item,index) => (
-            <List.Item>
-              <Typography.Text mark></Typography.Text> {item }{index %2 !== 1?<Button type="primary" icon="search" style={{'float':"right"}}></Button>: <span style={{'float':"right"}}>辅助元素</span>}
-            </List.Item>
-    )}
-  />
+            style={{"marginTop":"10px","clear":"both"}}
+            bordered
+            dataSource={this.props.detail.Ingredient}
+            renderItem={(item,index) =>
+              (
+              <List.Item>
+                {item} <Button type="primary">查看</Button>
+              </List.Item>
+          )}
+        />
+          <p>辅助成分</p>
+          <List
+            style={{"marginTop":"10px","clear":"both"}}
+            bordered
+            dataSource={this.props.detail.base}
+            renderItem={(item,index) =>
+              (
+              <List.Item>
+                {item}
+              </List.Item>
+          )}
+        />
           <Pagination defaultCurrent={1} total={50} style={{'paddingLeft':"800px","paddingTop":"10px","clear":"both"}}/>
         </div>
           <Modal

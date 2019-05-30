@@ -1,11 +1,25 @@
 import React,{Component} from 'react'
 import { Input,Card,Breadcrumb,Pagination } from 'antd'
+import {connect} from 'react-redux'
+import {getDetail} from '../../reducers/product.redux'
 import './index.css'
 
 const Search = Input.Search
 const { Meta } = Card
+const URL = 'http://localhost:9090/upload/'
 
+@connect(
+  state => state.products,
+  {getDetail}
+)
 class Brand extends Component{
+  handleClick(id){
+    this.props.getDetail(id)
+    this.props.history.push('/detail')
+  }
+  onChange(page,pageSize){
+    console.log(page)
+  }
   render(){
     return (
       <div id="brand-container">
@@ -28,63 +42,18 @@ class Brand extends Component{
           </Breadcrumb.Item>
         </Breadcrumb>
         <div className="inner-container">
-          <Card
-          hoverable
-          style={{ width: 240 }}
-          cover={<img alt="example" src={require('./images/pic1.png')} />}
-          >
-          <Meta title="雅诗兰黛白金级尊宠精华霜" description="ESTĒE LAUDER Re-Nutriv Re-Creation Face Creme" style={{'textAlign':"center"}}/>
-          </Card>
-          <Card
-          hoverable
-          style={{ width: 240 }}
-          cover={<img alt="example" src={require('./images/pic2.png')} />}
-          >
-          <Meta title="雅诗兰黛沁水倍润轻乳霜" description="ESTEE LAUDER Nutritious Active-Tremella Hydra Fortifying Soufflé Creme" style={{'textAlign':"center"}}/>
-          </Card>
-          <Card
-          hoverable
-          style={{ width: 240 }}
-          cover={<img alt="example" src={require('./images/pic3.png')} />}
-          >
-          <Meta title="雅诗兰黛沁水倍润眼部凝霜" description="ESTEE LAUDER Nutritious Active-Tremella Hydra Fortifying Eye Balm" style={{'textAlign':"center"}}/>
-          </Card>
-          <Card
-          hoverable
-          style={{ width: 240 }}
-          cover={<img alt="example" src={require('./images/pic4.png')} />}
-          >
-          <Meta title="雅诗兰黛沁水倍润三合一洁颜水" description="ESTĒE LAUDER Nutritious Active-Tremella Hydra Fortifying Micellar Cleanser" style={{'textAlign':"center"}}/>
-          </Card>
-          <Card
-          hoverable
-          style={{ width: 240 }}
-          cover={<img alt="example" src={require('./images/pic5.png')} />}
-          >
-          <Meta title="雅诗兰黛弹力多肽眼霜" description="ESTĒE LAUDER Resilience Multi-Effect Tri-Peptide Eye Creme" style={{'textAlign':"center"}}/>
-          </Card>
-          <Card
-          hoverable
-          style={{ width: 240 }}
-          cover={<img alt="example" src={require('./images/pic6.png')} />}
-          >
-          <Meta title="雅诗兰黛弹力多肽面颈柔肤霜" description="ESTĒE LAUDER Resilience Multi-Effect Tri-Peptide Face and Neck Creme" style={{'textAlign':"center"}}/>
-          </Card>
-          <Card
-          hoverable
-          style={{ width: 240 }}
-          cover={<img alt="example" src={require('./images/pic7.png')} />}
-          >
-          <Meta title="雅诗兰黛弹力多肽面颈柔肤晚霜" description="Estee Lauder Resilience Multi-Effect Night Tri-Peptide Face and Neck Creme" style={{'textAlign':"center"}}/>
-          </Card>
-          <Card
-          hoverable
-          style={{ width: 240 }}
-          cover={<img alt="example" src={require('./images/pic8.png')} />}
-          >
-          <Meta title="雅诗兰黛樱花微精华露" description="Estee Lauder Micro Essence Skin Activating Treatment Lotion Fresh with Sakura Ferment" style={{'textAlign':"center"}}/>
-          </Card>
-          <Pagination defaultCurrent={1} total={50} style={{'paddingLeft':"800px","paddingTop":"10px"}}/>
+          {this.props.products.map(v=>{
+            return <Card
+              hoverable
+              key={v._id}
+              style={{ width: 240 }}
+              onClick={this.handleClick.bind(this,v._id)}
+              cover={<img alt="example" src={URL + v.pic} />}
+              >
+              <Meta title={v.name} description={v.brand.name} style={{'textAlign':"center"}}/>
+              </Card>
+          })}
+          <Pagination defaultCurrent={1} onChange={this.onChange.bind(this)} total={50} style={{'paddingLeft':"800px","paddingTop":"10px"}}/>
         </div>
       </div>
     )

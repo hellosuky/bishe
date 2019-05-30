@@ -1,26 +1,25 @@
 import React,{Component} from 'react'
 import { Input,List} from 'antd'
+import {connect} from 'react-redux'
+import {getTheory} from '../../reducers/theory.redux'
 import './index.css'
 
 const Search = Input.Search
+const URL = 'http://localhost:9090/upload/'
 
-const listData = [];
-for (let i = 0; i < 2; i++) {
-  listData.push({
-    href: 'http://ant.design',
-    title: `保湿剂`,
-    description:
-      '保湿剂是一类亲水性的润肤物质',
-    content:
-      '在较低湿度范围内具有结合水的能力，给皮肤补充水分，它们可以通过控制产品与周围空气之间水分的交换使皮肤维持在高于正常水含量的平衡状态，起到减轻皮肤干燥的作用',
-  });
-}
-
+@connect(
+  state => state.theory,
+  {getTheory}
+)
 class ChoseTheory extends Component{
+  componentWillMount(){
+    this.props.getTheory(1)
+  }
   handleClick(){
     this.props.history.push('/second')
   }
   render(){
+
     return (
       <div id="choseTheory-container">
         <div className="top">
@@ -34,36 +33,39 @@ class ChoseTheory extends Component{
                 />
         </div>
         <div className="container">
-        <List
-          itemLayout="vertical"
-          size="large"
-          pagination={{
-            onChange: page => {
-              console.log(page);
-            },
-            pageSize: 3,
-          }}
-          dataSource={listData}
-          footer={false}
-          renderItem={item => (
-            <List.Item
-              key={item.title}
-              extra={
-                <img
-                  width={272}
-                  alt="logo"
-                  src={require('./images/pic1.png')}
+          <List
+            itemLayout="vertical"
+            size="large"
+            style={{'minWidth':'800px'}}
+            pagination={{
+              onChange: page => {
+                console.log(page);
+              },
+              pageSize: 3,
+            }}
+            dataSource={this.props.theory}
+            footer={false}
+            renderItem={item => {
+              let text1 = item.content.replace(/<[^>]+>/g,"")
+              return (
+              <List.Item
+                key={item._id}
+                extra={
+                  <img
+                    width={272}
+                    alt="logo"
+                    src={item.pic?URL +  item.pic:require('./images/pic1.png')}
+                  />
+                }
+              >
+                <List.Item.Meta
+                  title={<a href={item.href}>{item.title}</a>}
                 />
-              }
-            >
-              <List.Item.Meta
-                title={<a href={item.href}>{item.title}</a>}
-                description={item.description}
-              />
-              {item.content}
+                {text1}
             </List.Item>
-          )}
-        />
+            )}
+            }
+          />
         </div>
       </div>
     )

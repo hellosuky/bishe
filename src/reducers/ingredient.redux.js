@@ -44,10 +44,11 @@ export function addIngredient(name,category,url,infor,enname,iupac,pic){
 }
 
 //get ingredients
-export function getIngredient(page){
+export function getIngredient(page,category){
   return ({
     type:Actions.GET_INGREDIENTS,
-    page
+    page,
+    category
   })
 }
 

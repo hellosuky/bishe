@@ -24,6 +24,27 @@ function* getProductFlow(){
   }
 }
 
+function* getFrontProduct(page,brand){
+  yield put({type:Helper.FETCH_START})
+  try{
+    return yield call(axios.get,`/back/products/getfrontproducts?page=${page}&brand=${brand}`)
+  }catch(err){
+    console.log(err)
+  }finally{
+    yield put({type:Helper.FETCH_END})
+  }
+}
+
+function* getFrontProductFlow(){
+  while (true) {
+    let req = yield take(Actions.GET_FRONT_PRODUCTS)
+    let res = yield call(getFrontProduct,req.page,req.brand)
+    if(res.data && res.data.code === 0){
+      yield put({type:Actions.GET_FRONT_PRODUCTS_SUCCESS,payload:res.data.data})
+    }
+  }
+}
+
 function* addBrand(brand,enname,pic){
   yield put({type:Helper.FETCH_START})
   try{
@@ -193,12 +214,57 @@ function* showFlow(){
   }
 }
 
+function* uploadpic(pic,id){
+  yield put({type:Helper.FETCH_START})
+  try{
+    return yield call(axios.post,'/back/products/uploadpic',{pic,id})
+  }catch(err){
+    console.log(err)
+  }finally{
+    yield put({type:Helper.FETCH_END})
+  }
+}
+
+function* uploadpicFlow(){
+  while (true) {
+    let req = yield take(Actions.UPLOAD_PIC)
+    let res = yield call(uploadpic,req.pic,req.id)
+    if(res.data && res.data.code === 0){
+      yield put({type:Actions.UPLOAD_PIC_SUCCESS,payload:res.data.data})
+    }
+  }
+}
+
+function* getProductDetail(id){
+  yield put({type:Helper.FETCH_START})
+  try{
+    return yield call(axios.get,`/back/products/detail?id=${id}`)
+  }catch(err){
+    console.log(err)
+  }finally{
+    yield put({type:Helper.FETCH_END})
+  }
+}
+
+function* getDetailFlow(){
+  while (true) {
+    let req = yield take(Actions.GET_DETAIL)
+    let res = yield call(getProductDetail,req.id)
+    if(res.data && res.data.code === 0){
+      yield put({type:Actions.GET_DETAIL_SUCCESS,payload:res.data.data})
+    }
+  }
+}
+
 export function* actionSaga(){
   yield all([
     fork(getProductFlow),
+    fork(getFrontProductFlow),
     fork(addBrandFlow),
     fork(getBrandFlow),
     fork(deleteBrandFlow),
-    fork(showFlow)
+    fork(showFlow),
+    fork(uploadpicFlow),
+    fork(getDetailFlow)
   ])
 }

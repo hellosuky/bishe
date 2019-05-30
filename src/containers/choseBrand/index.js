@@ -1,25 +1,29 @@
 import React,{Component} from 'react'
 import { Input,Card} from 'antd'
 import {connect} from 'react-redux'
-import Brand from './brand.json'
-import {getProducts} from '../../reducers/product.redux'
+import {getBrand,getFrontProducts} from '../../reducers/product.redux'
 import './index.css'
 
 const Search = Input.Search
 const { Meta } = Card
+const URL = "http://localhost:9090/upload/"
 
 @connect(
-  null,
-  {getProducts}
+  state => state.products,
+  {getBrand,getFrontProducts}
 )
-class ChoseTheory extends Component{
+class ChoseBrand extends Component{
   constructor(){
     super()
     this.handleClick = this.handleClick.bind(this)
   }
-  handleClick(title){
+  componentWillMount(){
+    this.props.getBrand()
+  }
+  handleClick(brand){
     //获取后端产品信息
-    this.props.getProducts(title)
+    this.props.getFrontProducts(1,brand)
+    this.props.history.push('/brand')
   }
   render(){
     return (
@@ -35,15 +39,15 @@ class ChoseTheory extends Component{
                 />
         </div>
         <div className="container">
-          {Brand.map(v=>{
+          {this.props.brands.map(v=>{
             return <Card
-                    key={v.title}
+                    key={v._id}
                     hoverable
                     style={{ width: 240 }}
-                    cover={<img alt="pic1" src={require('./images/' + v.img)} />}
-                    onClick={this.handleClick.bind(this,v.title)}
+                    cover={<img alt="pic1" src={URL + v.pic} />}
+                    onClick={this.handleClick.bind(this,v._id)}
                     >
-                      <Meta title={v.title} description={v.description} style={{'textAlign':"center"}}/>
+                      <Meta title={v.name} description={v.enname} style={{'textAlign':"center"}}/>
                     </Card>
           })}
         </div>
@@ -52,4 +56,4 @@ class ChoseTheory extends Component{
   }
 }
 
-export default ChoseTheory
+export default ChoseBrand

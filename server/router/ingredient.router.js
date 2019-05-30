@@ -10,11 +10,16 @@ Router.post('/addingredients',function(req,res){
   Ingredient.find({'name':name},function(err,doc){
     if(doc.length === 0){
       let ingre = new Ingredient({name,enname,category,url,infor,iupac,pic})
-      ingre.save().then(function(ingre){
-        res.json({code:0,msg:'新增成功'})
-      })
-      //进行产品重新分类
-      // Product.updateMany({Ingredient:{$in:[name]},{$pull:{'Ingredient':name}},{multi:true}})
+      ingre.save().then(function(results){
+        Product.update({base:{$in:name}},
+        {
+          $pull:{base:name},
+          $push:{Ingredient:results._id}
+        })
+          .then(()=>{
+            res.json({code:0,msg:'新增成功'})
+          })
+        })
     }else{
       res.json({code:1,msg:"存在该成分了"})
     }
@@ -32,8 +37,17 @@ Router.post('/updateingredient',function(req,res){
 
 Router.post('/deleteingredients',function(req,res){
   let {id} = req.body
-  Ingredient.deleteOne({'_id':id})
-  .then((del) =>{
+  Ingredient.findOne({'_id':id})
+  .then(results =>{
+    console.log(results.name)
+    return Product.update({Ingredient:{$in:id}},
+      {
+        $pull:{Ingredient:id},
+        $push:{base:results.name}
+      })
+  }).then(()=>{
+    return Ingredient.deleteOne({'_id':id})
+  }).then((del) =>{
     Ingredient.find({})
     .limit(10)
     .exec(function(err,results){
@@ -44,14 +58,24 @@ Router.post('/deleteingredients',function(req,res){
 })
 
 Router.get('/getingredients',function(req,res){
-  let {page} = req.query
-  Ingredient.find({})
-  .populate({path:'category',select:'name'})
-  .limit(10)
-  .skip(10 * (page -1 ))
-  .exec(function(err,results){
-    res.json({code:0,data:results})
-  })
+  let {page,category} = req.query
+  if(category==="null"){
+    Ingredient.find({'category':category})
+    .populate({path:'category',select:'name'})
+    .limit(10)
+    .skip(10 * (page -1 ))
+    .exec(function(err,results){
+      res.json({code:0,data:results})
+    })
+  }else{
+    Ingredient.find({})
+    .populate({path:'category',select:'name'})
+    .limit(10)
+    .skip(10 * (page -1 ))
+    .exec(function(err,results){
+      res.json({code:0,data:results})
+    })
+  }
 })
 
 Router.get('/getspecialingredient',function(req,res){

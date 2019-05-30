@@ -36,6 +36,22 @@ Router.get('/getproducts',function(req,res){
     }
 })
 
+Router.get('/getfrontproducts',function(req,res){
+    let {page,brand} = req.query
+      Product.find({'brand':brand,'show':true})
+      .populate({path:'brand',select:'name'})
+      .populate({path:'Ingredient',select:'name'})
+      .limit(10)
+      .skip(10* (page-1))
+      .exec(function(err,results){
+        if(err){
+          res.json({code:1,msg:'服务端出错'})
+          return
+        }
+        res.json({code:0,data:results})
+      })
+})
+
 Router.post('/isshow',function(req,res){
   let {id} = req.body
   Product.findOne({'_id':id})
@@ -44,6 +60,21 @@ Router.post('/isshow',function(req,res){
   })
   .then(nowshow=>{
     return Product.updateOne({'_id':id},{'show':nowshow})})
+  .then(()=> {
+    Product.find({})
+    .populate({path:'brand',select:'name'})
+    .populate({path:'Ingredient',select:'name'})
+    .limit(10)
+    .exec(function(err,results){
+      res.json({code:0,data:results})
+    })
+  })
+  .catch(err=>console.log(err))
+})
+
+Router.post('/uploadpic',function(req,res){
+  let {pic,id} = req.body
+  Product.updateOne({'_id':id},{pic})
   .then(()=> {
     Product.find({})
     .populate({path:'brand',select:'name'})
@@ -138,6 +169,17 @@ Router.post('/deletebrand',function(req,res){
     res.json({code:0,data:all})
   })
   .catch(err=>console.log(err))
+})
+
+Router.get('/detail',function(req,res){
+  let {id} = req.query
+  Product.findOne({"_id":id},function(err,results){
+    if(err){
+      res.json({code:1,msg:'服务端出错'})
+      return
+    }
+    res.json({code:0,data:results})
+  })
 })
 
 module.exports = Router

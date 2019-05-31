@@ -1,26 +1,39 @@
+#choseTheory-container{
+  box-sizing: border-box;
+}
 #choseTheory-container .top{
   position: fixed;
   top: 0;
-  min-height: 55px;
+  height: 1.3rem;
+  line-height: 1.3rem;
   left: 0;
   width: 100%;
   border-bottom: 2px solid #eee;
   box-shadow: 0 0.2px 0 0;
+  z-index: 100;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
   background-color: #fff;
 }
 
+#choseTheory-container .back-icon{
+  display: block;
+  margin-left: 0.1rem;
+  font-size: 0.5rem;
+}
+
 #choseTheory-container .top-logo{
-  width: 50px;
-  vertical-align: middle;
-  margin-left: 0.2rem;
+  width: 0.8rem;
+  height: 0.8rem;
+  display: block;
+  margin-left: 0.3rem;
+  margin-right: 0.1rem;
 }
 
 #choseTheory-container .top-title{
-  line-height: 50px;
-  font-size: 20px;
+  font-size: 0.5rem;
   font-weight: 600;
-  vertical-align: middle;
-  padding-left: 0.2rem;
 }
 
 #choseTheory-container .top-search{

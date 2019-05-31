@@ -1,16 +1,16 @@
 import React,{Component} from 'react'
-import { Input,Card} from 'antd'
+import { Card,Icon} from 'antd'
 import {connect} from 'react-redux'
-import {getBrand,getProducts} from '../../reducers/product.redux'
+import {withRouter} from 'react-router'
+import {getBrand,getFrontProducts} from '../../reducers/product.redux'
 import './index.css'
 
-const Search = Input.Search
 const { Meta } = Card
 const URL = "http://localhost:9090/upload/"
 
 @connect(
   state => state.products,
-  {getBrand,getProducts}
+  {getBrand,getFrontProducts}
 )
 class ChoseBrand extends Component{
   constructor(){
@@ -22,21 +22,19 @@ class ChoseBrand extends Component{
   }
   handleClick(brand){
     //获取后端产品信息
-    this.props.getProducts(1,brand,null)
+    this.props.getFrontProducts(brand)
     this.props.history.push('/brand')
+  }
+  handleBack(){
+    this.props.history.goBack(-1)
   }
   render(){
     return (
       <div id="choseBrand-container">
         <div className="top">
-              <img alt="img" className="top-logo" src={require('./images/logo.png')} />
+              <span className="back-icon" onClick={this.handleBack.bind(this)}><Icon type="left" /></span>
+              <img alt="img" className="top-logo" src={require('../../images/logo.png')} />
               <span className="top-title">知美</span>
-                  <Search
-                  className="top-search"
-                  placeholder="搜索有效成分"
-                  onSearch={value => console.log(value)}
-                  style={{ width: 200 }}
-                />
         </div>
         <div className="container">
           {this.props.brands.map(v=>{
@@ -56,4 +54,4 @@ class ChoseBrand extends Component{
   }
 }
 
-export default ChoseBrand
+export default withRouter(ChoseBrand)

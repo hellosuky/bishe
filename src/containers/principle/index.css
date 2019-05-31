@@ -1,0 +1,53 @@
+#principle-container{
+  max-width: 1080px;
+  margin: 0 auto;
+}
+
+#principle-container .top{
+  position: fixed;
+  top: 0;
+  height: 1.3rem;
+  line-height: 1.3rem;
+  left: 0;
+  width: 100%;
+  border-bottom: 2px solid #eee;
+  box-shadow: 0 0.2px 0 0;
+  z-index: 100;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  background-color: #fff;
+}
+
+#principle-container .back-icon{
+  display: block;
+  margin-left: 0.1rem;
+  font-size: 0.5rem;
+}
+
+#principle-container .top-logo{
+  width: 0.8rem;
+  height: 0.8rem;
+  display: block;
+  margin-left: 0.3rem;
+  margin-right: 0.1rem;
+}
+
+#principle-container .top-title{
+  font-size: 0.5rem;
+  font-weight: 600;
+}
+
+#principle-container .article{
+  margin-top: 1.3rem;
+  padding: 0.3rem;
+}
+
+#principle-container .title{
+  font-size: 0.5rem;
+  text-align: center;
+}
+
+#principle-container .content{
+  margin-top: 0.1rem;
+}

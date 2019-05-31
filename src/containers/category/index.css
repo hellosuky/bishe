@@ -1,58 +1,67 @@
-#principle-container .top{
+#category-container{
+  max-width: 1100px;
+  margin: 0 auto;
+}
+#category-container .top{
   position: fixed;
   top: 0;
-  height: 55px;
+  height: 1.3rem;
   left: 0;
   width: 100%;
   border-bottom: 2px solid #eee;
   box-shadow: 0 0.2px 0 0;
   z-index: 100;
   display: flex;
+  background-color: #fff;
   flex-direction: row;
+  align-items: center;
 }
-
-#principle-container .top-logo{
-  width: 0.5rem;
-  margin-left: 0.8rem;
+#category-container .back-icon{
+  margin-left: 0.1rem;
+  font-size: 0.5rem;
+}
+#category-container .top-logo{
+  width: 0.8rem;
+  margin-left: 0.3rem;
   margin-right: 0.1rem;
 }
 
-#principle-container .top-title{
-  line-height: 50px;
-  font-size: 20px;
+#category-container .top-title{
+  font-size: 0.5rem;
   font-weight: 600;
 }
-#principle-container .top-select{
+#category-container .top-select{
   flex:1;
   text-align: right;
-  line-height: 55px;
   margin-right: 0.1rem;
 }
-#principle-container .top-search{
-  line-height: 55px;
+#category-container .top-search{
+  line-height: 1.3rem;
   margin-right: 0.8rem;
 }
-#principle-container .ant-input{
+#category-container .ant-input{
   min-height: 0;
 }
 
-#principle-container .inner-container{
-  padding-top: 75px;
-  margin: 0 auto;
-  max-width: 1080px;
-  position: relative;
+#category-container .inner-container{
+  margin: 2rem 1rem 2rem 1rem;
   display: flex;
   flex-direction: row;
   flex-wrap: wrap;
 }
 
-.ant-card{
-  margin: 10px;
+#category-container .ant-card{
+  margin: 0.1rem;
 }
-.ant-card-cover{
+#category-container .ant-card-cover{
   border-bottom: 1px solid #eee;
 }
 
-.ant-card-meta-title{
+#category-container .ant-card-meta-title{
   font-size: 20px;
+}
+
+#category-container .page{
+  margin-top: 0.5rem;
+  display: block;
 }

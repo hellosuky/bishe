@@ -12,7 +12,7 @@ const URL = 'http://localhost:9090/upload/'
 )
 class UpdateIngre extends Component{
   componentWillMount(){
-    this.props.getIngredient(1)
+    this.props.getIngredient(1,'','')
   }
   confirm(id) {
     this.props.deleteIngredient(id)

@@ -11,7 +11,6 @@ import ChoseBrand from './containers/choseBrand/index'
 import Pk from './containers/pk/index'
 import Admin from './containers/admin/index'
 import AdminPage from './containers/adminpage/index'
-import Page from './containers/page/index'
 
 //前端、后端、404
 class App extends Component {
@@ -29,7 +28,7 @@ class App extends Component {
     var clientWidth = dom.clientWidth
     if (!clientWidth) return
     if(clientWidth>=750){
-          dom.style.fontSize = '100px';
+          dom.style.fontSize = '50px';
     }else{
           dom.style.fontSize = 100 * (clientWidth / 750) + 'px';
     }
@@ -45,7 +44,6 @@ class App extends Component {
             <Route path="/chosebrand" component={ChoseBrand} />
             <Route path="/principle" component={Principle} />
             <Route path="/brand" component={Brand} />
-            <Route path="/page" component={Page} />
             <Route path="/category" component={Category} />
             <Route path="/admin" component={Admin} />
             <Route path="/adminpage" component={AdminPage} />

@@ -56,13 +56,15 @@ class UploadIngre extends Component{
      !this.state.infor || !this.state.enname ||!this.state.iupac ||!this.state.pic){
      //错误信息
      message.error('请将所有空填完')
-   }else{
+     return
+   }
+   
      //提交
      this.props.addIngredient(this.state.name,this.state.category,this.state.url,
      this.state.infor,this.state.enname,this.state.iupac,this.state.pic)
      this.setState({name:'',category:'',url:'',infor:'',enname:'',iupac:'',pic:""})
      message.success('上传成功')
-   }
+
  }
  handlePreview(){
    this.setState({previewVisible:true})

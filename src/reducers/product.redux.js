@@ -10,6 +10,8 @@ export function products(state = initalState,action){
   switch(action.type){
     case Actions.GET_PRODUCT_SUCCESS:
       return {...state,products:action.payload}
+    case Actions.GET_FRONT_PRODUCT_SUCCESS:
+      return {...state,products:action.payload}
     case Actions.GET_BRAND_SUCCESS:
       return {...state,brands:action.payload}
     case Actions.DELETE_BRAND_SUCCESS:
@@ -62,6 +64,13 @@ export function getProducts(page,brand,word){
   })
 }
 
+export function getFrontProducts(brand){
+  return ({
+    type:Actions.GET_FRONT_PRODUCT,
+    brand
+  })
+}
+
 //show boolean
 export function show(id){
   return ({
@@ -71,11 +80,13 @@ export function show(id){
 }
 
 //upload product picture
-export function uploadpic(pic,id){
+export function uploadpic(pic,id,brand,val){
   return ({
     type:Actions.UPLOAD_PIC,
     pic,
-    id
+    id,
+    brand,
+    val
   })
 }
 

@@ -11,7 +11,7 @@ Router.post('/addingredients',function(req,res){
     if(doc.length === 0){
       let ingre = new Ingredient({name,enname,category,url,infor,iupac,pic})
       ingre.save().then(function(results){
-        Product.update({base:{$in:name}},
+        Product.updateMany({base:{$in:name}},
         {
           $pull:{base:name},
           $push:{Ingredient:results._id}
@@ -39,8 +39,7 @@ Router.post('/deleteingredients',function(req,res){
   let {id} = req.body
   Ingredient.findOne({'_id':id})
   .then(results =>{
-    console.log(results.name)
-    return Product.update({Ingredient:{$in:id}},
+    return Product.updateMany({Ingredient:{$in:id}},
       {
         $pull:{Ingredient:id},
         $push:{base:results.name}
@@ -60,37 +59,37 @@ Router.post('/deleteingredients',function(req,res){
 Router.get('/getingredients',function(req,res){
   let {page,category,word} = req.query
   if(word === ''){
-    if(category==="null"){
+    if(category===""){
       Ingredient.find({})
       .populate({path:'category',select:'name'})
-      .limit(10)
-      .skip(10 * (page -1 ))
+      .limit(8)
+      .skip(8 * (page -1 ))
       .exec(function(err,results){
         res.json({code:0,data:results})
       })
     }else{
       Ingredient.find({'category':category})
       .populate({path:'category',select:'name'})
-      .limit(10)
-      .skip(10 * (page -1 ))
+      .limit(8)
+      .skip(8 * (page -1 ))
       .exec(function(err,results){
         res.json({code:0,data:results})
       })
     }
   }else{
-    if(category==="null"){
+    if(category===""){
       Ingredient.find({'name':new RegExp(word)})
       .populate({path:'category',select:'name'})
-      .limit(10)
-      .skip(10 * (page -1 ))
+      .limit(8)
+      .skip(8 * (page -1 ))
       .exec(function(err,results){
         res.json({code:0,data:results})
       })
     }else{
       Ingredient.find({'category':category,'name':new RegExp(word)})
       .populate({path:'category',select:'name'})
-      .limit(10)
-      .skip(10 * (page -1 ))
+      .limit(8)
+      .skip(8 * (page -1 ))
       .exec(function(err,results){
         res.json({code:0,data:results})
       })

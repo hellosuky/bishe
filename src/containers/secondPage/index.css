@@ -45,14 +45,14 @@
 }
 
 #secondContainer .subTitle img{
-  width: 1.8rem;
+  width: 3.5rem;
   display: block;
   margin-bottom: 0.2rem;
 }
 #secondContainer .subTitle .btn{
-  width: 2rem;
-  height: 0.5rem;
-  font-size: 0.25rem;
+  width: 2.5rem;
+  height: 0.8rem;
+  font-size: 0.3rem;
 }
 @media screen and (max-width:768px){
   #secondContainer{
@@ -61,5 +61,8 @@
   }
   #secondContainer .subTitle{
     top: 15%;
+  }
+  #secondContainer .subTitle img{
+    width: 2rem;
   }
 }

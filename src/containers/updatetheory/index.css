@@ -14,3 +14,18 @@
   width: 300px;
   margin-bottom: 0.2rem;
 }
+
+#updatetheory-container .edit{
+  color:#1890ff;
+}
+#updatetheory-container .delete{
+  color:#1890ff;
+}
+
+#updatetheory-container .edit:hover{
+  cursor: pointer;
+}
+
+#updatetheory-container .delete:hover{
+  cursor: pointer;
+}

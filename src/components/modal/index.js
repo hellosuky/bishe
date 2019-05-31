@@ -17,10 +17,10 @@ class SelfModal extends Component{
          >
            <iframe style={{'width': '500px', 'height': '300px'}}
            title="ddd"
-           frameBorder="0" src="https://embed.molview.org/v1/?mode=balls&cid=753&bg=white"></iframe>
+           frameBorder="0" src={data.url}></iframe>
            <p>{data.name}</p>
            <p>{data.iupac}</p>
-           <p>{data.info}</p>
+           <p>{data.infor}</p>
          </Modal>
       </div>
     )

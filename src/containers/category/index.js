@@ -1,12 +1,12 @@
 import React,{Component} from 'react'
-import { Input,Card,Pagination,Select} from 'antd'
+import { Input,Card,Pagination,Select,Icon} from 'antd'
+import {withRouter} from 'react-router'
 import _ from 'lodash'
 import {connect} from 'react-redux'
 import {getIngredient,getCategory} from '../../reducers/ingredient.redux'
 import SelfModal from '../../components/modal/index'
 import './index.css'
 
-const Search = Input.Search
 const { Meta } = Card
 const {Option} = Select
 const URL = 'http://localhost:9090/upload/'
@@ -22,13 +22,29 @@ class Category extends Component{
        visible: false,
        val:'',
        category:'',
-       data:{}
+       data:{},
+       mobile:false
     }
     this.handleSearchWord1 = _.debounce(this.handleSearchWord,1000)
+    this.handleSearch = this.handleSearch.bind(this)
   }
   componentWillMount(){
-    this.props.getIngredient(1,'null','')
+    this.props.getIngredient(1,'','')
     this.props.getCategory()
+  }
+  componentDidMount(){
+    window.addEventListener("resize", this.resize.bind(this))
+    this.resize()
+  }
+  resize() {
+    if(window.innerWidth <= 768){
+      this.setState({mobile:true})
+    }else{
+      this.setState({mobile:false})
+    }
+  }
+  handleBack(){
+    this.props.history.goBack(-1)
   }
   showModal(data){
     this.setState({visible: true,data})
@@ -37,8 +53,8 @@ class Category extends Component{
     this.props.getIngredient(page,this.state.category,this.state.val)
   }
   // 关键字搜索
-  handleSearchWord(word){
-    this.props.getIngredient(1,this.state.category,word)
+  handleSearchWord(){
+    this.props.getIngredient(1,this.state.category,this.state.val)
   }
   handleChange(category){
     this.setState({category})
@@ -48,31 +64,36 @@ class Category extends Component{
     this.setState({visible:false})
   }
   handleSearch(e){
-    this.setState({val:e},this.handleSearchWord1(this.state.val))
+    this.setState({val:e},this.handleSearchWord1())
   }
   render(){
     return (
-      <div id="principle-container">
+      <div id="category-container">
         <div className="top">
+              <span className="back-icon" onClick={this.handleBack.bind(this)}><Icon type="left" /></span>
               <img alt="img" className="top-logo" src={require('../../images/logo.png')} />
               <span className="top-title">知美</span>
-              <div className="top-select">
-                <Select defaultValue="选择分类" style={{ width: 120 }} onChange={e => this.handleChange(e)}>
-                  <Option value="null">所有</Option>
-                  {this.props.category.map(v=>{
-                    return <Option value={v._id} key={v._id}>{v.name}</Option>
-                  })}
-                </Select>
-              </div>
-              <Search
-              className="top-search"
-              placeholder="搜索有效成分"
-              onSearch={e=>this.handleSearch.bind(this,e)}
-              style={{ width: 200 }}
-            />
+              {this.state.mobile?null:
+                  <div className="top-select">
+                    <Select defaultValue="选择分类" style={{ width: 120 }} onChange={e => this.handleChange(e)}>
+                      <Option value="">所有</Option>
+                      {this.props.category.map(v=>{
+                        return <Option value={v._id} key={v._id}>{v.name}</Option>
+                      })}
+                    </Select>
+                  </div>
+                }
+                {this.state.mobile?null:
+                  <Input
+                  className="top-search"
+                  placeholder="搜索有效成分"
+                  value={this.state.val}
+                  onChange={e=>this.handleSearch(e.target.value)}
+                  style={{ width: 200 }}
+                />}
         </div>
         <div className="inner-container">
-          {this.props.ingredients && this.props.ingredients.map(v=>{
+          { this.props.ingredients.map(v=>{
             return  <Card
               hoverable
               key={v._id}
@@ -83,7 +104,7 @@ class Category extends Component{
                 <Meta title={v.name} description={v.enname} style={{'textAlign':"center"}}/>
               </Card>
           })}
-          <Pagination defaultCurrent={1} onChange={this.onChange.bind(this)} total={50} style={{'paddingLeft':"800px","paddingTop":"10px"}}/>
+          <Pagination className="page" size={this.state.mobile?"small":"big"} defaultCurrent={1} onChange={this.onChange.bind(this)} total={50} />
         </div>
         <SelfModal data={this.state.data} close={this.close.bind(this)} visible={this.state.visible}/>
       </div>
@@ -91,4 +112,4 @@ class Category extends Component{
   }
 }
 
-export default Category
+export default withRouter(Category)

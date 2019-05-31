@@ -24,6 +24,27 @@ function* getProductFlow(){
   }
 }
 
+function* getFrontProduct(brand){
+  yield put({type:Helper.FETCH_START})
+  try{
+    return yield call(axios.get,`/back/products/getfrontproducts?brand=${brand}`)
+  }catch(err){
+    console.log(err)
+  }finally{
+    yield put({type:Helper.FETCH_END})
+  }
+}
+
+function* getFrontProductFlow(){
+  while (true) {
+    let req = yield take(Actions.GET_FRONT_PRODUCT)
+    let res = yield call(getFrontProduct,req.brand)
+    if(res.data && res.data.code === 0){
+      yield put({type:Actions.GET_FRONT_PRODUCT_SUCCESS,payload:res.data.data})
+    }
+  }
+}
+
 
 function* addBrand(brand,enname,pic){
   yield put({type:Helper.FETCH_START})
@@ -194,10 +215,10 @@ function* showFlow(){
   }
 }
 
-function* uploadpic(pic,id){
+function* uploadpic(pic,id,brand,val){
   yield put({type:Helper.FETCH_START})
   try{
-    return yield call(axios.post,'/back/products/uploadpic',{pic,id})
+    return yield call(axios.post,'/back/products/uploadpic',{pic,id,brand,val})
   }catch(err){
     console.log(err)
   }finally{
@@ -208,7 +229,7 @@ function* uploadpic(pic,id){
 function* uploadpicFlow(){
   while (true) {
     let req = yield take(Actions.UPLOAD_PIC)
-    let res = yield call(uploadpic,req.pic,req.id)
+    let res = yield call(uploadpic,req.pic,req.id,req.brand,req.val)
     if(res.data && res.data.code === 0){
       yield put({type:Actions.UPLOAD_PIC_SUCCESS,payload:res.data.data})
     }
@@ -239,6 +260,7 @@ function* getDetailFlow(){
 export function* actionSaga(){
   yield all([
     fork(getProductFlow),
+    fork(getFrontProductFlow),
     fork(addBrandFlow),
     fork(getBrandFlow),
     fork(deleteBrandFlow),

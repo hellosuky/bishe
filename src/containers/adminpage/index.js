@@ -52,7 +52,7 @@ class AdminPage extends Component{
     return(
       <Layout id="layout-container" style={{'minHeight':"100%"}}>
      <Header className="header">
-       <img alt="logo" className="logo" src={require('./images/logo.png')}/>
+       <img alt="logo" className="logo" src={require('../../images/logo.png')}/>
        <span style={{'color':"#fff","paddingLeft":"5px"}}>知美后台</span>
      </Header>
      <Layout>

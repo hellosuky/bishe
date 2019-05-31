@@ -66,15 +66,15 @@ class UpdateTheory extends Component{
         key: 'action',
         render: (text, record) => (
           <span>
-            <span onClick={this.edit.bind(this,record._id)}>修改</span>
-          <br/>
+            <span onClick={this.edit.bind(this,record._id)} className="edit">修改</span>
+            <br/>
             <Popconfirm
             title="你确认要删除吗？"
             onConfirm={this.delete.bind(this,record._id)}
             okText="好的"
             cancelText="取消"
             >
-              <span>删除</span>
+              <span className="delete">删除</span>
             </Popconfirm>
           </span>
         ),

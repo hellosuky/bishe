@@ -35,7 +35,7 @@ class UploadProducts extends Component{
     this.props.getProducts(1,this.state.brand,this.state.val)
   }
   handleChange(key,val){
-    this.setState({[key]:val},()=>this.onChange1(this.state.val))
+    this.setState({[key]:val},()=>this.onChange1())
   }
   handleCustomRequest(options:any){
    const data= new FormData()
@@ -116,8 +116,8 @@ class UploadProducts extends Component{
     this.props.show(id)
   }
   handleOk(){
-    this.props.uploadpic(this.state.pic,this.state.id)
-    this.setState({visible:false})
+    this.props.uploadpic(this.state.pic,this.state.id,this.state.brand,this.state.val)
+    this.setState({visible:false,pic:'',id:''})
   }
   handleDelete(){
     axios.post('/api/delete',{url:this.state.pic})
@@ -140,16 +140,13 @@ class UploadProducts extends Component{
     return(
       <div id="uploadproducts-container">
         <p className="title">产品更新</p>
-        {this.props.brands.length > 0?
-          <Select defaultValue="null" style={{ width: 120 }}
-          onChange={e => this.handleChange('category',e)}>
-              <Option value="null">选择品牌</Option>
+          <Select defaultValue="" style={{ width: 120 }}
+          onChange={e => this.handleChange('brand',e)}>
+              <Option value="">选择品牌</Option>
                {this.props.brands.map(v=>{
                 return <Option value={v._id} key={v._id}>{v.name}</Option>
               }) }
-            </Select>
-            :null
-        }
+          </Select>
         <Input placeholder="种类搜索" value={this.state.val}
         onChange={e=>this.handleChange('val',e.target.value)} style={{'maxWidth':"400px","marginRight":"20px","float":"right"}}/>
         <p>现有种类</p>

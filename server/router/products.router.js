@@ -68,12 +68,10 @@ Router.get('/getproducts',function(req,res){
 })
 
 Router.get('/getfrontproducts',function(req,res){
-    let {page,brand} = req.query
+    let {brand} = req.query
       Product.find({'brand':brand,'show':true})
       .populate({path:'brand',select:'name'})
       .populate({path:'Ingredient',select:'name'})
-      .limit(10)
-      .skip(10* (page-1))
       .exec(function(err,results){
         if(err){
           res.json({code:1,msg:'服务端出错'})
@@ -120,16 +118,46 @@ Router.post('/isshow',function(req,res){
 })
 
 Router.post('/uploadpic',function(req,res){
-  let {pic,id} = req.body
+  let {pic,id,brand,val} = req.body
   Product.updateOne({'_id':id},{pic})
   .then(()=> {
-    Product.find({})
-    .populate({path:'brand',select:'name'})
-    .populate({path:'Ingredient',select:'name'})
-    .limit(10)
-    .exec(function(err,results){
-      res.json({code:0,data:results})
-    })
+    if(brand){
+      if(val){
+        Product.find({'brand':brand,'name':new RegExp(val)})
+        .populate({path:'brand',select:'name'})
+        .populate({path:'Ingredient',select:'name'})
+        .limit(10)
+        .exec(function(err,results){
+          res.json({code:0,data:results})
+        })
+    }else{
+      Product.find({'brand':brand})
+      .populate({path:'brand',select:'name'})
+      .populate({path:'Ingredient',select:'name'})
+      .limit(10)
+      .exec(function(err,results){
+        res.json({code:0,data:results})
+      })
+    }
+  }else{
+    if(val){
+      Product.find({'name':new RegExp(val)})
+      .populate({path:'brand',select:'name'})
+      .populate({path:'Ingredient',select:'name'})
+      .limit(10)
+      .exec(function(err,results){
+        res.json({code:0,data:results})
+      })
+    }else{
+      Product.find({})
+      .populate({path:'brand',select:'name'})
+      .populate({path:'Ingredient',select:'name'})
+      .limit(10)
+      .exec(function(err,results){
+        res.json({code:0,data:results})
+      })
+    }
+  }
   })
   .catch(err=>console.log(err))
 })

@@ -24,6 +24,27 @@ function* getProductFlow(){
   }
 }
 
+function* getAllProducts(){
+  yield put({type:Helper.FETCH_START})
+  try{
+    return yield call(axios.get,`/back/products/getallproducts`)
+  }catch(err){
+    console.log(err)
+  }finally{
+    yield put({type:Helper.FETCH_END})
+  }
+}
+
+function* getAllProductsFlow(){
+  while (true) {
+    yield take(Actions.GET_ALL_PRODUCTS)
+    let res = yield call(getAllProducts)
+    if(res.data && res.data.code === 0){
+      yield put({type:Actions.GET_ALL_PRODUCTS_SUCCESS,payload:res.data.data})
+    }
+  }
+}
+
 function* getFrontProduct(brand){
   yield put({type:Helper.FETCH_START})
   try{
@@ -257,15 +278,38 @@ function* getDetailFlow(){
   }
 }
 
+function* getPkProductDetail(name){
+  yield put({type:Helper.FETCH_START})
+  try{
+    return yield call(axios.get,`/back/products/pkdetail?name=${name}`)
+  }catch(err){
+    console.log(err)
+  }finally{
+    yield put({type:Helper.FETCH_END})
+  }
+}
+
+function* getPkDetailFlow(){
+  while (true) {
+    let req = yield take(Actions.GET_PK_DETAIL)
+    let res = yield call(getPkProductDetail,req.name)
+    if(res.data && res.data.code === 0){
+      yield put({type:Actions.GET_PK_DETAIL_SUCCESS,payload:res.data.data})
+    }
+  }
+}
+
 export function* actionSaga(){
   yield all([
     fork(getProductFlow),
+    fork(getAllProductsFlow),
     fork(getFrontProductFlow),
     fork(addBrandFlow),
     fork(getBrandFlow),
     fork(deleteBrandFlow),
     fork(showFlow),
     fork(uploadpicFlow),
-    fork(getDetailFlow)
+    fork(getDetailFlow),
+    fork(getPkDetailFlow)
   ])
 }

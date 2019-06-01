@@ -3,13 +3,17 @@ import {Actions} from '../actiontypes/actions.js'
 const initalState = {
   products:[],
   brands:[],
-  detail:{}
+  detail:{},
+  allProducts:[],
+  pkdetail:{}
 }
 
 export function products(state = initalState,action){
   switch(action.type){
     case Actions.GET_PRODUCT_SUCCESS:
       return {...state,products:action.payload}
+    case Actions.GET_ALL_PRODUCTS_SUCCESS:
+      return {...state,allProducts:action.payload}
     case Actions.GET_FRONT_PRODUCT_SUCCESS:
       return {...state,products:action.payload}
     case Actions.GET_BRAND_SUCCESS:
@@ -22,6 +26,8 @@ export function products(state = initalState,action){
       return {...state,products:action.payload}
     case Actions.GET_DETAIL_SUCCESS:
       return {...state,detail:action.payload}
+    case Actions.GET_PK_DETAIL_SUCCESS:
+      return {...state,pkdetail:action.payload}
     case Actions.ADD_BRAND_SUCCESS:
       return {...state,brands:[...state.brands,action.payload]}
     default:
@@ -95,5 +101,20 @@ export function getDetail(id){
   return ({
     type:Actions.GET_DETAIL,
     id
+  })
+}
+
+//get all products
+export function getAllProducts(){
+  return ({
+    type:Actions.GET_ALL_PRODUCTS
+  })
+}
+
+//get pk detail
+export function getPkDetail(name){
+  return ({
+    type:Actions.GET_PK_DETAIL,
+    name
   })
 }

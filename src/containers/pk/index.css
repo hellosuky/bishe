@@ -1,35 +1,83 @@
+#pk-container{
+  max-width: 1080px;
+  margin: 0 auto;
+}
 #pk-container .top{
+  height: 1.3rem;
   position: fixed;
   top: 0;
-  height: 55px;
   left: 0;
   width: 100%;
+  z-index:100;
   border-bottom: 2px solid #eee;
   box-shadow: 0 0.2px 0 0;
   background-color: #fff;
-  z-index: 100;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
 }
 
 #pk-container .top-logo{
-  width: 50px;
-  position: absolute;
-  left: 50px;
+  width: 0.8rem;
+  margin-left: 0.2rem;
 }
 
 #pk-container .top-title{
-  position: absolute;
-  left: 110px;
-  line-height: 50px;
-  font-size: 20px;
+  line-height:1.3rem;
+  font-size: 0.5rem;
   font-weight: 600;
+  margin-left: 0.1rem;
 }
 
-#pk-container .top-search{
-  position: absolute;
-  right: 50px;
-  line-height: 55px;
+#pk-container .container{
+  margin-top: 0.5rem;
+  display:flex;
+  flex-direction:row;
 }
 
 #pk-container .pk-product{
   display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-left: 0.2rem;
+  min-width: 10rem;
+}
+
+#pk-container .back-icon{
+  display: block;
+  margin-left: 0.2rem;
+  font-size: 0.5rem;
+}
+
+#pk-container .pk-product .word{
+  margin-left: 0.5rem;
+}
+
+#pk-container .pk{
+  margin-top: 1.6rem;
+}
+
+#pk-container .select{
+  margin-bottom: 1rem;
+}
+#pk-container .text{
+  flex: 1;
+}
+#pk-container .list{
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+#pk-container .ant-list{
+  min-width: 10rem;
+}
+
+#pk-container .useful{
+  margin-top: 0.5rem;
+  font-size: 0.4rem;
+}
+
+#pk-container .base{
+  margin-top: 0.5rem;
+  font-size: 0.4rem;
 }

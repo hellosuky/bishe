@@ -60,11 +60,41 @@ Router.get('/getproducts',function(req,res){
             res.json({code:1,msg:'服务端出错'})
             return
           }
-          console.log(results)
           res.json({code:0,data:results})
         })
       }
     }
+})
+
+Router.get('/getallproducts',function(req,res){
+  Product.aggregate([
+    {
+      $match:{
+        show:true
+      }
+    },
+    {
+      $lookup:{
+        from:'brands',
+        localField:'brand',
+        foreignField:'_id',
+        as:'Brand'
+      }},
+      {$group:{
+        _id:'$Brand.name',
+        "children":{$push:{'value':'$name','label':'$name'}},
+      }},
+  ],function(err,results){
+    let arr = []
+    results.map(item=>{
+      let obj = {}
+      obj.value = item._id[0]
+      obj.label = item._id[0]
+      obj.children = item.children
+      arr.push(obj)
+    })
+    res.json({code:0,data:arr})
+  })
 })
 
 Router.get('/getfrontproducts',function(req,res){
@@ -248,7 +278,10 @@ Router.post('/deletebrand',function(req,res){
 
 Router.get('/detail',function(req,res){
   let {id} = req.query
-  Product.findOne({"_id":id},function(err,results){
+  Product.findOne({"_id":id})
+  .populate({path:'brand', select: 'name'})
+  .populate({path:'Ingredient',select:'name'})
+  .exec(function(err,results){
     if(err){
       res.json({code:1,msg:'服务端出错'})
       return
@@ -257,4 +290,17 @@ Router.get('/detail',function(req,res){
   })
 })
 
+Router.get('/pkdetail',function(req,res){
+  let {name} = req.query
+  Product.findOne({"name":name})
+  .populate({path:'brand', select: 'name'})
+  .populate({path:'Ingredient',select:'name'})
+  .exec(function(err,results){
+    if(err){
+      res.json({code:1,msg:'服务端出错'})
+      return
+    }
+    res.json({code:0,data:results})
+  })
+})
 module.exports = Router

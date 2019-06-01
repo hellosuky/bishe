@@ -1,5 +1,5 @@
 import React,{Component} from 'react'
-import {Card,Icon } from 'antd'
+import {Card,Icon,Breadcrumb } from 'antd'
 import {connect} from 'react-redux'
 import {withRouter} from 'react-router'
 import {getDetail} from '../../reducers/product.redux'
@@ -28,6 +28,12 @@ class Brand extends Component{
               <img alt="img" className="top-logo" src={require('../../images/logo.png')} />
               <span className="top-title">知美</span>
         </div>
+        <Breadcrumb style={{'paddingTop':'75px','paddingLeft':"20px"}}>
+          <Breadcrumb.Item>首页</Breadcrumb.Item>
+          <Breadcrumb.Item>
+            <a href="/">{this.props.products[0]?this.props.products[0].brand.name:null}</a>
+          </Breadcrumb.Item>
+        </Breadcrumb>
         <div className="inner-container">
           {this.props.products.map(v=>{
             return <Card

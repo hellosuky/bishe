@@ -1,5 +1,5 @@
 import React,{Component} from 'react'
-import { Input,Card,Pagination,Select,Icon} from 'antd'
+import { Input,Card,Pagination,Select,Icon,Breadcrumb} from 'antd'
 import {withRouter} from 'react-router'
 import _ from 'lodash'
 import {connect} from 'react-redux'
@@ -92,6 +92,12 @@ class Category extends Component{
                   style={{ width: 200 }}
                 />}
         </div>
+        <Breadcrumb style={{'paddingTop':'75px','paddingLeft':"20px"}}>
+          <Breadcrumb.Item>首页</Breadcrumb.Item>
+          <Breadcrumb.Item>
+            <a href="/">有效成分</a>
+          </Breadcrumb.Item>
+        </Breadcrumb>
         <div className="inner-container">
           { this.props.ingredients.map(v=>{
             return  <Card
@@ -104,8 +110,9 @@ class Category extends Component{
                 <Meta title={v.name} description={v.enname} style={{'textAlign':"center"}}/>
               </Card>
           })}
-          <Pagination className="page" size={this.state.mobile?"small":"big"} defaultCurrent={1} onChange={this.onChange.bind(this)} total={50} />
         </div>
+        <Pagination className="page" size={this.state.mobile?"small":"big"} defaultCurrent={1}
+        onChange={this.onChange.bind(this)} total={50} />
         <SelfModal data={this.state.data} close={this.close.bind(this)} visible={this.state.visible}/>
       </div>
     )

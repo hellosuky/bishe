@@ -13,8 +13,6 @@ Router.post('/addtheory',function(req,res){
 Router.get('/gettheory',function(req,res){
   let {page} = req.query
   Content.find({})
-  .skip(10 * (page-1))
-  .limit(10)
   .exec(function(err,results){
     res.json({code:0,data:results})
   })
@@ -41,7 +39,6 @@ Router.post('/deletetheory',function(req,res){
   Content.deleteOne({'_id':id})
   .then(()=>{
     Content.find({})
-    .limit(10)
     .exec(function(err,results){
       res.json({code:0,data:results})
     })
@@ -53,7 +50,6 @@ Router.post('/edittheory',function(req,res){
   Content.updateOne({'_id':id},{title,content,cover})
   .then(()=>{
     Content.find({})
-    .limit(10)
     .exec(function(err,results){
       res.json({code:0,data:results})
     })

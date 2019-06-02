@@ -41,7 +41,7 @@ class AdminPage extends Component{
   componentDidMount(){
     if(!this.props.loginReducers.isLogin){
       message.error('你没有登陆这里的权限')
-      // setTimeout(()=>this.props.history.push('/admin'),1500)
+      setTimeout(()=>this.props.history.push('/admin'),1500)
     }
   }
   handleChooseMenu(e){

@@ -48,7 +48,7 @@ Router.post('/deleteingredients',function(req,res){
     return Ingredient.deleteOne({'_id':id})
   }).then((del) =>{
     Ingredient.find({})
-    .limit(10)
+    .limit(8)
     .exec(function(err,results){
       res.json({code:0,data:results})
     })

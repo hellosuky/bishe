@@ -81,8 +81,8 @@ class Pk extends Component{
           bordered
           dataSource={product.detail.base}
           renderItem={(item,index) => (
-            <List.Item>
-              {item } 辅助元素
+            <List.Item className="list">
+              <span className="text">{item}</span>辅助元素
             </List.Item>
           )}
         />
@@ -90,31 +90,36 @@ class Pk extends Component{
           <div className="pk-product">
             <Cascader className="select" options={product.allProducts}
             onChange={this.onChange.bind(this)} placeholder="选择你想比较的品牌" />
-            <img style={{'width':"200px","height":"200px","float":"left"}} alt="pic" src={URL + product.pkdetail.pic}/>
-            <div className="word">
-              <p>{product.pkdetail.name}</p>
-              <p>{product.pkdetail.brand?product.pkdetail.brand.name:null}</p>
-            </div>
-            <p className="useful">有效成分</p>
+            {product.pkdetail.name?
+              <div>
+              <div className="pk-product">
+                <img style={{'width':"200px","height":"200px","float":"left"}} alt="pic" src={URL + product.pkdetail.pic}/>
+                <div className="word">
+                  <p>{product.pkdetail.name}</p>
+                  <p>{product.pkdetail.brand?product.pkdetail.brand.name:null}</p>
+                </div>
+              <p className="useful">有效成分</p>
+              <List
+              bordered
+              dataSource={product.pkdetail.Ingredient}
+              renderItem={(item,index) => (
+                <List.Item className="list">
+                  <span className="text">{item.name}</span><Button type="primary" onClick={() => this.showModal(item)}>查看</Button>
+                </List.Item>
+              )}
+            />
+            <p className="base">辅助成分</p>
             <List
             bordered
-            dataSource={product.pkdetail.Ingredient}
+            dataSource={product.pkdetail.base}
             renderItem={(item,index) => (
-              <List.Item>
-                {item.name} <Button type="primary" onClick={() => this.showModal(item)}>查看</Button>
+              <List.Item className="list">
+                <span className="text">{item}</span> 辅助元素
               </List.Item>
             )}
           />
-          <p className="base">辅助成分</p>
-          <List
-          bordered
-          dataSource={product.pkdetail.base}
-          renderItem={(item,index) => (
-            <List.Item>
-              {item } 辅助元素
-            </List.Item>
-          )}
-        />
+          </div>
+          </div>:null}
           </div>
         </div>
         <SelfModal data={ingredient.ingredient} visible={this.state.visible} close={this.close.bind(this)}/>

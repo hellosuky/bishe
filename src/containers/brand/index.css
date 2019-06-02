@@ -125,3 +125,16 @@
   margin-top: 0.5rem;
   font-size: 0.4rem;
 }
+
+@media screen and (max-width:768px){
+  #detail-container .container{
+    margin: 0.5rem;
+  }
+  #detail-container .product{
+    flex-direction: column;
+  }
+  #detail-container .word{
+    margin-left: 0;
+    font-size: 0.5rem;
+  }
+}

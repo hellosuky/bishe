@@ -12,8 +12,8 @@ Router.get('/getproducts',function(req,res){
         Product.find({'brand':brand})
         .populate({path:'brand', select: 'name'})
         .populate({path:'Ingredient',select:'name'})
-        .limit(10)
-        .skip(10* (page-1))
+        .limit(8)
+        .skip(8* (page-1))
         .exec(function(err,results){
           if(err){
             res.json({code:1,msg:'服务端出错'})
@@ -25,8 +25,8 @@ Router.get('/getproducts',function(req,res){
         Product.find({})
         .populate({path:'brand',select:'name'})
         .populate({path:'Ingredient',select:'name'})
-        .limit(10)
-        .skip(10* (page-1))
+        .limit(8)
+        .skip(8* (page-1))
         .exec(function(err,results){
           if(err){
             res.json({code:1,msg:'服务端出错'})
@@ -40,8 +40,8 @@ Router.get('/getproducts',function(req,res){
         Product.find({'name':new RegExp(word),'brand':brand})
         .populate({path:'brand', select: 'name'})
         .populate({path:'Ingredient',select:'name'})
-        .limit(10)
-        .skip(10* (page-1))
+        .limit(8)
+        .skip(8* (page-1))
         .exec(function(err,results){
           if(err){
             res.json({code:1,msg:'服务端出错'})
@@ -53,8 +53,8 @@ Router.get('/getproducts',function(req,res){
         Product.find({'name':new RegExp(word)})
         .populate({path:'brand',select:'name'})
         .populate({path:'Ingredient',select:'name'})
-        .limit(10)
-        .skip(10* (page-1))
+        .limit(8)
+        .skip(8* (page-1))
         .exec(function(err,results){
           if(err){
             res.json({code:1,msg:'服务端出错'})
@@ -116,8 +116,8 @@ Router.get('/getsearchproducts',function(req,res){
       Product.find({'name':new RegExp(word)})
       .populate({path:'brand',select:'name'})
       .populate({path:'Ingredient',select:'name'})
-      .limit(10)
-      .skip(10* (page-1))
+      .limit(8)
+      .skip(8* (page-1))
       .exec(function(err,results){
         if(err){
           res.json({code:1,msg:'服务端出错'})
@@ -139,7 +139,7 @@ Router.post('/isshow',function(req,res){
     Product.find({})
     .populate({path:'brand',select:'name'})
     .populate({path:'Ingredient',select:'name'})
-    .limit(10)
+    .limit(8)
     .exec(function(err,results){
       res.json({code:0,data:results})
     })
@@ -156,7 +156,7 @@ Router.post('/uploadpic',function(req,res){
         Product.find({'brand':brand,'name':new RegExp(val)})
         .populate({path:'brand',select:'name'})
         .populate({path:'Ingredient',select:'name'})
-        .limit(10)
+        .limit(8)
         .exec(function(err,results){
           res.json({code:0,data:results})
         })
@@ -164,7 +164,7 @@ Router.post('/uploadpic',function(req,res){
       Product.find({'brand':brand})
       .populate({path:'brand',select:'name'})
       .populate({path:'Ingredient',select:'name'})
-      .limit(10)
+      .limit(8)
       .exec(function(err,results){
         res.json({code:0,data:results})
       })
@@ -174,7 +174,7 @@ Router.post('/uploadpic',function(req,res){
       Product.find({'name':new RegExp(val)})
       .populate({path:'brand',select:'name'})
       .populate({path:'Ingredient',select:'name'})
-      .limit(10)
+      .limit(8)
       .exec(function(err,results){
         res.json({code:0,data:results})
       })
@@ -182,7 +182,7 @@ Router.post('/uploadpic',function(req,res){
       Product.find({})
       .populate({path:'brand',select:'name'})
       .populate({path:'Ingredient',select:'name'})
-      .limit(10)
+      .limit(8)
       .exec(function(err,results){
         res.json({code:0,data:results})
       })

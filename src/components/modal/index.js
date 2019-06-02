@@ -1,5 +1,6 @@
 import React,{Component} from 'react'
 import {Modal} from 'antd'
+import './index.css'
 
 class SelfModal extends Component{
   handleCancel(){
@@ -8,21 +9,19 @@ class SelfModal extends Component{
   render(){
     const data = this.props.data
     return(
-      <div id="selfmodal-container">
         <Modal
            title="详细信息"
            visible={this.props.visible}
            footer={null}
            onCancel={this.handleCancel.bind(this)}
          >
-           <iframe style={{'width': '500px', 'height': '300px'}}
-           title="ddd"
+           <iframe style={{'width': '100%'}}
+           title="iframe"
            frameBorder="0" src={data.url}></iframe>
-           <p>{data.name}</p>
-           <p>{data.iupac}</p>
-           <p>{data.infor}</p>
+           <p className="modal-name">{data.name}</p>
+           <p className="modal-iupac">IUPAC名：{data.iupac}</p>
+           <p className="modal-infor">简介:{data.infor}</p>
          </Modal>
-      </div>
     )
   }
 }

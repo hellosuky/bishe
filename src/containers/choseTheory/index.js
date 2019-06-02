@@ -46,7 +46,7 @@ class ChoseTheory extends Component{
                   <img
                     width={272}
                     alt="logo"
-                    src={item.cover?(URL +  item.cover): require('./images/pic1.png')}
+                    src={URL +  item.cover}
                   />
                 }
               >

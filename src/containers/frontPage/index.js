@@ -10,7 +10,7 @@ class FrontPage extends Component{
     return (
       <div id="container">
         <div className="logo-container">
-          <img src={require('./images/logo.png')} alt="logo"/>
+          <img src={require('../../images/logo.png')} alt="logo"/>
           <span>知美</span>
         </div>
         <div className="inner-container">

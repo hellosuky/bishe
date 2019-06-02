@@ -84,11 +84,12 @@ function* getPage(brand){
   try{
     const config = {
       headers:{
-        "Content-Type": 'application/x-www-form-urlencoded; charset=UTF-8'
+        "Content-Type": 'application/x-www-form-urlencoded; charset=UTF-8',
+        // "Access-Control-Allow-Origin": "*"
       }
     }
     const data = `querytype=productname&pfid=&content=${brand}&dataPage=&allPage=&perPage=&allRows=&order=`
-    let res = yield call(axios.post,`/province/webquery/wq.do?method=query`,data,config)
+    let res = yield call(axios.post,`http://cpnp.nmpa.gov.cn/province/webquery/wq.do?method=query`,data,config)
     let page = res.data.pageBean.allPage
     return page
   }catch(err){
@@ -105,11 +106,12 @@ function* getList(brand,page){
     for(let i=0;i<page;i++){
       const config = {
         headers:{
-          "Content-Type": 'application/x-www-form-urlencoded; charset=UTF-8'
+          "Content-Type": 'application/x-www-form-urlencoded; charset=UTF-8',
+          // "Access-Control-Allow-Origin": "*"
         }
       }
       const data = `querytype=productname&pfid=&content=${brand}&dataPage=${i}&allPage=&perPage=&allRows=&order=`
-      let res = yield call(axios.post,`/province/webquery/wq.do?method=query`,data,config)
+      let res = yield call(axios.post,`http://cpnp.nmpa.gov.cn/province/webquery/wq.do?method=query`,data,config)
       arr.push(...res.data.list)
     }
     return arr
@@ -127,11 +129,12 @@ function* getDetail(list){
     for(let i=0;i<list.length;i++){
       const config = {
         headers:{
-          "Content-Type": 'application/x-www-form-urlencoded; charset=UTF-8'
+          "Content-Type": 'application/x-www-form-urlencoded; charset=UTF-8',
+          // "Access-Control-Allow-Origin": "*"
         }
       }
       const data = `method=show&id=${list[i].id}`
-      let res = yield call(axios.post,`/province/webquery/wq.do`,data,config)
+      let res = yield call(axios.post,`http://cpnp.nmpa.gov.cn/province/webquery/wq.do`,data,config)
       arr.push(res.data)
     }
     return arr

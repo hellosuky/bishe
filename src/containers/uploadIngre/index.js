@@ -5,7 +5,7 @@ import {addIngredient,getCategory} from '../../reducers/ingredient.redux'
 import axios from 'axios'
 import './index.css'
 
-const URL = `http://localhost:9090/upload/`
+const URL = 'http://47.100.171.180:3001/upload/'
 
 const {TextArea} = Input
 const Option = Select.Option
@@ -58,7 +58,7 @@ class UploadIngre extends Component{
      message.error('请将所有空填完')
      return
    }
-   
+
      //提交
      this.props.addIngredient(this.state.name,this.state.category,this.state.url,
      this.state.infor,this.state.enname,this.state.iupac,this.state.pic)

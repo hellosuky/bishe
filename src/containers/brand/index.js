@@ -6,7 +6,7 @@ import {getDetail} from '../../reducers/product.redux'
 import './index.css'
 
 const { Meta } = Card
-const URL = 'http://localhost:9090/upload/'
+const URL = 'http://47.100.171.180:3001/upload/'
 
 @connect(
   state => state.products,

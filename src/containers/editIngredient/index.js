@@ -7,7 +7,7 @@ import './index.css'
 
 const {TextArea} = Input
 const Option = Select.Option
-const URL = 'http://localhost:9090/upload/'
+const URL = 'http://47.100.171.180:3001/upload/'
 
 @connect(
   state => state.ingredients,

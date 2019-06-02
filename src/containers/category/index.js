@@ -9,7 +9,7 @@ import './index.css'
 
 const { Meta } = Card
 const {Option} = Select
-const URL = 'http://localhost:9090/upload/'
+const URL = 'http://47.100.171.180:3001/upload/'
 
 @connect(
   state => state.ingredients,

@@ -7,7 +7,7 @@ import {getSpecialIngredient} from '../../reducers/ingredient.redux'
 import './index.css'
 
 
-const URL = 'http://localhost:9090/upload/'
+const URL = 'http://47.100.171.180:3001/upload/'
 
 @connect(
   state => ({products:state.products,ingredients:state.ingredients}),

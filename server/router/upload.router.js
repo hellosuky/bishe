@@ -20,10 +20,6 @@ Router.post('/upload',upload.single('pic'),function(req,res){
   res.json({code:0,data:req.file})
 })
 
-Router.post('/picture',upload.single('pic'),function(req,res){
-  res.json({errno:0,data:[`http://localhost:9090/upload/${req.file}`]})
-})
-
 Router.post('/delete',function(req,res){
   let {url} = req.body
   fs.unlink(path.resolve('./') + `/server/upload/${url}` ,(err) => {

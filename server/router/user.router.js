@@ -13,7 +13,7 @@ function encryptPwd(pwd){
 
 Router.post('/login',function(req,res){
   let {username,pwd} = req.body
-  User.findOne({'name':username,'pwd':encryptPwd(pwd)},{pwd:0},(err,doc) => {
+  User.findOne({'username':username,'pwd':encryptPwd(pwd)},{pwd:0},(err,doc) => {
     if(err){
       res.json({code:1,msg:'该用户不存在'})
       return
@@ -61,6 +61,7 @@ Router.post('/deleteadmin',function(req,res){
       res.json({code:0,data:d})
     })
   })
+
 })
 
 module.exports = Router

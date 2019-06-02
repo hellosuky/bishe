@@ -22,12 +22,15 @@ app.use('/api',UploadRouter)
 
 //图片储存路径
 app.use('/upload',express.static(__dirname + '/upload'))
-
+app.use(express.static(__dirname + '/build'))
+app.get('*',function(req,res){
+  res.sendFile(path.join('/build/index.html'))
+})
 
 //connect to mongodb
 mongoose.set('useCreateIndex', true)
-mongoose.connect('mongodb://localhost/systems', {useNewUrlParser: true})
+mongoose.connect('mongodb://suky:00000000@47.100.171.180:27017/admin', {useNewUrlParser: true})
 mongoose.connection.on('connected',() => console.log('mongodb is now connected'))
 
-const PORT =process.env.PORT || 9090
+const PORT =process.env.PORT || 3001
 app.listen(PORT,() => console.log(`we are now listening to ${PORT}`))

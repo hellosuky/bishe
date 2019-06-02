@@ -3,19 +3,19 @@ const proxy = require('http-proxy-middleware')
 module.exports = function(app){
   app.use(
     proxy('/api/upload',{
-      target:"http://localhost:9090/",
+      target:"http://47.100.171.180:3001/",
       changeOrigin:true
     })
   ),
   app.use(
     proxy('/api/delete',{
-      target:"http://localhost:9090/",
+      target:"http://47.100.171.180:3001/",
       changeOrigin:true
     })
   ),
   app.use(
     proxy('/back/**',{
-      target:"http://localhost:9090/",
+      target:"http://47.100.171.180:3001/",
       changeOrigin:true
     })
   ),

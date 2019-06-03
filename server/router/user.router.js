@@ -1,9 +1,7 @@
 const express = require('express')
 const Router = express.Router()
 const utils = require('utility')
-const passport = require('passport')
 const User = require('../schemas/user.schemas')
-const Promise = require('bluebird')
 
 //encrypt pwd
 function encryptPwd(pwd){

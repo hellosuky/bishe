@@ -58,5 +58,18 @@
     "not dead",
     "not ie <= 11",
     "not op_mini all"
-  ]
+  ],
+  "description": "环境搭建：<br/>\r + Express\r + create-react-app\r + @babel/plugin-proposal-decorators(使用装饰器)\r + customize-cra(装饰器辅助组件)\r + antd\r + http-proxy-middleware(支持create-react-app跨域)\r + babel-plugin-import(antd辅助插件)\r + nodemon",
+  "main": "config-overrides.js",
+  "devDependencies": {},
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/hellosuky/bishe.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/hellosuky/bishe/issues"
+  },
+  "homepage": "https://github.com/hellosuky/bishe#readme"
 }

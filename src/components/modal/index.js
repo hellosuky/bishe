@@ -19,6 +19,7 @@ class SelfModal extends Component{
            title="iframe"
            frameBorder="0" src={data.url}></iframe>
            <p className="modal-name">{data.name}</p>
+           <p className="modal-cator">{data.category?data.category.name:null}</p>
            <p className="modal-iupac">IUPAC名：{data.iupac}</p>
            <p className="modal-infor">简介:{data.infor}</p>
          </Modal>

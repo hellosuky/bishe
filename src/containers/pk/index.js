@@ -7,7 +7,7 @@ import {getSpecialIngredient} from '../../reducers/ingredient.redux'
 import SelfModal from '../../components/modal/index'
 import './index.css'
 
-const URL = 'http://47.100.171.180:3001/upload/'
+const URL = 'http://localhost:3001/upload/'
 @connect(
   state => ({products:state.products,ingredients:state.ingredients}),
   {getAllProducts,getPkDetail,getSpecialIngredient}

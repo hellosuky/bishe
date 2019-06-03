@@ -1,7 +1,11 @@
 .modal-name{
   font-size: 0.5rem;
-  color: #999;
   font-weight: 600;
+  margin-bottom: 0;
+}
+.modal-cator{
+  margin-bottom: 0.1rem;
+  color:#999;
 }
 .modal-iupac{
   font-size: 0.3rem;

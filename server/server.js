@@ -14,7 +14,7 @@ app.use(bodyParser.json({limit:'50mb'}))
 app.use(bodyParser.urlencoded({limit:'50mb',extended:true,parameterLimit:50000}))
 app.use(compression())
 
-app.use('/province/**',proxy({target:'http://cpnp.nmpa.gov.cn',changeOrigin:true}))
+// app.use('/province/**',proxy({target:'http://cpnp.nmpa.gov.cn',changeOrigin:true}))
 // app.use(function (req, res, next) {
 //   res.header('Access-Control-Allow-Origin', '*');
 //   res.header('Access-Control-Allow-Headers', 'Content-Type, Content-Length, Authorization, Accept, X-Requested-With , yourHeaderFeild');
@@ -39,13 +39,13 @@ app.use('/api',UploadRouter)
 app.use('/upload',express.static(__dirname + '/upload'))
 app.use(express.static(__dirname + '/build'))
 
-app.get('*',function(req,res){
-  res.sendFile(path.join('/build/index.html'))
-})
+// app.get('*',function(req,res){
+//   res.sendFile(path.join('/build/index.html'))
+// })
 
 //connect to mongodb
 mongoose.set('useCreateIndex', true)
-mongoose.connect('mongodb://localhost:27017/admin', {useNewUrlParser: true})
+mongoose.connect('mongodb://localhost:27017/systems', {useNewUrlParser: true})
 // mongoose.connect('mongodb://suky:00000000@47.100.171.180:27017/admin', {useNewUrlParser: true})
 mongoose.connection.on('connected',() => console.log('mongodb is now connected'))
 

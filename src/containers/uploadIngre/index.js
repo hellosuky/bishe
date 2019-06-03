@@ -5,7 +5,7 @@ import {addIngredient,getCategory} from '../../reducers/ingredient.redux'
 import axios from 'axios'
 import './index.css'
 
-const URL = 'http://47.100.171.180:3001/upload/'
+const URL = 'http://localhost:3001/upload/'
 
 const {TextArea} = Input
 const Option = Select.Option

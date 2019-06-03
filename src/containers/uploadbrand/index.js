@@ -5,7 +5,7 @@ import axios from 'axios'
 import {addBrand,getBrand,deleteBrand} from '../../reducers/product.redux'
 import './index.css'
 
-const URL = 'http://47.100.171.180:3001/upload/'
+const URL = 'http://localhost:3001/upload/'
 
 @connect(
   state => state.products,

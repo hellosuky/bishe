@@ -2,22 +2,21 @@ import React,{Component} from 'react'
 import {List,Icon} from 'antd'
 import {connect} from 'react-redux'
 import {withRouter} from 'react-router'
-import {getTheory,getSpecialTheory} from '../../reducers/theory.redux'
+import {getTheory} from '../../reducers/theory.redux'
 import './index.css'
 
 const URL = 'http://localhost:3001/upload/'
 
 @connect(
   state => state.theory,
-  {getTheory,getSpecialTheory}
+  {getTheory}
 )
 class ChoseTheory extends Component{
   componentWillMount(){
-    this.props.getTheory(1)
+    this.props.getTheory()
   }
   handleClick(id){
-    this.props.getSpecialTheory(id)
-    this.props.history.push('/principle')
+    this.props.history.push(`/principle/${id}`)
   }
   handleBack(){
     this.props.history.goBack(-1)

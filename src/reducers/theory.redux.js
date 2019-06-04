@@ -35,10 +35,9 @@ export function addTheory(title,content,cover){
 }
 
 //get theory
-export function getTheory(page){
+export function getTheory(){
   return ({
-    type:Actions.GET_THEORY,
-    page
+    type:Actions.GET_THEORY
   })
 }
 

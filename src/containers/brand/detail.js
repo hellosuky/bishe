@@ -3,6 +3,7 @@ import { Breadcrumb,List,Button,Icon } from 'antd'
 import {connect} from 'react-redux'
 import {withRouter} from 'react-router'
 import SelfModal from '../../components/modal/index'
+import {getDetail} from '../../reducers/product.redux'
 import {getSpecialIngredient} from '../../reducers/ingredient.redux'
 import './index.css'
 
@@ -11,7 +12,7 @@ const URL = 'http://47.100.171.180:3001/upload/'
 
 @connect(
   state => ({products:state.products,ingredients:state.ingredients}),
-  {getSpecialIngredient}
+  {getSpecialIngredient,getDetail}
 )
 class Detail extends Component{
   constructor(){
@@ -21,6 +22,9 @@ class Detail extends Component{
        mobile:false
     }
     this.showModal = this.showModal.bind(this)
+  }
+  componentWillMount(){
+    this.props.getDetail(this.props.match.params.id)
   }
   componentDidMount(){
     window.addEventListener("resize", this.resize.bind(this))
@@ -43,8 +47,8 @@ class Detail extends Component{
   close(){
     this.setState({visible:false})
   }
-  handlePk(){
-    this.props.history.push('/pk')
+  handlePk(id){
+    this.props.history.push(`/pk/${id}`)
   }
   render(){
     const product = this.props.products
@@ -72,7 +76,8 @@ class Detail extends Component{
             <div className="word">
               <p>{product.detail.name}</p>
               <p>{product.detail.brand?product.detail.brand.name:null}</p>
-              {this.state.mobile?null:<Button type="primary" onClick={this.handlePk.bind(this)}>Pk</Button>}
+              {this.state.mobile?null:<Button type="primary"
+              onClick={this.handlePk.bind(this,product.detail._id)}>Pk</Button>}
             </div>
           </div>
           <br/>

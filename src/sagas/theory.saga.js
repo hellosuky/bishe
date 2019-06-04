@@ -24,10 +24,10 @@ function* addTheoryFlow(){
   }
 }
 
-function* getTheory(page){
+function* getTheory(){
   yield put({type:Helper.FETCH_START})
   try{
-    return yield call(axios.get,`/back/theory/gettheory?page=${page}`)
+    return yield call(axios.get,`/back/theory/gettheory`)
   }catch(err){
     console.log(err)
   }finally{
@@ -37,8 +37,8 @@ function* getTheory(page){
 
 function* getTheoryFlow(){
   while (true) {
-    let req = yield take(Actions.GET_THEORY)
-    let res = yield call(getTheory,req.page)
+    yield take(Actions.GET_THEORY)
+    let res = yield call(getTheory)
     if(res.data && res.data.code === 0){
       yield put({type:Actions.GET_THEORY_SUCCESS,payload:res.data.data})
     }

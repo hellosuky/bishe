@@ -2,7 +2,7 @@ import React,{Component} from 'react'
 import {Breadcrumb,List,Button,Cascader,Icon} from 'antd'
 import {connect} from 'react-redux'
 import {withRouter} from 'react-router'
-import {getAllProducts,getPkDetail} from '../../reducers/product.redux'
+import {getAllProducts,getPkDetail,getDetail} from '../../reducers/product.redux'
 import {getSpecialIngredient} from '../../reducers/ingredient.redux'
 import SelfModal from '../../components/modal/index'
 import './index.css'
@@ -10,7 +10,7 @@ import './index.css'
 const URL = 'http://localhost:3001/upload/'
 @connect(
   state => ({products:state.products,ingredients:state.ingredients}),
-  {getAllProducts,getPkDetail,getSpecialIngredient}
+  {getAllProducts,getPkDetail,getSpecialIngredient,getDetail}
 )
 class Pk extends Component{
   constructor(){
@@ -25,9 +25,7 @@ class Pk extends Component{
   }
   componentWillMount(){
     this.props.getAllProducts()
-  }
-  handleClick(){
-    this.props.history.push('/second')
+    this.props.getDetail(this.props.match.params.id)
   }
   onChange(value) {
     this.props.getPkDetail(value[1])

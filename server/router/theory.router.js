@@ -11,7 +11,6 @@ Router.post('/addtheory',function(req,res){
 })
 
 Router.get('/gettheory',function(req,res){
-  let {page} = req.query
   Content.find({})
   .exec(function(err,results){
     res.json({code:0,data:results})

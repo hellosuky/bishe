@@ -2,7 +2,7 @@ import React,{Component} from 'react'
 import {Card,Icon,Breadcrumb } from 'antd'
 import {connect} from 'react-redux'
 import {withRouter} from 'react-router'
-import {getDetail} from '../../reducers/product.redux'
+import {getFrontProducts} from '../../reducers/product.redux'
 import './index.css'
 
 const { Meta } = Card
@@ -10,12 +10,14 @@ const URL = 'http://localhost:3001/upload/'
 
 @connect(
   state => state.products,
-  {getDetail}
+  {getFrontProducts}
 )
 class Brand extends Component{
+  componentWillMount(){
+    this.props.getFrontProducts(this.props.match.params.id)
+  }
   handleClick(id){
-    this.props.getDetail(id)
-    this.props.history.push('/detail')
+    this.props.history.push(`/detail/${id}`)
   }
   handleBack(){
     this.props.history.goBack(-1)

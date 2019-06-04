@@ -37,13 +37,13 @@ class App extends Component {
     return (
       <div className="wrapper">
           <Switch>
-            <Route path="/detail" component={Detail} />
-            <Route path="/pk" component={Pk} />
+            <Route path="/detail/:id" component={Detail} />
+            <Route path="/pk/:id" component={Pk} />
             <Route path="/second" component={SecondPage} />
             <Route path="/theory" component={ChoseTheory} />
             <Route path="/chosebrand" component={ChoseBrand} />
-            <Route path="/principle" component={Principle} />
-            <Route path="/brand" component={Brand} />
+            <Route path="/principle/:id" component={Principle} />
+            <Route path="/brand/:id" component={Brand} />
             <Route path="/category" component={Category} />
             <Route path="/admin" component={Admin} />
             <Route path="/adminpage" component={AdminPage} />

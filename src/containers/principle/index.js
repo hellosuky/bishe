@@ -2,12 +2,17 @@ import React,{Component} from 'react'
 import {Icon} from 'antd'
 import {connect} from 'react-redux'
 import {withRouter} from 'react-router'
+import {getSpecialTheory} from '../../reducers/theory.redux'
 import './index.css'
 
 @connect(
-  state => state.theory
+  state => state.theory,
+  {getSpecialTheory}
 )
 class Principle extends Component{
+  componentWillMount(){
+    this.props.getSpecialTheory(this.props.match.params.id)
+  }
   handleClick(){
     this.props.history.go(-1)
   }

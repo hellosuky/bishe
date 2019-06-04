@@ -38,8 +38,8 @@ app.use(express.static(__dirname + '/build'))
 
 //connect to mongodb
 mongoose.set('useCreateIndex', true)
-mongoose.connect('mongodb://localhost:27017/systems', {useNewUrlParser: true})
-// mongoose.connect('mongodb://suky:00000000@47.100.171.180:27017/admin', {useNewUrlParser: true})
+// mongoose.connect('mongodb://localhost:27017/systems', {useNewUrlParser: true})
+mongoose.connect('mongodb://suky:00000000@47.100.171.180:27017/admin', {useNewUrlParser: true})
 mongoose.connection.on('connected',() => console.log('mongodb is now connected'))
 
 const PORT =process.env.PORT || 3001

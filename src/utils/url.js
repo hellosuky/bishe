@@ -1,1 +1,1 @@
-export const URL ='http://localhost:3001/upload/'
+export const URL ='http://47.100.171.180/upload/'

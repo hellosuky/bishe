@@ -2,15 +2,27 @@ import React, { Component } from 'react'
 import {Switch,Route} from 'react-router-dom'
 import FrontPage from './containers/frontPage/index'
 import SecondPage from './containers/secondPage/index'
-import Principle from './containers/principle/index'
-import Brand from './containers/brand/index'
-import Category from './containers/category/index'
-import Detail from './containers/brand/detail'
-import ChoseTheory from './containers/choseTheory/index'
-import ChoseBrand from './containers/choseBrand/index'
-import Pk from './containers/pk/index'
-import Admin from './containers/admin/index'
-import AdminPage from './containers/adminpage/index'
+// import Principle from './containers/principle/index'
+// import Brand from './containers/brand/index'
+// import Category from './containers/category/index'
+// import Detail from './containers/brand/detail'
+// import ChoseTheory from './containers/choseTheory/index'
+// import ChoseBrand from './containers/choseBrand/index'
+// import Pk from './containers/pk/index'
+// import Admin from './containers/admin/index'
+// import AdminPage from './containers/adminpage/index'
+import asyncComponent from './containers/AsyncComponent/index'
+
+const AsyncAdminPage = asyncComponent(()=>import('./containers/adminpage/index'))
+const AsyncAdmin = asyncComponent(()=>import('./containers/admin/index'))
+const AsyncChoseBrand = asyncComponent(()=>import('./containers/choseBrand/index'))
+const AsyncPk = asyncComponent(()=>import('./containers/pk/index'))
+const AsyncChoseTheory = asyncComponent(()=>import('./containers/choseTheory/index'))
+const AsyncDetail = asyncComponent(()=>import('./containers/brand/detail'))
+const AsyncCategory = asyncComponent(()=>import('./containers/category/index'))
+const AsyncBrand = asyncComponent(()=>import('./containers/brand/index'))
+const AsyncPrinciple = asyncComponent(()=>import('./containers/principle/index'))
+
 
 //前端、后端、404
 class App extends Component {
@@ -37,16 +49,16 @@ class App extends Component {
     return (
       <div className="wrapper">
           <Switch>
-            <Route path="/detail/:id" component={Detail} />
-            <Route path="/pk/:id" component={Pk} />
+            <Route path="/detail/:id" component={AsyncDetail} />
+            <Route path="/pk/:id" component={AsyncPk} />
             <Route path="/second" component={SecondPage} />
-            <Route path="/theory" component={ChoseTheory} />
-            <Route path="/chosebrand" component={ChoseBrand} />
-            <Route path="/principle/:id" component={Principle} />
-            <Route path="/brand/:id" component={Brand} />
-            <Route path="/category" component={Category} />
-            <Route path="/admin" component={Admin} />
-            <Route path="/adminpage" component={AdminPage} />
+            <Route path="/theory" component={AsyncChoseTheory} />
+            <Route path="/chosebrand" component={AsyncChoseBrand} />
+            <Route path="/principle/:id" component={AsyncPrinciple} />
+            <Route path="/brand/:id" component={AsyncBrand} />
+            <Route path="/category" component={AsyncCategory} />
+            <Route path="/admin" component={AsyncAdmin} />
+            <Route path="/adminpage" component={AsyncAdminPage} />
             <Route path="/" component={FrontPage} />
             <Route component={FrontPage} />
           </Switch>

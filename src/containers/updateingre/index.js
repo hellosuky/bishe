@@ -2,9 +2,9 @@ import React,{Component} from 'react'
 import {Table,Popconfirm,message,Input} from 'antd'
 import {connect} from 'react-redux'
 import {getIngredient,deleteIngredient,getSpecialIngredient} from '../../reducers/ingredient.redux'
+import {URL} from '../../utils/url'
 import './index.css'
 
-const URL = 'http://localhost:3001/upload/'
 
 @connect(
   state => state.ingredients,

@@ -87,12 +87,33 @@ function* deleteAdminFlow(){
   }
 }
 
+function* getUser(){
+  yield put({type:Helper.FETCH_START})
+  try{
+    return yield call(axios.get,'/back/user/user')
+  }catch(err){
+    console.log(err)
+  }finally{
+    yield put({type:Helper.FETCH_END})
+  }
+}
+
+function* getUserFlow(){
+  while (true) {
+    yield take(Actions.GET_USER)
+    let res = yield call(getUser)
+    if(res.data && res.data.code === 0){
+      yield put({type:Actions.GET_USER_SUCCESS,payload:res.data.data})
+    }
+  }
+}
 
 export function* loginSaga(){
   yield all([
     fork(loginFlow),
     fork(getAllAdminFlow),
     fork(addAdminFlow),
-    fork(deleteAdminFlow)
+    fork(deleteAdminFlow),
+    fork(getUserFlow)
   ])
 }

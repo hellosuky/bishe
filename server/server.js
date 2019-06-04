@@ -1,5 +1,6 @@
 const express = require('express')
 const app = express()
+const cookieParser = require('cookie-parser')
 const mongoose = require('mongoose')
 const bodyParser = require('body-parser')
 const proxy = require('http-proxy-middleware')
@@ -13,6 +14,7 @@ const UploadRouter = require('./router/upload.router')
 app.use(bodyParser.json({limit:'50mb'}))
 // app.use(bodyParser.urlencoded({limit:'50mb',extended:true,parameterLimit:50000}))
 app.use(compression())
+app.use(cookieParser())
 
 
 //router manager

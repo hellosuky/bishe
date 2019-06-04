@@ -4,10 +4,10 @@ import axios from 'axios'
 import {connect} from 'react-redux'
 import _ from 'lodash'
 import {getBrand,getProducts,show,uploadpic} from '../../reducers/product.redux'
+import {URL} from '../../utils/url'
 import './index.css'
 
 const Option = Select.Option
-const URL = 'http://localhost:3001/upload/'
 
 @connect(
   state =>state.products,

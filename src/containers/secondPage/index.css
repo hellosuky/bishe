@@ -32,6 +32,18 @@
   background-size: cover;
 }
 
+#secondContainer .go-back{
+  position: absolute;
+  z-index: 1000;
+  color:#1890ff;
+  top: 0.2rem;
+  font-size: 0.4rem;
+  left:0.4rem;
+  font-weight: 600;
+}
+#secondContainer .go-back:hover{
+  cursor: pointer;
+}
 #secondContainer .subTitle{
   z-index: 100;
   position: absolute;

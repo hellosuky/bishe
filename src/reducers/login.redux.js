@@ -15,6 +15,8 @@ export function loginReducers(state = initalState,action){
       return {...state,admin:[...state.admin,action.payload]}
     case Actions.DELETE_ADMIN_SUCCESS:
       return {...state,admin:action.payload}
+    case Actions.GET_USER_SUCCESS:
+      return {...state,isLogin:action.payload === 'success'? true:false}
     default:
       return state
   }
@@ -50,5 +52,12 @@ export function deleteAdmin(id){
   return ({
     type:Actions.DELETE_ADMIN,
     id
+  })
+}
+
+//get user
+export function getUser(){
+  return ({
+    type:Actions.GET_USER
   })
 }

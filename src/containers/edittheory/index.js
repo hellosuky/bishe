@@ -2,11 +2,11 @@ import React,{Component} from 'react'
 import {Input,Button, Upload,Icon,Modal,message} from 'antd'
 import {connect} from 'react-redux'
 import {editTheory} from '../../reducers/theory.redux'
+import {URL} from '../../utils/url'
 import axios from 'axios'
 import wangEditor from 'wangeditor'
 import './index.css'
 
-const URL = 'http://localhost:3001/upload/'
 
 @connect(
   state=>state.theory,

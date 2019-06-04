@@ -3,9 +3,9 @@ import {Table,message,Input,Popconfirm} from 'antd'
 import {connect} from 'react-redux'
 import _ from 'lodash'
 import {getTheory,deleteTheory,getSearchTheory,getSpecialTheory} from '../../reducers/theory.redux'
+import {URL} from '../../utils/url'
 import './index.css'
 
-const URL = 'http://localhost:3001/upload/'
 
 @connect(
   state => state.theory,

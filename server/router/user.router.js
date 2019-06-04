@@ -16,7 +16,8 @@ Router.post('/login',function(req,res){
       res.json({code:1,msg:'该用户不存在'})
       return
     }
-      res.json({code:0,msg:'登录成功'})
+    res.cookie('username',doc.username,{maxAge:6*1000*20})
+    res.json({code:0,msg:'登录成功'})
   })
 })
 
@@ -59,7 +60,14 @@ Router.post('/deleteadmin',function(req,res){
       res.json({code:0,data:d})
     })
   })
+})
 
+Router.get('/user',function(req,res){
+  if(req.cookies.username){
+    res.json({code:0,data:'success'})
+    return
+  }
+  res.json({code:0,data:'fail'})
 })
 
 module.exports = Router

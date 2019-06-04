@@ -5,11 +5,11 @@ import _ from 'lodash'
 import {connect} from 'react-redux'
 import {getIngredient,getCategory} from '../../reducers/ingredient.redux'
 import SelfModal from '../../components/modal/index'
+import {URL} from '../../utils/url'
 import './index.css'
 
 const { Meta } = Card
 const {Option} = Select
-const URL = 'http://localhost:3001/upload/'
 
 @connect(
   state => state.ingredients,

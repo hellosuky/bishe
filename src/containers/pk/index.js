@@ -4,10 +4,10 @@ import {connect} from 'react-redux'
 import {withRouter} from 'react-router'
 import {getAllProducts,getPkDetail,getDetail} from '../../reducers/product.redux'
 import {getSpecialIngredient} from '../../reducers/ingredient.redux'
+import {URL} from '../../utils/url'
 import SelfModal from '../../components/modal/index'
 import './index.css'
 
-const URL = 'http://localhost:3001/upload/'
 @connect(
   state => ({products:state.products,ingredients:state.ingredients}),
   {getAllProducts,getPkDetail,getSpecialIngredient,getDetail}

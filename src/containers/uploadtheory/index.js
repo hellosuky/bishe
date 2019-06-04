@@ -4,9 +4,9 @@ import {connect} from 'react-redux'
 import {addTheory} from '../../reducers/theory.redux'
 import axios from 'axios'
 import wangEditor from 'wangeditor'
+import {URL} from '../../utils/url'
 import './index.css'
 
-const URL = 'http://localhost:3001/upload/'
 
 @connect(
   null,

@@ -3,9 +3,9 @@ import {Input,Button,Table,Upload,Icon,Modal,Popconfirm,message} from 'antd'
 import {connect} from 'react-redux'
 import axios from 'axios'
 import {addBrand,getBrand,deleteBrand} from '../../reducers/product.redux'
+import {URL} from '../../utils/url'
 import './index.css'
 
-const URL = 'http://localhost:3001/upload/'
 
 @connect(
   state => state.products,

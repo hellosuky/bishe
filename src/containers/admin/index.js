@@ -1,12 +1,12 @@
 import React from 'react'
 import { Form, Icon, Input, Button,message} from 'antd'
 import {connect} from 'react-redux'
-import {login} from '../../reducers/login.redux'
+import {login,getUser} from '../../reducers/login.redux'
 import './index.css'
 
 @connect(
   state => state.loginReducers,
-  {login}
+  {login,getUser}
 )
 class NormalLoginForm extends React.Component {
   constructor(){
@@ -16,8 +16,16 @@ class NormalLoginForm extends React.Component {
       pwd:""
     }
   }
+  componentWillMount(){
+    this.props.getUser()
+  }
   componentWillReceiveProps(nextProps){
     if(nextProps.isLogin){
+      this.props.history.push('/adminpage/uploadbrand')
+    }
+  }
+  componentDidMount(){
+    if(this.props.isLogin){
       this.props.history.push('/adminpage/uploadbrand')
     }
   }

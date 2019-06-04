@@ -5,10 +5,8 @@ import {withRouter} from 'react-router'
 import SelfModal from '../../components/modal/index'
 import {getDetail} from '../../reducers/product.redux'
 import {getSpecialIngredient} from '../../reducers/ingredient.redux'
+import {URL} from '../../utils/url'
 import './index.css'
-
-
-const URL = 'http://47.100.171.180:3001/upload/'
 
 @connect(
   state => ({products:state.products,ingredients:state.ingredients}),

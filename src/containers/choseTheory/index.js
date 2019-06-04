@@ -3,9 +3,9 @@ import {List,Icon} from 'antd'
 import {connect} from 'react-redux'
 import {withRouter} from 'react-router'
 import {getTheory} from '../../reducers/theory.redux'
+import {URL} from '../../utils/url'
 import './index.css'
 
-const URL = 'http://localhost:3001/upload/'
 
 @connect(
   state => state.theory,

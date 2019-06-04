@@ -13,6 +13,7 @@ import UploadTheory from '../uploadtheory/index'
 import UpdateTheory from '../updatetheory/index'
 import EditIngre from '../editIngredient/index'
 import EditTheory from '../edittheory/index'
+import {getUser} from '../../reducers/login.redux'
 import './index.css'
 
 const {Header,Content,Sider} = Layout
@@ -29,7 +30,8 @@ const menus = [
 ]
 
 @connect(
-  state => ({globalMsg:state.globalMsg,loginReducers:state.loginReducers})
+  state => ({globalMsg:state.globalMsg,loginReducers:state.loginReducers}),
+  {getUser}
 )
 class AdminPage extends Component{
   constructor(){
@@ -38,8 +40,11 @@ class AdminPage extends Component{
       current:'/adminpage/uploadbrand'
     }
   }
-  componentDidMount(){
-    if(!this.props.loginReducers.isLogin){
+  componentWillMount(){
+    this.props.getUser()
+  }
+  componentWillReceiveProps(nextProps){
+    if(!nextProps.loginReducers.isLogin){
       message.error('你没有登陆这里的权限')
       setTimeout(()=>this.props.history.push('/admin'),1500)
     }
@@ -48,12 +53,16 @@ class AdminPage extends Component{
    this.setState({current:e.key})
    this.props.history.push(`${e.key}`)
  }
+ goBack(){
+   this.props.history.push('/first')
+ }
   render(){
     return(
       <Layout id="layout-container" style={{'minHeight':"100%"}}>
      <Header className="header">
        <img alt="logo" className="logo" src={require('../../images/logo.png')}/>
-       <span style={{'color':"#fff","paddingLeft":"5px"}}>知美后台</span>
+       <span className="logo-text">知美后台</span>
+       <span className="go-back" onClick={this.goBack.bind(this)}>返回首页</span>
      </Header>
      <Layout>
        <Sider width={200} style={{ background: '#fff' }}>

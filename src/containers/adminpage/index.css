@@ -1,3 +1,16 @@
 #layout-container .logo{
   width: 40px;
 }
+#layout-container .logo-text{
+  color:#fff;
+  padding-left:5px;
+  font-size: 0.3rem;
+}
+#layout-container .go-back{
+  float: right;
+  color: #fff;
+  font-size: 0.4rem;
+}
+#layout-container .go-back:hover{
+  cursor: pointer;
+}

@@ -3,10 +3,10 @@ import { Card,Icon} from 'antd'
 import {connect} from 'react-redux'
 import {withRouter} from 'react-router'
 import {getBrand} from '../../reducers/product.redux'
+import {URL} from '../../utils/url'
 import './index.css'
 
 const { Meta } = Card
-const URL = 'http://localhost:3001/upload/'
 
 @connect(
   state => state.products,

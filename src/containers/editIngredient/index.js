@@ -2,12 +2,12 @@ import React,{Component} from 'react'
 import {Input,Icon,Upload,Button,Select,Modal,message} from 'antd'
 import {connect} from 'react-redux'
 import {updateIngredient,getCategory} from '../../reducers/ingredient.redux'
+import {URL} from '../../utils/url'
 import axios from 'axios'
 import './index.css'
 
 const {TextArea} = Input
 const Option = Select.Option
-const URL = 'http://localhost:3001/upload/'
 
 @connect(
   state => state.ingredients,

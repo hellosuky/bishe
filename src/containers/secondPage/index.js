@@ -14,9 +14,15 @@ class SecondPage extends Component{
       this.props.history.push('/category')
     }
   }
+  handleBack(){
+    this.props.history.push('/first')
+  }
   render(){
     return (
       <div id="secondContainer">
+        <div className="go-back" onClick={this.handleBack.bind(this)}>
+          >>返回首页
+        </div>
         <div className="bg1box bgbox">
           <div className="subTitle">
             <img src={require('./images/cell.png')} alt="theory"/>

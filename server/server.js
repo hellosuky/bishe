@@ -15,6 +15,10 @@ app.use(bodyParser.json({limit:'50mb'}))
 // app.use(bodyParser.urlencoded({limit:'50mb',extended:true,parameterLimit:50000}))
 app.use(compression())
 app.use(cookieParser())
+app.use('/province',proxy({
+  target:'http://cpnp.nmpa.gov.cn/',
+  changeOrigin:true})
+)
 
 
 //router manager

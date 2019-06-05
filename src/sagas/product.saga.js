@@ -89,7 +89,7 @@ function* getPage(brand){
       }
     }
     const data = `querytype=productname&pfid=&content=${brand}&dataPage=&allPage=&perPage=&allRows=&order=`
-    let res = yield call(axios.post,`http://cpnp.nmpa.gov.cn/province/webquery/wq.do?method=query`,data,config)
+    let res = yield call(axios.post,`/province/webquery/wq.do?method=query`,data,config)
     let page = res.data.pageBean.allPage
     return page
   }catch(err){
@@ -111,7 +111,7 @@ function* getList(brand,page){
         }
       }
       const data = `querytype=productname&pfid=&content=${brand}&dataPage=${i}&allPage=&perPage=&allRows=&order=`
-      let res = yield call(axios.post,`http://cpnp.nmpa.gov.cn/province/webquery/wq.do?method=query`,data,config)
+      let res = yield call(axios.post,`/province/webquery/wq.do?method=query`,data,config)
       arr.push(...res.data.list)
     }
     return arr
@@ -134,7 +134,7 @@ function* getDetail(list){
         }
       }
       const data = `method=show&id=${list[i].id}`
-      let res = yield call(axios.post,`http://cpnp.nmpa.gov.cn/province/webquery/wq.do`,data,config)
+      let res = yield call(axios.post,`/province/webquery/wq.do`,data,config)
       arr.push(res.data)
     }
     return arr

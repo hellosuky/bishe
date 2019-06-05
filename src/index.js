@@ -1,6 +1,7 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
-import {BrowserRouter} from 'react-router-dom'
+// import {BrowserRouter} from 'react-router-dom'
+import {HashRouter} from 'react-router-dom'
 import createSagaMiddleware from 'redux-saga'
 import rootSaga from './sagas/rootSaga.js'
 import rootReducers from './reducers/rootReducers.js'
@@ -24,9 +25,9 @@ sagaMiddleware.run(rootSaga)
 
 ReactDOM.render(
 <Provider store={store}>
-  <BrowserRouter>
+  <HashRouter>
     <App />
-  </BrowserRouter>
+  </HashRouter>
 </Provider>
 , document.getElementById('root'))
 

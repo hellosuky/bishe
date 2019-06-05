@@ -34,7 +34,7 @@ app.use('/api',UploadRouter)
 app.use('/upload',express.static(__dirname + '/upload'))
 app.use(express.static(__dirname + '/build'))
 
-app.get('*',function(req,res){
+app.get('/*',function(req,res){
   res.sendFile(path.join('/build/index.html'))
 })
 

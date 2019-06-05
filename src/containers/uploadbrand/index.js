@@ -1,15 +1,15 @@
 import React,{Component} from 'react'
-import {Input,Button,Table,Upload,Icon,Modal,Popconfirm,message} from 'antd'
+import {Input,Button,Table,Upload,Icon,Modal,Popconfirm,message,Progress} from 'antd'
 import {connect} from 'react-redux'
 import axios from 'axios'
-import {addBrand,getBrand,deleteBrand} from '../../reducers/product.redux'
+import {addBrand,getBrand,deleteBrand,updateProducts} from '../../reducers/product.redux'
 import {URL} from '../../utils/url'
 import './index.css'
 
 
 @connect(
   state => state.products,
-  {addBrand,getBrand,deleteBrand}
+  {addBrand,getBrand,deleteBrand,updateProducts}
 )
 class UploadBrand extends Component{
   constructor(){
@@ -38,6 +38,9 @@ class UploadBrand extends Component{
 
   cancel(e) {
     message.error('取消删除')
+  }
+  handleUpdate(id){
+    this.props.updateProducts(id)
   }
   getColumns(){
     return  [
@@ -72,6 +75,13 @@ class UploadBrand extends Component{
             >
             <a href="/">删除该成分</a>
           </Popconfirm>
+        ),
+      },
+      {
+        title: '操作',
+        key: 'action1',
+        render: (text, record) => (
+            <span className="update" onClick={this.handleUpdate.bind(this,record._id)}>更新品牌产品</span>
         ),
       }
     ]
@@ -153,6 +163,9 @@ class UploadBrand extends Component{
         <Button className="add-btn" type="primary" onClick={this.handleClick.bind(this)}>确认增加</Button>
         <br/><br/><br/><br/><br/>
         <p>现有品牌</p>
+        {this.props.process?<div className='fixbg'>
+          <Progress percent={this.props.process} className="process"/>
+        </div>:null}
         {this.props.brands?<Table rowKey={record =>record._id} pagination={false} columns={this.getColumns()} dataSource={this.props.brands} />:null}
       </div>
     )

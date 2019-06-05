@@ -101,8 +101,10 @@
 }
 
 #detail-container .word{
-  margin-left: 2rem;
+  margin-left: 1.4rem;
   font-size: 0.4rem;
+  margin-right: 0.3rem;
+  font-weight: 600;
 }
 #detail-container .product .ant-btn{
   font-size: 0.4rem;

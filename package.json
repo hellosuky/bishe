@@ -12,6 +12,7 @@
     "cookie-parser": "^1.4.4",
     "cors": "^2.8.5",
     "customize-cra": "^0.2.11",
+    "echarts-for-react": "^2.0.15-beta.0",
     "express": "^4.16.4",
     "http-proxy-middleware": "^0.19.1",
     "lodash": "^4.17.11",
@@ -46,5 +47,8 @@
     "not dead",
     "not ie <= 11",
     "not op_mini all"
-  ]
+  ],
+  "devDependencies": {
+    "echarts": "^4.2.1"
+  }
 }

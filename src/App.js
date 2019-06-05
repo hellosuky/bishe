@@ -11,6 +11,7 @@ import SecondPage from './containers/secondPage/index'
 // import Pk from './containers/pk/index'
 // import Admin from './containers/admin/index'
 // import AdminPage from './containers/adminpage/index'
+//开启懒加载使得组件加载速度快点
 import asyncComponent from './containers/AsyncComponent/index'
 
 const AsyncAdminPage = asyncComponent(()=>import('./containers/adminpage/index'))

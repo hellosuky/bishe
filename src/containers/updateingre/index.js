@@ -89,7 +89,7 @@ class UpdateIngre extends Component{
         title: '操作',
         key: 'action1',
         render: (text, record) => (
-            <span onClick={this.edit.bind(this,record._id)}>修改该成分</span>
+            <span onClick={this.edit.bind(this,record._id)} className="edit">修改该成分</span>
         ),
       }
     ]

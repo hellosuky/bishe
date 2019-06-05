@@ -45,6 +45,27 @@ function* getAllProductsFlow(){
   }
 }
 
+function* getMost(id){
+  yield put({type:Helper.FETCH_START})
+  try{
+    return yield call(axios.get,`/back/products/getmost?id=${id}`)
+  }catch(err){
+    console.log(err)
+  }finally{
+    yield put({type:Helper.FETCH_END})
+  }
+}
+
+function* getMostFlow(){
+  while (true) {
+    let req = yield take(Actions.GET_MOST)
+    let res = yield call(getMost,req.id)
+    if(res.data && res.data.code === 0){
+      yield put({type:Actions.GET_MOST_SUCCESS,payload:res.data.data})
+    }
+  }
+}
+
 function* getFrontProduct(brand){
   yield put({type:Helper.FETCH_START})
   try{
@@ -313,6 +334,7 @@ export function* actionSaga(){
     fork(showFlow),
     fork(uploadpicFlow),
     fork(getDetailFlow),
-    fork(getPkDetailFlow)
+    fork(getPkDetailFlow),
+    fork(getMostFlow)
   ])
 }

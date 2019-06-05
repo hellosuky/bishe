@@ -3,14 +3,15 @@ import { Breadcrumb,List,Button,Icon } from 'antd'
 import {connect} from 'react-redux'
 import {withRouter} from 'react-router'
 import SelfModal from '../../components/modal/index'
-import {getDetail} from '../../reducers/product.redux'
+import Charts from '../../components/charts/index'
+import {getDetail,getMost} from '../../reducers/product.redux'
 import {getSpecialIngredient} from '../../reducers/ingredient.redux'
 import {URL} from '../../utils/url'
 import './index.css'
 
 @connect(
   state => ({products:state.products,ingredients:state.ingredients}),
-  {getSpecialIngredient,getDetail}
+  {getSpecialIngredient,getDetail,getMost}
 )
 class Detail extends Component{
   constructor(){
@@ -23,6 +24,7 @@ class Detail extends Component{
   }
   componentWillMount(){
     this.props.getDetail(this.props.match.params.id)
+    this.props.getMost(this.props.match.params.id)
   }
   componentDidMount(){
     window.addEventListener("resize", this.resize.bind(this))
@@ -73,12 +75,12 @@ class Detail extends Component{
               <img alt="img" className="product-pic" src={URL + product.detail.pic}/>:null}
             <div className="word">
               <p>{product.detail.name}</p>
-              <p>{product.detail.brand?product.detail.brand.name:null}</p>
               {this.state.mobile?null:<Button type="primary"
-              onClick={this.handlePk.bind(this,product.detail._id)}>Pk</Button>}
+              onClick={this.handlePk.bind(this,product.detail._id)}>PK</Button>}
             </div>
           </div>
           <br/>
+          <Charts data={product.most}/>
           <p className="useful">有效成分</p>
           <List
             style={{"marginTop":"10px","clear":"both"}}

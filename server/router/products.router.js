@@ -303,4 +303,40 @@ Router.get('/pkdetail',function(req,res){
     res.json({code:0,data:results})
   })
 })
+
+Router.get('/getmost',function(req,res){
+  let {id} = req.query
+  Product.findOne({'_id':id})
+  .then(product=>{
+    return Product.aggregate([
+      {
+        $match:{
+          brand:product.brand
+        }
+      },
+      {
+        $unwind:'$Ingredient'
+      },
+      {
+        $lookup:{
+          from:'ingredients',
+          localField:'Ingredient',
+          foreignField:'_id',
+          as:'ingredient'
+        }
+      },
+      {
+        $group:{
+          _id:'$ingredient.name',
+          num:{$sum:1}
+        }
+      },
+      {
+        $sort:{num:-1}
+      }
+    ])
+  }).then(results=>{
+    res.json({code:0,data:results})
+  })
+})
 module.exports = Router

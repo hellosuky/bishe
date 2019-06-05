@@ -5,7 +5,8 @@ const initalState = {
   brands:[],
   detail:{},
   allProducts:[],
-  pkdetail:{}
+  pkdetail:{},
+  most:[]
 }
 
 export function products(state = initalState,action){
@@ -16,6 +17,8 @@ export function products(state = initalState,action){
       return {...state,allProducts:action.payload}
     case Actions.GET_FRONT_PRODUCT_SUCCESS:
       return {...state,products:action.payload}
+    case Actions.GET_MOST_SUCCESS:
+      return {...state,most:action.payload}
     case Actions.GET_BRAND_SUCCESS:
       return {...state,brands:action.payload}
     case Actions.DELETE_BRAND_SUCCESS:
@@ -116,5 +119,12 @@ export function getPkDetail(name){
   return ({
     type:Actions.GET_PK_DETAIL,
     name
+  })
+}
+
+export function getMost(id){
+  return ({
+    type:Actions.GET_MOST,
+    id
   })
 }

@@ -340,4 +340,14 @@ Router.get('/getmost',function(req,res){
   })
 })
 
+Router.post('/deleteproducts',function(req,res){
+  let {id} = req.body
+  Product.deleteMany({'brand':id})
+  .then(()=>{
+      return Brand.findOne({'_id':id})
+  }).then(results=>{
+    res.json({code:0,data:results})
+  })
+})
+
 module.exports = Router

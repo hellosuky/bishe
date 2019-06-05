@@ -40,6 +40,10 @@
 #uploadbrand-container .update{
   color: #1890ff;
 }
+
+#uploadbrand-container .update:hover{
+  cursor: pointer;
+}
 #uploadbrand-container .fixbg{
   position: fixed;
   background-color: rgba(0,0,0,0.5);

@@ -45,10 +45,11 @@ function* getAllProductsFlow(){
   }
 }
 
-function* updateProducts(id){
+
+function* deleteProducts(id){
   yield put({type:Helper.FETCH_START})
   try{
-    return yield call(axios.post,`/back/products/updateproducts`,{id})
+    return yield call(axios.post,`/back/products/deleteproducts`,{id})
   }catch(err){
     console.log(err)
   }finally{
@@ -59,9 +60,25 @@ function* updateProducts(id){
 function* updateProductsFlow(){
   while (true) {
     let req = yield take(Actions.UPDATE_PRODUCTS)
-    let res = yield call(updateProducts,req.id)
+    //删除该品牌的所有产品
+    //req.id是品牌的id值
+    let res = yield call(deleteProducts,req.id)
+    yield put({type:Actions.LOADING_START,payload:10})
+    //重新请求新的产品的页数
+    let brand = res.data.data.name
+    let res1 = yield call(getPage,brand)
+    yield put({type:Actions.LOADING_START,payload:25})
+    //第三次请求，根据获得的页数请求产品list清单
+    let res2 = yield call(getList,brand,res1)
+    yield put({type:Actions.LOADING_START,payload:40})
+    //第三次请求，获取我们的具体的产品
+    let res3 = yield call(getDetail,res2)
+    yield put({type:Actions.LOADING_START,payload:90})
+    //将请求的值存入数据库
+    yield call(save,res3,res.data.data._id)
     if(res.data && res.data.code === 0){
       yield put({type:Actions.UPDATE_PRODUCTS_SUCCESS})
+      yield put({type:Actions.LOADING_FINISH})
     }
   }
 }

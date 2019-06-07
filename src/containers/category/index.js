@@ -4,6 +4,7 @@ import {withRouter} from 'react-router'
 import _ from 'lodash'
 import {connect} from 'react-redux'
 import {getIngredient,getCategory} from '../../reducers/ingredient.redux'
+import {getSomeProducts} from '../../reducers/product.redux'
 import SelfModal from '../../components/modal/index'
 import {URL} from '../../utils/url'
 import './index.css'
@@ -12,8 +13,8 @@ const { Meta } = Card
 const {Option} = Select
 
 @connect(
-  state => state.ingredients,
-  {getIngredient,getCategory}
+  state => ({ingredient:state.ingredients,product:state.products}),
+  {getIngredient,getCategory,getSomeProducts}
 )
 class Category extends Component{
   constructor(){
@@ -47,6 +48,7 @@ class Category extends Component{
     this.props.history.goBack(-1)
   }
   showModal(data){
+    this.props.getSomeProducts(data._id)
     this.setState({visible: true,data})
   }
   onChange(page,pageSize){
@@ -77,7 +79,7 @@ class Category extends Component{
                   <div className="top-select">
                     <Select defaultValue="选择分类" style={{ width: 120 }} onChange={e => this.handleChange(e)}>
                       <Option value="">所有</Option>
-                      {this.props.category.map(v=>{
+                      {this.props.ingredient.category.map(v=>{
                         return <Option value={v._id} key={v._id}>{v.name}</Option>
                       })}
                     </Select>
@@ -99,7 +101,7 @@ class Category extends Component{
           </Breadcrumb.Item>
         </Breadcrumb>
         <div className="inner-container">
-          { this.props.ingredients.map(v=>{
+          { this.props.ingredient.ingredients.map(v=>{
             return  <Card
               hoverable
               key={v._id}
@@ -113,7 +115,7 @@ class Category extends Component{
         </div>
         <Pagination className="page" size={this.state.mobile?"small":"big"} defaultCurrent={1}
         onChange={this.onChange.bind(this)} total={50} />
-        <SelfModal data={this.state.data} close={this.close.bind(this)} visible={this.state.visible}/>
+        <SelfModal data={this.state.data} product={this.props.product.some} close={this.close.bind(this)} visible={this.state.visible}/>
       </div>
     )
   }

@@ -8,6 +8,7 @@ class SelfModal extends Component{
   }
   render(){
     const data = this.props.data
+    let a = this.props.product.map(v=>v.name).join('、')
     return(
         <Modal
            title="详细信息"
@@ -22,6 +23,7 @@ class SelfModal extends Component{
            <p className="modal-cator">{data.category?data.category.name:null}</p>
            <p className="modal-iupac">IUPAC名：{data.iupac}</p>
            <p className="modal-infor">简介:{data.infor}</p>
+           <p className="modal-product">使用该有效成分的几个产品: {a}</p>
          </Modal>
     )
   }

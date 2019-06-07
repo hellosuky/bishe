@@ -350,4 +350,17 @@ Router.post('/deleteproducts',function(req,res){
   })
 })
 
+Router.post('/getsomeproducts',function(req,res){
+  let {id} = req.body
+  Product.find({'Ingredient':{$elemMatch:{$eq:id}}})
+  .then(results=>{
+    let arr = []
+    for(let i=0;i<3;i++){
+      let num = Math.round(Math.random()*results.length)
+      arr.push(results[num])
+    }
+    res.json({code:0,data:arr})
+  })
+})
+
 module.exports = Router

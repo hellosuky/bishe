@@ -378,7 +378,6 @@ export function* actionSaga(){
     fork(getDetailFlow),
     fork(getPkDetailFlow),
     fork(getMostFlow),
-    fork(updateProductsFlow),
-    fork(getSomeProductsFlow)
+    fork(updateProductsFlow)
   ])
 }

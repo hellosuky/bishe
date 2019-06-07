@@ -51,7 +51,8 @@ class EditIngre extends Component{
      }
      axios.post('/api/upload', data, config)
      .then((res: any) => {
-       this.setState({pic:res.data.data.url})
+       console.log(res.data)
+       this.setState({pic:res.data.data.filename})
        options.onSuccess(res.data, options.file)
      }).catch((err: Error) => {
        console.log(err)
@@ -78,14 +79,10 @@ class EditIngre extends Component{
    }
  }
  handlePreview(){
-   this.setState({
-     previewVisible:true
-   })
+   this.setState({previewVisible:true})
  }
  handleCancel(){
-   this.setState({
-     previewVisible:false
-   })
+   this.setState({previewVisible:false})
  }
  handleHover(){
    this.setState({hover:true})
@@ -104,7 +101,6 @@ class EditIngre extends Component{
        <div className="ant-upload-text">Upload</div>
      </div>
    )
-
     return (
        <div id="upload-container">
         <p className="title">有效成分数据更改</p>

@@ -23,9 +23,11 @@ class UploadProducts extends Component{
       val:'', //查的值
       brand:'',//品牌
       previewVisible:false,
-      hover:false
+      hover:false,
+      page:1
     }
     this.onChange1 = _.debounce(this.onChange,1000)
+    this.handleCategory = this.handleCategory.bind(this)
   }
   componentWillMount(){
     this.props.getBrand()
@@ -36,6 +38,10 @@ class UploadProducts extends Component{
   }
   handleChange(key,val){
     this.setState({[key]:val},()=>this.onChange1())
+  }
+  handleCategory(key,val){
+    this.handleChange(key,val)
+    this.setState({page:1})
   }
   handleCustomRequest(options:any){
    const data= new FormData()
@@ -113,10 +119,10 @@ class UploadProducts extends Component{
     this.setState({visible:true,id})
   }
   handleShow(id){
-    this.props.show(id)
+    this.props.show(id,this.state.brand,this.state.val,this.state.page)
   }
   handleOk(){
-    this.props.uploadpic(this.state.pic,this.state.id,this.state.brand,this.state.val)
+    this.props.uploadpic(this.state.pic,this.state.id,this.state.brand,this.state.val,this.state.page)
     this.setState({visible:false,pic:'',id:''})
   }
   handleDelete(){
@@ -128,6 +134,7 @@ class UploadProducts extends Component{
   }
   onPageChange(page,pageSize){
     //检索是否有那个换页
+    this.setState({page:page})
     this.props.getProducts(page,this.state.brand,this.state.val)
   }
   render(){
@@ -141,7 +148,7 @@ class UploadProducts extends Component{
       <div id="uploadproducts-container">
         <p className="title">产品更新</p>
           <Select defaultValue="" style={{ width: 120 }}
-          onChange={e => this.handleChange('brand',e)}>
+          onChange={e => this.handleCategory('brand',e)}>
               <Option value="">选择品牌</Option>
                {this.props.brands.map(v=>{
                 return <Option value={v._id} key={v._id}>{v.name}</Option>
@@ -150,9 +157,13 @@ class UploadProducts extends Component{
         <Input placeholder="种类搜索" value={this.state.val}
         onChange={e=>this.handleChange('val',e.target.value)} style={{'maxWidth':"400px","marginRight":"20px","float":"right"}}/>
         <p>现有种类</p>
-        <Table rowKey={record =>record._id} pagination={false} columns={this.getColumns()}
+        <Table rowKey={record =>record._id} columns={this.getColumns()}
+        pagination={{
+          current:this.state.page,
+          total:this.props.total,
+          onChange:this.onPageChange.bind(this)
+        }}
         dataSource={this.props.products} />
-        <Pagination defaultCurrent={1} total={50} onChange={this.onPageChange.bind(this)}/>
         <Modal
           title="上传产品图片"
           visible={this.state.visible}

@@ -8,13 +8,14 @@ const initalState = {
   pkdetail:{},
   most:[],
   process:'',
-  some:[]
+  some:[],
+  total:10
 }
 
 export function products(state = initalState,action){
   switch(action.type){
     case Actions.GET_PRODUCT_SUCCESS:
-      return {...state,products:action.payload}
+      return {...state,products:action.payload,total:action.total}
     case Actions.GET_ALL_PRODUCTS_SUCCESS:
       return {...state,allProducts:action.payload}
     case Actions.GET_FRONT_PRODUCT_SUCCESS:
@@ -26,9 +27,9 @@ export function products(state = initalState,action){
     case Actions.DELETE_BRAND_SUCCESS:
       return {...state,brands:action.payload}
     case Actions.SHOW_NOSHOW_SUCCESS:
-      return {...state,products:action.payload}
+      return {...state,products:action.payload,total:action.total}
     case Actions.UPLOAD_PIC_SUCCESS:
-      return {...state,products:action.payload}
+      return {...state,products:action.payload,total:action.total}
     case Actions.GET_DETAIL_SUCCESS:
       return {...state,detail:action.payload}
     case Actions.GET_PK_DETAIL_SUCCESS:
@@ -89,21 +90,25 @@ export function getFrontProducts(brand){
 }
 
 //show boolean
-export function show(id){
+export function show(id,brand,val,page){
   return ({
     type:Actions.SHOW_NOSHOW,
-    id
+    id,
+    brand,
+    val,
+    page
   })
 }
 
 //upload product picture
-export function uploadpic(pic,id,brand,val){
+export function uploadpic(pic,id,brand,val,page){
   return ({
     type:Actions.UPLOAD_PIC,
     pic,
     id,
     brand,
-    val
+    val,
+    page
   })
 }
 

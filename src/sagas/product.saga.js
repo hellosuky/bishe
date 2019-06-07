@@ -19,7 +19,7 @@ function* getProductFlow(){
     let req = yield take(Actions.GET_PRODUCT)
     let res = yield call(getProduct,req.page,req.brand,req.word)
     if(res.data && res.data.code === 0){
-      yield put({type:Actions.GET_PRODUCT_SUCCESS,payload:res.data.data})
+      yield put({type:Actions.GET_PRODUCT_SUCCESS,payload:res.data.data,total:res.data.total})
     }
   }
 }
@@ -46,10 +46,10 @@ function* getAllProductsFlow(){
 }
 
 
-function* deleteProducts(id){
+function* updateProducts(all,brand){
   yield put({type:Helper.FETCH_START})
   try{
-    return yield call(axios.post,`/back/products/deleteproducts`,{id})
+    return yield call(axios.post,`/back/products/updateproducts`,{all,brand})
   }catch(err){
     console.log(err)
   }finally{
@@ -62,10 +62,9 @@ function* updateProductsFlow(){
     let req = yield take(Actions.UPDATE_PRODUCTS)
     //删除该品牌的所有产品
     //req.id是品牌的id值
-    let res = yield call(deleteProducts,req.id)
     yield put({type:Actions.LOADING_START,payload:10})
     //重新请求新的产品的页数
-    let brand = res.data.data.name
+    let brand = req.id
     let res1 = yield call(getPage,brand)
     yield put({type:Actions.LOADING_START,payload:25})
     //第三次请求，根据获得的页数请求产品list清单
@@ -75,7 +74,8 @@ function* updateProductsFlow(){
     let res3 = yield call(getDetail,res2)
     yield put({type:Actions.LOADING_START,payload:90})
     //将请求的值存入数据库
-    yield call(save,res3,res.data.data._id)
+    let res = yield call(updateProducts,res3,brand)
+    // 数据库的数据的更新
     if(res.data && res.data.code === 0){
       yield put({type:Actions.UPDATE_PRODUCTS_SUCCESS})
       yield put({type:Actions.LOADING_FINISH})
@@ -281,10 +281,10 @@ function* deleteBrandFlow(){
   }
 }
 
-function* show(id){
+function* show(id,brand,val,page){
   yield put({type:Helper.FETCH_START})
   try{
-    return yield call(axios.post,'/back/products/isshow',{id})
+    return yield call(axios.post,'/back/products/isshow',{id,brand,val,page})
   }catch(err){
     console.log(err)
   }finally{
@@ -295,17 +295,17 @@ function* show(id){
 function* showFlow(){
   while (true) {
     let req = yield take(Actions.SHOW_NOSHOW)
-    let res = yield call(show,req.id)
+    let res = yield call(show,req.id,req.brand,req.val,req.page)
     if(res.data && res.data.code === 0){
-      yield put({type:Actions.SHOW_NOSHOW_SUCCESS,payload:res.data.data})
+      yield put({type:Actions.SHOW_NOSHOW_SUCCESS,payload:res.data.data,total:res.data.total})
     }
   }
 }
 
-function* uploadpic(pic,id,brand,val){
+function* uploadpic(pic,id,brand,val,page){
   yield put({type:Helper.FETCH_START})
   try{
-    return yield call(axios.post,'/back/products/uploadpic',{pic,id,brand,val})
+    return yield call(axios.post,'/back/products/uploadpic',{pic,id,brand,val,page})
   }catch(err){
     console.log(err)
   }finally{
@@ -316,9 +316,9 @@ function* uploadpic(pic,id,brand,val){
 function* uploadpicFlow(){
   while (true) {
     let req = yield take(Actions.UPLOAD_PIC)
-    let res = yield call(uploadpic,req.pic,req.id,req.brand,req.val)
+    let res = yield call(uploadpic,req.pic,req.id,req.brand,req.val,req.page)
     if(res.data && res.data.code === 0){
-      yield put({type:Actions.UPLOAD_PIC_SUCCESS,payload:res.data.data})
+      yield put({type:Actions.UPLOAD_PIC_SUCCESS,payload:res.data.data,total:res.data.total})
     }
   }
 }

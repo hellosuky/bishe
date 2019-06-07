@@ -19,7 +19,14 @@ Router.get('/getproducts',function(req,res){
             res.json({code:1,msg:'服务端出错'})
             return
           }
-          res.json({code:0,data:results})
+          Product.find({'brand':brand})
+          .countDocuments()
+          .exec(function(e,d){
+            if(e){
+              res.json({code:1,msg:'服务端出错'})
+            }
+            res.json({code:0,data:results,total:d})
+          })
         })
       }else{
         Product.find({})
@@ -32,7 +39,14 @@ Router.get('/getproducts',function(req,res){
             res.json({code:1,msg:'服务端出错'})
             return
           }
-          res.json({code:0,data:results})
+          Product.find({})
+          .countDocuments()
+          .exec(function(e,d){
+            if(e){
+              res.json({code:1,msg:'服务端出错'})
+            }
+            res.json({code:0,data:results,total:d})
+          })
         })
       }
     }else{
@@ -47,7 +61,14 @@ Router.get('/getproducts',function(req,res){
             res.json({code:1,msg:'服务端出错'})
             return
           }
-          res.json({code:0,data:results})
+          Product.find({'name':new RegExp(word),'brand':brand})
+          .countDocuments()
+          .exec(function(e,d){
+            if(e){
+              res.json({code:1,msg:'服务端出错'})
+            }
+            res.json({code:0,data:results,total:d})
+          })
         })
       }else{
         Product.find({'name':new RegExp(word)})
@@ -60,7 +81,14 @@ Router.get('/getproducts',function(req,res){
             res.json({code:1,msg:'服务端出错'})
             return
           }
-          res.json({code:0,data:results})
+          Product.find({'name':new RegExp(word)})
+          .countDocuments()
+          .exec(function(e,d){
+            if(e){
+              res.json({code:1,msg:'服务端出错'})
+            }
+            res.json({code:0,data:results,total:d})
+          })
         })
       }
     }
@@ -111,24 +139,9 @@ Router.get('/getfrontproducts',function(req,res){
       })
 })
 
-Router.get('/getsearchproducts',function(req,res){
-    let {word,page} = req.query
-      Product.find({'name':new RegExp(word)})
-      .populate({path:'brand',select:'name'})
-      .populate({path:'Ingredient',select:'name'})
-      .limit(8)
-      .skip(8* (page-1))
-      .exec(function(err,results){
-        if(err){
-          res.json({code:1,msg:'服务端出错'})
-          return
-        }
-        res.json({code:0,data:results})
-      })
-})
 
 Router.post('/isshow',function(req,res){
-  let {id} = req.body
+  let {id,brand,val,page} = req.body
   Product.findOne({'_id':id})
   .then(one=> {
     return !one.show
@@ -136,37 +149,38 @@ Router.post('/isshow',function(req,res){
   .then(nowshow=>{
     return Product.updateOne({'_id':id},{'show':nowshow})})
   .then(()=> {
-    Product.find({})
-    .populate({path:'brand',select:'name'})
-    .populate({path:'Ingredient',select:'name'})
-    .limit(8)
-    .exec(function(err,results){
-      res.json({code:0,data:results})
-    })
-  })
-  .catch(err=>console.log(err))
-})
-
-Router.post('/uploadpic',function(req,res){
-  let {pic,id,brand,val} = req.body
-  Product.updateOne({'_id':id},{pic})
-  .then(()=> {
     if(brand){
       if(val){
         Product.find({'brand':brand,'name':new RegExp(val)})
         .populate({path:'brand',select:'name'})
         .populate({path:'Ingredient',select:'name'})
         .limit(8)
+        .skip(8 *(page-1))
         .exec(function(err,results){
-          res.json({code:0,data:results})
+          Product.find({'brand':brand,'name':new RegExp(val)})
+          .countDocuments()
+          .exec(function(e,d){
+            if(e){
+              res.json({code:1,msg:'服务端出错'})
+            }
+            res.json({code:0,data:results,total:d})
+          })
         })
     }else{
       Product.find({'brand':brand})
       .populate({path:'brand',select:'name'})
       .populate({path:'Ingredient',select:'name'})
       .limit(8)
+      .skip(8 *(page-1))
       .exec(function(err,results){
-        res.json({code:0,data:results})
+        Product.find({'brand':brand})
+        .countDocuments()
+        .exec(function(e,d){
+          if(e){
+            res.json({code:1,msg:'服务端出错'})
+          }
+          res.json({code:0,data:results,total:d})
+        })
       })
     }
   }else{
@@ -175,16 +189,109 @@ Router.post('/uploadpic',function(req,res){
       .populate({path:'brand',select:'name'})
       .populate({path:'Ingredient',select:'name'})
       .limit(8)
+      .skip(8 *(page-1))
       .exec(function(err,results){
-        res.json({code:0,data:results})
+        Product.find({'name':new RegExp(val)})
+        .countDocuments()
+        .exec(function(e,d){
+          if(e){
+            res.json({code:1,msg:'服务端出错'})
+          }
+          res.json({code:0,data:results,total:d})
+        })
       })
     }else{
       Product.find({})
       .populate({path:'brand',select:'name'})
       .populate({path:'Ingredient',select:'name'})
       .limit(8)
+      .skip(8 *(page-1))
       .exec(function(err,results){
-        res.json({code:0,data:results})
+        Product.find({})
+        .countDocuments()
+        .exec(function(e,d){
+          if(e){
+            res.json({code:1,msg:'服务端出错'})
+          }
+          res.json({code:0,data:results,total:d})
+        })
+      })
+    }
+  }
+  })
+  .catch(err=>console.log(err))
+})
+
+Router.post('/uploadpic',function(req,res){
+  let {pic,id,brand,val,page} = req.body
+  Product.updateOne({'_id':id},{pic})
+  .then(()=> {
+    if(brand){
+      if(val){
+        Product.find({'brand':brand,'name':new RegExp(val)})
+        .populate({path:'brand',select:'name'})
+        .populate({path:'Ingredient',select:'name'})
+        .limit(8)
+        .skip(8 *(page-1))
+        .exec(function(err,results){
+          Product.find({'brand':brand,'name':new RegExp(val)})
+          .countDocuments()
+          .exec(function(e,d){
+            if(e){
+              res.json({code:1,msg:'服务端出错'})
+            }
+            res.json({code:0,data:results,total:d})
+          })
+        })
+    }else{
+      Product.find({'brand':brand})
+      .populate({path:'brand',select:'name'})
+      .populate({path:'Ingredient',select:'name'})
+      .limit(8)
+      .skip(8 *(page-1))
+      .exec(function(err,results){
+        Product.find({'brand':brand})
+        .countDocuments()
+        .exec(function(e,d){
+          if(e){
+            res.json({code:1,msg:'服务端出错'})
+          }
+          res.json({code:0,data:results,total:d})
+        })
+      })
+    }
+  }else{
+    if(val){
+      Product.find({'name':new RegExp(val)})
+      .populate({path:'brand',select:'name'})
+      .populate({path:'Ingredient',select:'name'})
+      .limit(8)
+      .skip(8 *(page-1))
+      .exec(function(err,results){
+        Product.find({'name':new RegExp(val)})
+        .countDocuments()
+        .exec(function(e,d){
+          if(e){
+            res.json({code:1,msg:'服务端出错'})
+          }
+          res.json({code:0,data:results,total:d})
+        })
+      })
+    }else{
+      Product.find({})
+      .populate({path:'brand',select:'name'})
+      .populate({path:'Ingredient',select:'name'})
+      .limit(8)
+      .skip(8 *(page-1))
+      .exec(function(err,results){
+        Product.find({})
+        .countDocuments()
+        .exec(function(e,d){
+          if(e){
+            res.json({code:1,msg:'服务端出错'})
+          }
+          res.json({code:0,data:results,total:d})
+        })
       })
     }
   }
@@ -340,15 +447,36 @@ Router.get('/getmost',function(req,res){
   })
 })
 
-Router.post('/deleteproducts',function(req,res){
-  let {id} = req.body
-  Product.deleteMany({'brand':id})
-  .then(()=>{
-      return Brand.findOne({'_id':id})
-  }).then(results=>{
-    res.json({code:0,data:results})
-  })
+Router.post('/updateproducts',async function(req,res){
+  let {all,brand} = req.body
+  //找到不一样的产品
+  let diffProduct = await findDifference(all)
+  for(let i=0;i<diffProduct.length;i++){
+    //挨个顺序执行
+    let arr = await addNewProduct(products[i])
+    //传入函数中进行分类
+    classification(arr,products[i].productname,id)
+    //保存值到数据库
+  }
 })
 
+function findDifference(products){
+  let arr = []
+  let promise = products.map(item => Product.find({'name':item.productname}))
+  Promise.all(promise)
+  .then(all=>{
+    for(let i=0;i<all.length;i++){
+      if(all.length === 0){
+        return
+      }
+      arr.push(all[i])
+    }
+    return new Promise((resolve,reject)=>{
+      resolve(arr)
+    })
+  }).then(result=>{
+    return result
+  }).catch(err=>console.log(err))
+}
 
 module.exports = Router

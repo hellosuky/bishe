@@ -45,26 +45,6 @@ function* getAllProductsFlow(){
   }
 }
 
-function* getSomeProducts(id){
-  yield put({type:Helper.FETCH_START})
-  try{
-    return yield call(axios.post,`/back/products/getsomeproducts`,{id})
-  }catch(err){
-    console.log(err)
-  }finally{
-    yield put({type:Helper.FETCH_END})
-  }
-}
-
-function* getSomeProductsFlow(){
-  while (true) {
-    let req = yield take(Actions.GET_SOME_PRODUCTS)
-    let res = yield call(getSomeProducts,req.id)
-    if(res.data && res.data.code === 0){
-      yield put({type:Actions.GET_SOME_PRODUCTS_SUCCESS,payload:res.data.data})
-    }
-  }
-}
 
 function* deleteProducts(id){
   yield put({type:Helper.FETCH_START})

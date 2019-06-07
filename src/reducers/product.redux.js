@@ -41,8 +41,6 @@ export function products(state = initalState,action){
       return {...state,process:''}
     case Actions.UPDATE_PRODUCTS_SUCCESS:
       return {...state}
-    case Actions.GET_SOME_PRODUCTS_SUCCESS:
-      return {...state,some:action.payload}
     default:
       return state
   }
@@ -142,13 +140,6 @@ export function getMost(id){
 export function updateProducts(id){
   return ({
     type:Actions.UPDATE_PRODUCTS,
-    id
-  })
-}
-
-export function getSomeProducts(id){
-  return ({
-    type:Actions.GET_SOME_PRODUCTS,
     id
   })
 }

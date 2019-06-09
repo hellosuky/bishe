@@ -57,7 +57,7 @@ class Pk extends Component{
         </Breadcrumb>
         <div className="container" style={{"color":"#000"}}>
           <div className="pk-product pk">
-            <img style={{'width':"200px","height":"200px","float":"left"}} alt="pic" src={URL + product.detail.pic}/>
+            <img style={{'width':"200px","float":"left"}} alt="pic" src={URL + product.detail.pic}/>
             <div className="word">
               <p>{product.detail.name}</p>
               <p>{product.detail.brand?product.detail.brand.name:null}</p>

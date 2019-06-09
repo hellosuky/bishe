@@ -66,7 +66,7 @@ class EditIngre extends Component{
      message.error('无法提交')
      return
    }
-   if(!this.state.name || !this.state.category || !this.state.url ||
+   if(!this.state.name || !this.state.category ||
      !this.state.infor || !this.state.enname ||!this.state.iupac ||!this.state.pic){
      //错误信息
      message.error('请将所有空填完')
@@ -76,6 +76,9 @@ class EditIngre extends Component{
      this.state.infor,this.state.enname,this.state.iupac,this.state.pic)
      this.setState({id:'',name:'',category:'',url:'',infor:'',enname:'',iupac:'',pic:""})
      message.success('更新成功')
+     setTimeout(()=>{
+       this.props.history.push('/adminpage/updateingre')
+     },1500)
    }
  }
  handlePreview(){
@@ -121,8 +124,8 @@ class EditIngre extends Component{
         <TextArea value={this.state.infor} rows={4} onChange={e => this.handleChange('infor',e.target.value)}/>
         <p>输入成分英文名:</p>
         <Input placeholder="输入成分英文名" value={this.state.enname} onChange={e => this.handleChange('enname',e.target.value)}/>
-        <p>输入成分IUPAC:</p>
-        <Input placeholder="输入成分IUPAC" value={this.state.iupac} onChange={e => this.handleChange('iupac',e.target.value)}/>
+        <p>输入成分CAS:</p>
+        <Input placeholder="输入成分CAS" value={this.state.iupac} onChange={e => this.handleChange('iupac',e.target.value)}/>
         <p>上传成分封面图:</p>
         <div className="clearfix">
          <Upload
@@ -137,14 +140,14 @@ class EditIngre extends Component{
               <img alt="pic" style={{"width":"200px"}} src={URL + this.state.pic}/>
               {this.state.hover?
               <div>
-                <Icon style={{'position':'absolute',"left":'45%',"top":"50%","transform":"translate(-50%,-50%)"}} onClick={this.handleDelete.bind(this)} type="delete"/>
-                <Icon style={{'position':'absolute',"left":'55%',"top":"50%","transform":"translate(-50%,-50%)"}} onClick={this.handlePreview.bind(this)}  type="eye"/>
+                <Icon style={{'position':'absolute',"left":'40%',"top":"50%","transform":"translate(-50%,-50%)","fontSize":"0.3rem"}} onClick={this.handleDelete.bind(this)} type="delete"/>
+                <Icon style={{'position':'absolute',"left":'55%',"top":"50%","transform":"translate(-50%,-50%)","fontSize":"0.3rem"}} onClick={this.handlePreview.bind(this)}  type="eye"/>
               </div>:null}
             </div>
              : uploadButton}
          </Upload>
          <Modal visible={this.state.previewVisible} footer={null} onCancel={this.handleCancel.bind(this)}>
-          <img alt="example" style={{ width: '100%' }} src={this.state.pic} />
+          <img alt="example" style={{ width: '100%' }} src={URL  + this.state.pic} />
         </Modal>
        </div>
        <Button type="primary" className="submit" onClick={this.handleClick.bind(this)}>确认修改</Button>

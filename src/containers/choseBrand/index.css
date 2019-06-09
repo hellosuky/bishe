@@ -43,6 +43,7 @@
   margin-bottom: 1rem;
   margin-top: 1rem;
   flex-wrap: wrap;
+  align-items: center;
 }
 
 #choseBrand-container .ant-card{

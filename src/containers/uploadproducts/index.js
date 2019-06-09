@@ -1,5 +1,5 @@
 import React,{Component} from 'react'
-import {Table,Input,Select,Button,Modal,Upload,Icon,Pagination} from 'antd'
+import {Table,Input,Select,Button,Modal,Upload,Icon} from 'antd'
 import axios from 'axios'
 import {connect} from 'react-redux'
 import _ from 'lodash'
@@ -26,7 +26,7 @@ class UploadProducts extends Component{
       hover:false,
       page:1
     }
-    this.onChange1 = _.debounce(this.onChange,1000)
+    this.onChange1 = _.debounce(this.onChange,500)
     this.handleCategory = this.handleCategory.bind(this)
   }
   componentWillMount(){
@@ -161,6 +161,7 @@ class UploadProducts extends Component{
         pagination={{
           current:this.state.page,
           total:this.props.total,
+          pageSize:8,
           onChange:this.onPageChange.bind(this)
         }}
         dataSource={this.props.products} />

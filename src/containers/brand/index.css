@@ -36,13 +36,15 @@
 }
 
 #brand-container .ant-card{
-  margin: 2rem 1rem 0 1rem;
+  margin: 1rem 0.2rem 0 0.2rem;
 }
 
 #brand-container .inner-container{
   display: flex;
   flex-direction: row;
   margin-bottom: 2rem;
+  align-items: center;
+  flex-wrap: wrap;
 }
 
 @media screen and (max-width:768px){

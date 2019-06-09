@@ -57,6 +57,17 @@ function* updateProducts(all,brand){
   }
 }
 
+function* getSpecialBrand(id){
+  yield put({type:Helper.FETCH_START})
+  try{
+    return yield call(axios.get,`/back/products/getspecialbrand?id=${id}`)
+  }catch(err){
+    console.log(err)
+  }finally{
+    yield put({type:Helper.FETCH_END})
+  }
+}
+
 function* updateProductsFlow(){
   while (true) {
     let req = yield take(Actions.UPDATE_PRODUCTS)
@@ -64,7 +75,10 @@ function* updateProductsFlow(){
     //req.id是品牌的id值
     yield put({type:Actions.LOADING_START,payload:10})
     //重新请求新的产品的页数
-    let brand = req.id
+    //得到该品牌中文名字
+    let res0 = yield call(getSpecialBrand,req.id)
+    let brand = res0.data.data.name
+    let id = res0.data.data._id
     let res1 = yield call(getPage,brand)
     yield put({type:Actions.LOADING_START,payload:25})
     //第三次请求，根据获得的页数请求产品list清单
@@ -74,7 +88,7 @@ function* updateProductsFlow(){
     let res3 = yield call(getDetail,res2)
     yield put({type:Actions.LOADING_START,payload:90})
     //将请求的值存入数据库
-    let res = yield call(updateProducts,res3,brand)
+    let res = yield call(updateProducts,res3,id)
     // 数据库的数据的更新
     if(res.data && res.data.code === 0){
       yield put({type:Actions.UPDATE_PRODUCTS_SUCCESS})

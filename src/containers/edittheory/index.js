@@ -153,8 +153,8 @@ class EditTheory extends Component{
             </div>
              : uploadButton}
          </Upload>
-         <Modal visible={this.state.previewVisible} footer={null} onCancel={this.handleCancel.bind(this)}>
-          <img alt="example" style={{ width: '100%' }} src={URL + this.state.cover} />
+         <Modal style={{'zIndex':100001}} visible={this.state.previewVisible} footer={null} onCancel={this.handleCancel.bind(this)}>
+          <img alt="example" style={{ width: '100%'}} src={URL + this.state.cover} />
         </Modal>
        </div>
         <Button type="primary" style={{"marginTop":'15px'}} onClick={this.handleSubmit.bind(this)}>修改</Button>

@@ -1,18 +1,33 @@
 import React,{Component} from 'react'
-import {Table,Popconfirm,message,Input} from 'antd'
+import {Table,Popconfirm,message,Input,Select} from 'antd'
 import {connect} from 'react-redux'
-import {getIngredient,deleteIngredient,getSpecialIngredient} from '../../reducers/ingredient.redux'
+import {getIngredient,deleteIngredient,getSpecialIngredient,getCategory} from '../../reducers/ingredient.redux'
 import {URL} from '../../utils/url'
+import _ from 'lodash'
 import './index.css'
 
+const Option = Select.Option
 
 @connect(
   state => state.ingredients,
-  {getIngredient,deleteIngredient,getSpecialIngredient}
+  {getIngredient,deleteIngredient,getSpecialIngredient,getCategory}
 )
 class UpdateIngre extends Component{
+  constructor(){
+    super()
+    this.state = {
+      word:'',
+      page:1,
+      category:''
+    }
+    this.onChange1 = _.debounce(this.onChange,500)
+    this.onSearch = this.onSearch.bind(this)
+    this.onPageChange = this.onPageChange.bind(this)
+    this.handleCategory = this.handleCategory.bind(this)
+  }
   componentWillMount(){
     this.props.getIngredient(1,'','')
+    this.props.getCategory()
   }
   confirm(id) {
     this.props.deleteIngredient(id)
@@ -25,6 +40,20 @@ class UpdateIngre extends Component{
   edit(id){
     this.props.getSpecialIngredient(id)
     this.props.history.push('/adminpage/editingredient')
+  }
+  onChange(){
+    this.props.getIngredient(1,this.state.category,this.state.word)
+  }
+  onSearch(val){
+    this.setState({word:val,page:1},()=>this.onChange1())
+  }
+  onPageChange(page,pageSize){
+    //检索是否有那个换页
+    this.setState({page:page})
+    this.props.getIngredient(page,this.state.category,this.state.word)
+  }
+  handleCategory(key,val){
+    this.setState({[key]:val},()=>this.onChange1())
   }
   getColumns(){
     return  [
@@ -59,7 +88,7 @@ class UpdateIngre extends Component{
         render: text => <span>{text}</span>,
       },
       {
-        title: '成分IUPAC',
+        title: '成分CAS',
         dataIndex: 'iupac',
         key: 'iupac',
         render: text => <span>{text}</span>,
@@ -97,9 +126,25 @@ class UpdateIngre extends Component{
   render(){
     return(
       <div id="updateingre-container">
-        <p className="title">修改有效成分</p>
-        <Input style={{"width":"300px","float":"right"}} placeholder="搜索某一成分"/>
-        <Table rowKey={record =>record._id} pagination={false} columns={this.getColumns()}
+        <p className="title">更新有效成分</p>
+        <Input placeholder="搜索某一成分" value={this.state.word}
+        className="ingre-input"
+        onChange={e=>this.onSearch(e.target.value)}/>
+        <Select defaultValue="" style={{ width: 120 }}
+        onChange={e => this.handleCategory('category',e)}>
+            <Option value="">选择种类</Option>
+             {this.props.category.map(v=>{
+              return <Option value={v._id} key={v._id}>{v.name}</Option>
+            }) }
+        </Select>
+        <Table rowKey={record =>record._id}
+        pagination={{
+            current:this.state.page,
+            total:this.props.total,
+            pageSize:8,
+            onChange:this.onPageChange
+          }}
+        columns={this.getColumns()}
         dataSource={this.props.ingredients} />
       </div>
     )

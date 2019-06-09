@@ -23,9 +23,10 @@ class Category extends Component{
        val:'',
        category:'',
        data:{},
-       mobile:false
+       mobile:false,
+       page:1
     }
-    this.handleSearchWord1 = _.debounce(this.handleSearchWord,1000)
+    this.handleSearchWord1 = _.debounce(this.handleSearchWord,500)
     this.handleSearch = this.handleSearch.bind(this)
   }
   componentWillMount(){
@@ -50,14 +51,16 @@ class Category extends Component{
     this.setState({visible: true,data})
   }
   onChange(page,pageSize){
+    this.setState({page})
     this.props.getIngredient(page,this.state.category,this.state.val)
   }
   // 关键字搜索
   handleSearchWord(){
+    this.setState({page:1})
     this.props.getIngredient(1,this.state.category,this.state.val)
   }
   handleChange(category){
-    this.setState({category})
+    this.setState({category,page:1})
     this.props.getIngredient(1,category,this.state.val)
   }
   close(){
@@ -111,8 +114,8 @@ class Category extends Component{
               </Card>
           })}
         </div>
-        <Pagination className="page" size={this.state.mobile?"small":"big"} defaultCurrent={1}
-        onChange={this.onChange.bind(this)} total={50} />
+        <Pagination className="page" size={this.state.mobile?"small":"big"} current={this.state.page}
+        onChange={this.onChange.bind(this)} total={this.props.ingredient.total} />
         <SelfModal data={this.state.data} close={this.close.bind(this)} visible={this.state.visible}/>
       </div>
     )

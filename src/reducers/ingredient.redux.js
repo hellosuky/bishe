@@ -3,7 +3,8 @@ import {Actions} from '../actiontypes/ingredient.actions.js'
 const initalState = {
   category:[],
   ingredients:[],
-  ingredient:{}
+  ingredient:{},
+  total:1
 }
 
 export function ingredients(state = initalState,action){
@@ -11,7 +12,7 @@ export function ingredients(state = initalState,action){
     case Actions.ADD_INGREDIENTS_SUCCESS:
       return {...state}
     case Actions.GET_INGREDIENTS_SUCCESS:
-      return {...state,ingredients:action.payload}
+      return {...state,ingredients:action.payload,total:action.total}
     case Actions.DELETE_INGREDIENTS_SUCCESS:
         return {...state,ingredients:action.payload}
     case Actions.GET_SPECIAL_INGREDIENT_SUCCESS:

@@ -65,7 +65,15 @@ Router.get('/getingredients',function(req,res){
       .limit(8)
       .skip(8 * (page -1 ))
       .exec(function(err,results){
-        res.json({code:0,data:results})
+        Ingredient.find({})
+        .countDocuments()
+        .exec(function(e,d){
+          if(e){
+            res.json({code:1})
+            return
+          }
+          res.json({code:0,data:results,total:d})
+        })
       })
     }else{
       Ingredient.find({'category':category})
@@ -73,7 +81,15 @@ Router.get('/getingredients',function(req,res){
       .limit(8)
       .skip(8 * (page -1 ))
       .exec(function(err,results){
-        res.json({code:0,data:results})
+        Ingredient.find({'category':category})
+        .countDocuments()
+        .exec(function(e,d){
+          if(e){
+            res.json({code:1})
+            return
+          }
+          res.json({code:0,data:results,total:d})
+        })
       })
     }
   }else{
@@ -83,7 +99,15 @@ Router.get('/getingredients',function(req,res){
       .limit(8)
       .skip(8 * (page -1 ))
       .exec(function(err,results){
-        res.json({code:0,data:results})
+        Ingredient.find({'name':new RegExp(word)})
+        .countDocuments()
+        .exec(function(e,d){
+          if(e){
+            res.json({code:1})
+            return
+          }
+          res.json({code:0,data:results,total:d})
+        })
       })
     }else{
       Ingredient.find({'category':category,'name':new RegExp(word)})
@@ -91,7 +115,15 @@ Router.get('/getingredients',function(req,res){
       .limit(8)
       .skip(8 * (page -1 ))
       .exec(function(err,results){
-        res.json({code:0,data:results})
+        Ingredient.find({'category':category,'name':new RegExp(word)})
+        .countDocuments()
+        .exec(function(e,d){
+          if(e){
+            res.json({code:1})
+            return
+          }
+          res.json({code:0,data:results,total:d})
+        })
       })
     }
   }
@@ -137,6 +169,5 @@ Router.get('/getcategory',function(req,res){
     res.json({code:0,data:doc})
   })
 })
-
 
 module.exports = Router

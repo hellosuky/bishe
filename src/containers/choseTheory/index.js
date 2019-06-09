@@ -37,6 +37,7 @@ class ChoseTheory extends Component{
             footer={false}
             renderItem={item => {
               let text1 = item.content.replace(/<[^>]+>/g,"")
+              let text2 = text1.substring(0,100)
               return (
               <List.Item
                 key={item._id}
@@ -52,7 +53,7 @@ class ChoseTheory extends Component{
                 <List.Item.Meta
                   title={<a href={item.href}>{item.title}</a>}
                 />
-                {text1}
+                {text2}
             </List.Item>
             )}
             }

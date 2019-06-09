@@ -52,7 +52,7 @@ class UploadIngre extends Component{
    this.setState({[key]:val})
  }
  handleClick(){
-   if(!this.state.name || !this.state.category || !this.state.url ||
+   if(!this.state.name || !this.state.category ||
      !this.state.infor || !this.state.enname ||!this.state.iupac ||!this.state.pic){
      //错误信息
      message.error('请将所有空填完')
@@ -100,14 +100,14 @@ class UploadIngre extends Component{
                 return <Option value={v._id} key={v._id}>{v.name}</Option>
               }) }
           </Select>
-        <p>输入成分三维图地址:</p>
+        <p>输入成分三维图地址(选填):</p>
         <Input value={this.state.url} placeholder="输入成分三维图地址" onChange={e => this.handleChange('url',e.target.value)}/>
         <p>输入成分的相关信息:</p>
         <TextArea value={this.state.infor} rows={4} onChange={e => this.handleChange('infor',e.target.value)}/>
         <p>输入成分英文名:</p>
         <Input placeholder="输入成分英文名" value={this.state.enname} onChange={e => this.handleChange('enname',e.target.value)}/>
-        <p>输入成分IUPAC:</p>
-        <Input placeholder="输入成分IUPAC" value={this.state.iupac} onChange={e => this.handleChange('iupac',e.target.value)}/>
+        <p>输入成分CAS:</p>
+        <Input placeholder="输入成分CAS" value={this.state.iupac} onChange={e => this.handleChange('iupac',e.target.value)}/>
         <p>上传成分封面图:</p>
         <div className="clearfix">
          <Upload

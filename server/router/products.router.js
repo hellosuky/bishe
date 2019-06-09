@@ -451,32 +451,42 @@ Router.post('/updateproducts',async function(req,res){
   let {all,brand} = req.body
   //找到不一样的产品
   let diffProduct = await findDifference(all)
+  if(diffProduct.length === 0){
+    res.json({code:0})
+    return
+  }
   for(let i=0;i<diffProduct.length;i++){
     //挨个顺序执行
-    let arr = await addNewProduct(products[i])
+    let arr = await addNewProduct(diffProduct[i])
     //传入函数中进行分类
-    classification(arr,products[i].productname,id)
+    classification(arr,diffProduct[i].productname,brand)
     //保存值到数据库
   }
+  res.json({code:0})
 })
 
 function findDifference(products){
   let arr = []
-  let promise = products.map(item => Product.find({'name':item.productname}))
-  Promise.all(promise)
+  let promises = products.map(item => Product.findOne({'name':item.productname}))
+  return Promise.all(promises)
   .then(all=>{
     for(let i=0;i<all.length;i++){
-      if(all.length === 0){
-        return
+      if(!all[i]){
+        arr.push(products[i])
       }
-      arr.push(all[i])
     }
     return new Promise((resolve,reject)=>{
       resolve(arr)
     })
-  }).then(result=>{
-    return result
   }).catch(err=>console.log(err))
 }
+
+Router.get('/getspecialbrand',function(req,res){
+  let {id} = req.query
+  Brand.findOne({'_id':id})
+  .then(function(results){
+    res.json({code:0,data:results})
+  })
+})
 
 module.exports = Router

@@ -1,5 +1,6 @@
 import React,{Component} from 'react'
 import {Modal} from 'antd'
+import {URL} from '../../utils/url'
 import './index.css'
 
 class SelfModal extends Component{
@@ -15,9 +16,9 @@ class SelfModal extends Component{
            footer={null}
            onCancel={this.handleCancel.bind(this)}
          >
-           <iframe style={{'width': '100%'}}
+           {data.url?<iframe style={{'width': '100%'}}
            title="iframe"
-           frameBorder="0" src={data.url}></iframe>
+           frameBorder="0" src={data.url}></iframe>:<img style={{'width': '100%'}} src={URL + data.pic} alt={data.name}/>}
            <p className="modal-name">{data.name}</p>
            <p className="modal-cator">{data.category?data.category.name:null}</p>
            <p className="modal-iupac">IUPAC名：{data.iupac}</p>

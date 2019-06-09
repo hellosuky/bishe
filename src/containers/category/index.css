@@ -53,6 +53,7 @@
 
 #category-container .ant-card{
   margin: 0.1rem;
+  max-height: 5rem;
 }
 #category-container .ant-card-cover{
   border-bottom: 1px solid #eee;

@@ -52,7 +52,8 @@ class UpdateTheory extends Component{
         key: 'content',
         render: text => {
           let text1 = text.replace(/<[^>]+>/g,"")
-          return <span>{text1}</span>
+          let text2 = text1.substring(0,100)
+          return <span>{text2}</span>
         }
       },
       {

@@ -61,7 +61,7 @@ function* getIngredientFlow(){
     let req = yield take(IngreActions.GET_INGREDIENTS)
     let res = yield call(getIngredient,req.page,req.category,req.word)
     if(res.data && res.data.code === 0){
-      yield put({type:IngreActions.GET_INGREDIENTS_SUCCESS,payload:res.data.data})
+      yield put({type:IngreActions.GET_INGREDIENTS_SUCCESS,payload:res.data.data,total:res.data.total})
     }
   }
 }
@@ -170,6 +170,7 @@ function* deleteCategoryFlow(){
     }
   }
 }
+
 
 export function* ingredientSaga(){
   yield all([
